@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zashi Store</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { text-align: center; color: white; font-size: 2.5em; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+    .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s, box-shadow 0.3s; }
+    .card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+    .card img { width: 100%; height: 280px; object-fit: cover; }
+    .card-body { padding: 20px; text-align: center; }
+    .card-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; color: #333; }
+    .card-price { color: #e63946; font-size: 24px; font-weight: bold; margin-bottom: 15px; }
+    .btn-order { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; transition: transform 0.2s; }
+    .btn-order:hover { transform: scale(1.05); }
+    .loading { text-align: center; color: white; font-size: 20px; grid-column: 1/-1; }
+    
+    /* Modal Styles */
+    .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-content { background: white; margin: 8% auto; padding: 30px; width: 90%; max-width: 450px; border-radius: 15px; position: relative; animation: slideDown 0.3s; }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .close { position: absolute; right: 20px; top: 15px; font-size: 32px; cursor: pointer; color: #999; transition: color 0.2s; }
+    .close:hover { color: #333; }
+    .modal h2 { color: #333; margin-bottom: 20px; text-align: center; }
+    .item-info { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: bold; text-align: center; }
+    input { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; transition: border-color 0.2s; }
+    input:focus { outline: none; border-color: #667eea; }
+    .btn-submit { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: white; padding: 14px; border: none; border-radius: 8px; width: 100%; font-size: 17px; font-weight: bold; cursor: pointer; margin-top: 15px; transition: transform 0.2s; }
+    .btn-submit:hover { transform: scale(1.02); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✨ Zuki Jewelry Collection ✨</h1>
+    <div class="grid" id="itemsContainer">
+      <p class="loading">Loading beautiful jewelry...</p>
+    </div>
+  </div>
+
+  <!-- Order Modal -->
+  <div id="orderModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>🛍️ Complete Your Order</h2>
+      <div class="item-info" id="modalItemInfo"></div>
+      <input type="text" id="custName" placeholder="👤 Apna Naam Likhein" required>
+      <input type="text" id="custAddress" placeholder="📍 Mukammal Address" required>
+      <input type="tel" id="custPhone" placeholder="📱 Mobile Number (03xxxxxxxxx)" required>
+      <button class="btn-submit" onclick="sendToWhatsApp()">Send Order via WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <script>
+    // ⚠️ YAHAN APNA FIREBASE CONFIG PASTE KAREIN (Step 1 se copy kiya hua)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDxxxxxxxxxxxxxxxxxxxx",
+      authDomain: "jewelry-store-xxxxx.firebaseapp.com",
+      projectId: "jewelry-store-xxxxx",
+      storageBucket: "jewelry-store-xxxxx.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123456"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ⚠️ APNA WHATSAPP NUMBER YAHAN LIKHEIN (Country code ke sath, + ke baghair)
+    const whatsappNumber = "923001234567"; 
+    let selectedItemName = "";
+    let selectedItemPrice = "";
+
+    // Firebase se items load karna
+    db.collection("items").orderBy("timestamp", "desc").get().then((querySnapshot) => {
+      const container = document.getElementById("itemsContainer");
+      container.innerHTML = "";
+      
+      if (querySnapshot.empty) {
+        container.innerHTML = "<p class='loading'>Abhi koi items available nahi hain. Admin se rabta karein.</p>";
+        return;
+      }
+
+      querySnapshot.forEach((doc) => {
+        const item = doc.data();
+        const card = `
+          <div class="card">
+            <img src="${item.imageUrl}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/300x280?text=No+Image'">
+            <div class="card-body">
+              <div class="card-title">${item.name}</div>
+              <div class="card-price">${item.price}</div>
+              <button class="btn-order" onclick="openModal('${item.name}', '${item.price}')">Order on WhatsApp</button>
+            </div>
+          </div>
+        `;
+        container.innerHTML += card;
+      });
+    }).catch((error) => {
+      console.error("Error: ", error);
+      document.getElementById("itemsContainer").innerHTML = "<p class='loading'>Error loading items. Please refresh.</p>";
+    });
+
+    // Modal Functions
+    function openModal(name, price) {
+      selectedItemName = name;
+      selectedItemPrice = price;
+      document.getElementById("modalItemInfo").innerHTML = `📦 Item: ${name}<br>💰 Price: ${price}`;
+      document.getElementById("orderModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("orderModal").style.display = "none";
+      document.getElementById("custName").value = "";
+      document.getElementById("custAddress").value = "";
+      document.getElementById("custPhone").value = "";
+    }
+
+    function sendToWhatsApp() {
+      const name = document.getElementById("custName").value;
+      const address = document.getElementById("custAddress").value;
+      const phone = document.getElementById("custPhone").value;
+
+      if (!name || !address || !phone) {
+        alert("⚠️ Barah-e-Mehrbani sari details mukammal likhein!");
+        return;
+      }
+
+      const message = `🛍️ *NEW JEWELRY ORDER*\n\n📦 *Item Details:*\nName: ${selectedItemName}\nPrice: ${selectedItemPrice}\n\n👤 *Customer Details:*\nName: ${name}\nAddress: ${address}\nMobile: ${phone}`;
+      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+      
+      window.open(url, '_blank');
+      closeModal();
+    }
+
+    window.onclick = function(event) {
+      if (event.target == document.getElementById("orderModal")) closeModal();
+    }
+  </script>
+</body>
+</html>
