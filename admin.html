@@ -4,52 +4,151 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel - Zuki Jewelry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-    .container { max-width: 600px; margin: 50px auto; background: white; border-radius: 15px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
-    h2 { text-align: center; color: #333; margin-bottom: 30px; }
-    input, button { width: 100%; padding: 14px; margin: 10px 0; border-radius: 8px; border: 2px solid #ddd; font-size: 15px; }
-    input:focus { outline: none; border-color: #667eea; }
-    button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; font-weight: bold; cursor: pointer; font-size: 16px; transition: transform 0.2s; }
-    button:hover { transform: scale(1.02); }
-    .success { color: #25D366; text-align: center; display: none; font-weight: bold; margin-top: 15px; }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 50px auto;
+      background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
+      border-radius: 25px;
+      padding: 50px;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      text-align: center;
+      color: #d4af37;
+      margin-bottom: 40px;
+      font-size: 2.5em;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 16px;
+      margin: 12px 0;
+      border-radius: 12px;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      font-size: 15px;
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #d4af37;
+      background: rgba(255,255,255,0.1);
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    button {
+      background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+      color: #000;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    .success {
+      color: #d4af37;
+      text-align: center;
+      display: none;
+      font-weight: 600;
+      margin-top: 20px;
+      font-size: 1.1em;
+    }
+
     #loginScreen { text-align: center; }
+
     #adminPanel { display: none; }
-    .info { background: #f0f0f0; padding: 15px; border-radius: 8px; margin: 20px 0; font-size: 14px; line-height: 1.6; }
-    .info a { color: #667eea; text-decoration: none; font-weight: bold; }
-    .info a:hover { text-decoration: underline; }
-    .view-btn { background: #25D366; margin-top: 20px; }
+
+    .info {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(244, 208, 63, 0.1) 100%);
+      padding: 20px;
+      border-radius: 15px;
+      margin: 25px 0;
+      font-size: 14px;
+      line-height: 1.8;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .info a {
+      color: #d4af37;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .info a:hover {
+      text-decoration: underline;
+    }
+
+    .view-btn {
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: white;
+      margin-top: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 30px 20px; margin: 20px auto; }
+      h2 { font-size: 1.8em; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- Login Screen -->
     <div id="loginScreen">
-      <h2>🔒 Admin Login</h2>
+      <h2><i class="fas fa-lock"></i> Admin Login</h2>
       <input type="password" id="adminPass" placeholder="Enter Admin Password">
       <button onclick="checkLogin()">Login</button>
     </div>
 
     <!-- Admin Panel -->
     <div id="adminPanel">
-      <h2>➕ Add New Jewelry Item</h2>
+      <h2><i class="fas fa-gem"></i> Add New Item</h2>
       
       <div class="info">
-        <strong>📸 Image URL Kahan Se Milega?</strong><br>
-        1. [Postimages.org](https://postimages.org/) par jayen<br>
+        <strong><i class="fas fa-info-circle"></i> Image URL Kahan Se Milega?</strong><br>
+        1. <a href="https://postimages.org/" target="_blank">Postimages.org</a> par jayen<br>
         2. Apni jewelry ki photo upload karein<br>
         3. "Direct Link" copy karein<br>
         4. Niche "Image URL" mein paste karein
       </div>
 
-      <input type="text" id="itemName" placeholder="Item Name (e.g., Gold Necklace)">
-      <input type="text" id="itemPrice" placeholder="Price (e.g., Rs. 15,000)">
+      <input type="text" id="itemName" placeholder="Item Name (e.g., Gold Pearl Necklace)">
+      <input type="text" id="itemPrice" placeholder="Price (e.g., Rs. 25,000)">
       <input type="text" id="itemImage" placeholder="Image URL (Paste from Postimages)">
-      <button onclick="addItem()">✅ Add Item to Website</button>
-      <p class="success" id="successMsg">✅ Item Successfully Added!</p>
+      <button onclick="addItem()"><i class="fas fa-plus"></i> Add Item</button>
+      <p class="success" id="successMsg"><i class="fas fa-check-circle"></i> Item Successfully Added!</p>
       
-      <button class="view-btn" onclick="window.open('index.html', '_blank')">👁️ View Live Website</button>
+      <button class="view-btn" onclick="window.open('index.html', '_blank')">
+        <i class="fas fa-eye"></i> View Live Website
+      </button>
     </div>
   </div>
 
@@ -70,8 +169,8 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // ⚠️ APNA PASSWORD YAHAN SET KAREIN
-    const ADMIN_PASSWORD = "Zuki@1122"; 
+    // ⚠️ APNA STRONG PASSWORD YAHAN SET KAREIN
+    const ADMIN_PASSWORD = "Zuki@Jewelry2026!"; 
 
     function checkLogin() {
       if (document.getElementById("adminPass").value === ADMIN_PASSWORD) {
