@@ -929,9 +929,18 @@
     <p><i class="fas fa-phone"></i> +92 300 1234567</p>
     <p><i class="fas fa-envelope"></i> info@zashistore.com</p>
     <div class="social-links">
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-facebook"></i></a>
-      <a href="https://wa.me/923001234567"><i class="fab fa-whatsapp"></i></a>
+      <!-- Instagram Link - Apna username yahan dalein -->
+      <a href="https://instagram.com/zashistore" target="_blank" title="Follow us on Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <!-- Facebook Link - Apna page URL yahan dalein -->
+      <a href="https://facebook.com/zashistore" target="_blank" title="Like us on Facebook">
+        <i class="fab fa-facebook"></i>
+      </a>
+      <!-- WhatsApp Link - Apna number yahan dalein -->
+      <a href="https://wa.me/923001234567" target="_blank" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+      </a>
     </div>
     <p style="margin-top: 20px; color: #666;">&copy; 2026 Zashi Store. All Rights Reserved.</p>
   </footer>
@@ -941,7 +950,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
   <script>
-    // ️ YAHAN APNA FIREBASE CONFIG PASTE KAREIN
+    // ⚠️ YAHAN APNA FIREBASE CONFIG PASTE KAREIN
      const firebaseConfig = {
     apiKey: "AIzaSyBgjmBFNOLieDDQNtiKxaE_YK9JqnLgBhc",
     authDomain: "zashi-store.firebaseapp.com",
@@ -955,7 +964,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // ️ APNA WHATSAPP NUMBER YAHAN LIKHEIN
+    // ⚠️ APNA WHATSAPP NUMBER YAHAN LIKHEIN
     const whatsappNumber = "923001234567"; 
     let selectedItemName = "";
     let selectedItemPrice = "";
@@ -1077,7 +1086,20 @@
     }
 
     function toggleMobileMenu() {
-      alert('Mobile menu - Use category filters below to browse products');
+      const navMenu = document.querySelector('.nav-menu');
+      if (navMenu.style.display === 'flex') {
+        navMenu.style.display = 'none';
+      } else {
+        navMenu.style.display = 'flex';
+        navMenu.style.flexDirection = 'column';
+        navMenu.style.position = 'absolute';
+        navMenu.style.top = '60px';
+        navMenu.style.left = '0';
+        navMenu.style.right = '0';
+        navMenu.style.background = 'rgba(10, 10, 10, 0.98)';
+        navMenu.style.padding = '20px';
+        navMenu.style.borderBottom = '2px solid rgba(212, 175, 55, 0.3)';
+      }
     }
 
     function checkoutWhatsApp() {
@@ -1210,7 +1232,7 @@
       message += `Mobile: ${phone}\n`;
       
       if (notes) {
-        message += `\n *Notes:* ${notes}\n`;
+        message += `\n📝 *Notes:* ${notes}\n`;
       }
 
       const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
