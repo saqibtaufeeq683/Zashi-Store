@@ -60,7 +60,9 @@
     }
     input::placeholder { color: rgba(255,255,255,0.5); }
     select option { background: #1a1a1a; color: #fff; }
-    button {
+    
+    /* Default Button (Gold) */
+    .btn-primary {
       background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
       color: #000;
       border: none;
@@ -72,11 +74,19 @@
       transition: all 0.3s;
       touch-action: manipulation;
     }
-    button:hover, button:active {
+    .btn-primary:hover, .btn-primary:active {
       transform: scale(1.02);
       box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
     }
+    
+    /* Update Button (Blue) */
+    .btn-update {
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      color: #fff;
+    }
+    
     button:disabled { opacity: 0.6; cursor: not-allowed; }
+    
     .success {
       color: #25D366;
       text-align: center;
@@ -109,16 +119,12 @@
     }
     .info a { color: #d4af37; text-decoration: none; font-weight: 600; }
     .info a:hover { text-decoration: underline; }
-    .view-btn {
-      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-      color: white;
-      margin-top: 20px;
-    }
-    .logout-btn {
-      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-      color: white;
-      margin-top: 15px;
-    }
+    
+    .view-btn { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: white; border:none; margin-top: 20px; }
+    .logout-btn { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; border:none; margin-top: 15px; }
+    .cancel-btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); margin-top: 8px; display: none; }
+    .cancel-btn:hover { background: rgba(255,255,255,0.2); }
+
     .user-info {
       text-align: center;
       padding: 12px;
@@ -132,11 +138,7 @@
     .loading { text-align: center; padding: 40px; color: #d4af37; }
 
     /* Tabs */
-    .tab-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 25px;
-    }
+    .tab-buttons { display: flex; gap: 10px; margin-bottom: 25px; }
     .tab-btn {
       flex: 1;
       background: rgba(212, 175, 55, 0.2);
@@ -151,50 +153,8 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Category List */
-    .category-list {
-      background: rgba(255,255,255,0.03);
-      border-radius: 12px;
-      padding: 15px;
-      margin-top: 15px;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-    .category-item {
-      background: rgba(212, 175, 55, 0.1);
-      padding: 12px 15px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-    }
-    .category-item:last-child { margin-bottom: 0; }
-    .category-name { font-weight: 600; color: #d4af37; }
-    .category-icon { margin-right: 10px; font-size: 1.2em; }
-    .delete-btn {
-      background: rgba(231, 76, 60, 0.3);
-      color: #e74c3c;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.8em;
-      width: auto;
-      min-height: auto;
-      transition: all 0.2s;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-    .delete-btn:hover {
-      background: #e74c3c;
-      color: #fff;
-      transform: scale(1.05);
-    }
-
-    /* Product List */
-    .product-list {
+    /* Lists */
+    .category-list, .product-list {
       background: rgba(255,255,255,0.03);
       border-radius: 12px;
       padding: 15px;
@@ -202,27 +162,51 @@
       max-height: 400px;
       overflow-y: auto;
     }
-    .product-item {
+    .category-item, .product-item {
       background: rgba(212, 175, 55, 0.08);
       padding: 12px;
       margin-bottom: 10px;
       border-radius: 8px;
       display: flex;
-      gap: 12px;
+      justify-content: space-between;
       align-items: center;
       border: 1px solid rgba(212, 175, 55, 0.15);
     }
-    .product-item:last-child { margin-bottom: 0; }
-    .product-item img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .product-details { flex: 1; }
+    .category-item:last-child, .product-item:last-child { margin-bottom: 0; }
+    
+    .category-name { font-weight: 600; color: #d4af37; }
+    .category-icon { margin-right: 10px; font-size: 1.2em; }
+    
+    .product-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
+    .product-details { flex: 1; margin-left: 12px; }
     .product-details .p-name { font-weight: 600; font-size: 0.9em; }
     .product-details .p-price { color: #d4af37; font-size: 0.85em; }
     .product-details .p-cat { color: #888; font-size: 0.75em; }
+
+    .action-btns { display: flex; gap: 6px; flex-direction: column; }
+    .btn-edit {
+      background: rgba(52, 152, 219, 0.2);
+      color: #3498db;
+      border: 1px solid rgba(52, 152, 219, 0.4);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8em;
+      transition: all 0.2s;
+    }
+    .btn-edit:hover { background: #3498db; color: #fff; }
+    
+    .btn-delete {
+      background: rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+      border: 1px solid rgba(231, 76, 60, 0.4);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8em;
+      transition: all 0.2s;
+    }
+    .btn-delete:hover { background: #e74c3c; color: #fff; }
 
     @media (max-width: 768px) {
       .container { padding: 25px 20px; margin: 15px auto; border-radius: 20px; }
@@ -250,7 +234,7 @@
       <h2><i class="fas fa-lock"></i> Admin Login</h2>
       <input type="email" id="adminEmail" placeholder="Admin Email">
       <input type="password" id="adminPass" placeholder="Admin Password">
-      <button onclick="loginAdmin()" id="loginBtn">Login</button>
+      <button class="btn-primary" onclick="loginAdmin()" id="loginBtn">Login</button>
       <p class="error" id="errorMsg"></p>
     </div>
 
@@ -275,7 +259,7 @@
 
       <!-- ===== PRODUCTS TAB ===== -->
       <div id="productsTab" class="tab-content active">
-        <h2><i class="fas fa-plus-circle"></i> Add New Product</h2>
+        <h2 id="productFormTitle"><i class="fas fa-plus-circle"></i> Add New Product</h2>
         <div class="info">
           <strong><i class="fas fa-info-circle"></i> Image URL Kahan Se Milega?</strong><br>
           1. <a href="https://postimages.org/" target="_blank">Postimages.org</a> par jayen<br>
@@ -289,18 +273,20 @@
           <option value="">Select Category</option>
         </select>
         <input type="text" id="itemImage" placeholder="Image URL (Paste from Postimages)">
-        <button onclick="addItem()" id="addBtn"><i class="fas fa-plus"></i> Add Product</button>
-        <p class="success" id="successMsg"><i class="fas fa-check-circle"></i> Product Successfully Added!</p>
+        
+        <button class="btn-primary" onclick="saveProduct()" id="saveProductBtn"><i class="fas fa-plus"></i> Add Product</button>
+        <button class="cancel-btn" onclick="cancelEditProduct()" id="cancelProductBtn"><i class="fas fa-times"></i> Cancel Edit</button>
+        <p class="success" id="productSuccessMsg"><i class="fas fa-check-circle"></i> Product Successfully Added!</p>
       </div>
 
       <!-- ===== CATEGORIES TAB ===== -->
       <div id="categoriesTab" class="tab-content">
-        <h2><i class="fas fa-tags"></i> Add New Category</h2>
+        <h2 id="categoryFormTitle"><i class="fas fa-tags"></i> Add New Category</h2>
         <div class="info">
           <strong><i class="fas fa-info-circle"></i> Categories Kaise Add Karein?</strong><br>
           1. Category ka naam likhein (e.g., "Bags", "Shoes")<br>
           2. Icon select karein<br>
-          3. "Add Category" dabayen<br>
+          3. Button dabayen<br>
           4. Category automatically website par show hogi
         </div>
         <input type="text" id="categoryName" placeholder="Category Name (e.g., Bags, Shoes)">
@@ -323,7 +309,9 @@
           <option value="fa-heart">❤️ Heart</option>
           <option value="fa-gift">🎁 Gift</option>
         </select>
-        <button onclick="addCategory()" id="addCategoryBtn"><i class="fas fa-plus"></i> Add Category</button>
+        
+        <button class="btn-primary" onclick="saveCategory()" id="saveCategoryBtn"><i class="fas fa-plus"></i> Add Category</button>
+        <button class="cancel-btn" onclick="cancelEditCategory()" id="cancelCategoryBtn"><i class="fas fa-times"></i> Cancel Edit</button>
         <p class="success" id="categorySuccessMsg"><i class="fas fa-check-circle"></i> Category Added!</p>
 
         <h3><i class="fas fa-list"></i> All Categories</h3>
@@ -356,7 +344,6 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
   <script>
-    // ⚠️ YAHAN APNA FIREBASE CONFIG PASTE KAREIN
      const firebaseConfig = {
     apiKey: "AIzaSyBgjmBFNOLieDDQNtiKxaE_YK9JqnLgBhc",
     authDomain: "zashi-store.firebaseapp.com",
@@ -370,6 +357,10 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+
+    // Edit State Variables
+    let editingCategoryId = null;
+    let editingProductId = null;
 
     // Auth State
     auth.onAuthStateChanged((user) => {
@@ -448,13 +439,18 @@
           const c = doc.data();
           html += `
             <div class="category-item">
-              <div>
+              <div style="display:flex; align-items:center;">
                 <i class="fas ${c.icon || 'fa-tag'} category-icon"></i>
                 <span class="category-name">${c.name}</span>
               </div>
-              <button class="delete-btn" onclick="deleteCategory('${doc.id}')">
-                <i class="fas fa-trash"></i> Delete
-              </button>
+              <div class="action-btns" style="flex-direction:row;">
+                <button class="btn-edit" onclick="editCategory('${doc.id}', '${c.name}', '${c.icon || 'fa-tag'}')">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn-delete" onclick="deleteCategory('${doc.id}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div
             </div>`;
         });
         list.innerHTML = html;
@@ -472,47 +468,81 @@
       });
     }
 
-    function addCategory() {
+    function saveCategory() {
       const name = document.getElementById('categoryName').value.trim();
       const icon = document.getElementById('categoryIcon').value;
-      const btn = document.getElementById('addCategoryBtn');
+      const btn = document.getElementById('saveCategoryBtn');
 
       if (!name) { alert("⚠️ Category ka naam dalein!"); return; }
 
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
-      db.collection("categories").add({
-        name: name,
-        icon: icon,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        document.getElementById("categorySuccessMsg").style.display = "block";
-        document.getElementById("categoryName").value = "";
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-plus"></i> Add Category';
+      const categoryData = { name: name, icon: icon, timestamp: firebase.firestore.FieldValue.serverTimestamp() };
+
+      let promise;
+      if (editingCategoryId) {
+        promise = db.collection("categories").doc(editingCategoryId).update(categoryData);
+      } else {
+        promise = db.collection("categories").add(categoryData);
+      }
+
+      promise.then(() => {
+        const msg = document.getElementById("categorySuccessMsg");
+        msg.textContent = editingCategoryId ? "✅ Category Updated!" : "✅ Category Added!";
+        msg.style.display = "block";
+        
+        cancelEditCategory(); // Reset form
         loadCategories();
         loadCategoryDropdown();
-        setTimeout(() => { document.getElementById("categorySuccessMsg").style.display = "none"; }, 3000);
+        
+        setTimeout(() => { msg.style.display = "none"; }, 3000);
       }).catch((err) => {
-        alert("❌ Error!");
+        alert("❌ Error: " + err.message);
         btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-plus"></i> Add Category';
+        btn.innerHTML = editingCategoryId ? '<i class="fas fa-save"></i> Update Category' : '<i class="fas fa-plus"></i> Add Category';
       });
     }
 
+    function editCategory(id, name, icon) {
+      editingCategoryId = id;
+      document.getElementById('categoryName').value = name;
+      document.getElementById('categoryIcon').value = icon;
+      
+      const btn = document.getElementById('saveCategoryBtn');
+      btn.className = 'btn-primary btn-update';
+      btn.innerHTML = '<i class="fas fa-save"></i> Update Category';
+      
+      document.getElementById('categoryFormTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Category';
+      document.getElementById('cancelCategoryBtn').style.display = 'block';
+      document.getElementById('categoryName').focus();
+    }
+
+    function cancelEditCategory() {
+      editingCategoryId = null;
+      document.getElementById('categoryName').value = "";
+      document.getElementById('categoryIcon').value = "fa-tag";
+      
+      const btn = document.getElementById('saveCategoryBtn');
+      btn.className = 'btn-primary';
+      btn.innerHTML = '<i class="fas fa-plus"></i> Add Category';
+      
+      document.getElementById('categoryFormTitle').innerHTML = '<i class="fas fa-tags"></i> Add New Category';
+      document.getElementById('cancelCategoryBtn').style.display = 'none';
+    }
+
     function deleteCategory(id) {
-      if (confirm('Ye category delete karni hai?')) {
+      if (confirm('Ye category delete karni hai? Is se products par asar nahi parega, sirf filter se hat jayegi.')) {
         db.collection("categories").doc(id).delete().then(() => {
           alert('✅ Category deleted!');
           loadCategories();
           loadCategoryDropdown();
-        });
+        }).catch(err => alert("❌ Error: " + err.message));
       }
     }
 
     // ===== PRODUCTS =====
-    function addItem() {
+    function saveProduct() {
       const user = auth.currentUser;
       if (!user) { alert('❌ Pehle login karein!'); return; }
 
@@ -522,7 +552,7 @@
       const categoryId = catSelect.value;
       const categoryName = catSelect.options[catSelect.selectedIndex]?.getAttribute('data-name') || '';
       const imageUrl = document.getElementById("itemImage").value;
-      const btn = document.getElementById('addBtn');
+      const btn = document.getElementById('saveProductBtn');
 
       if (!name || !price || !categoryId || !imageUrl) {
         alert("⚠️ Sari fields fill karein!");
@@ -530,30 +560,79 @@
       }
 
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
-      db.collection("items").add({
+      const itemData = {
         name: name,
         price: price,
         category: categoryId,
         categoryName: categoryName,
         imageUrl: imageUrl,
-        addedBy: user.email,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        document.getElementById("successMsg").style.display = "block";
-        document.getElementById("itemName").value = "";
-        document.getElementById("itemPrice").value = "";
-        document.getElementById("itemCategory").value = "";
-        document.getElementById("itemImage").value = "";
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-plus"></i> Add Product';
-        setTimeout(() => { document.getElementById("successMsg").style.display = "none"; }, 3000);
+        addedBy: user.email
+      };
+
+      let promise;
+      if (editingProductId) {
+        promise = db.collection("items").doc(editingProductId).update(itemData);
+      } else {
+        itemData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        promise = db.collection("items").add(itemData);
+      }
+
+      promise.then(() => {
+        const msg = document.getElementById("productSuccessMsg");
+        msg.textContent = editingProductId ? "✅ Product Updated!" : "✅ Product Successfully Added!";
+        msg.style.display = "block";
+        
+        cancelEditProduct(); // Reset form
+        loadProductsList(); // Refresh manage list
+        
+        setTimeout(() => { msg.style.display = "none"; }, 3000);
       }).catch((err) => {
-        alert("❌ Error adding product!");
+        alert("❌ Error: " + err.message);
         btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-plus"></i> Add Product';
+        btn.innerHTML = editingProductId ? '<i class="fas fa-save"></i> Update Product' : '<i class="fas fa-plus"></i> Add Product';
       });
+    }
+
+    function editProduct(id, name, price, categoryId, imageUrl) {
+      editingProductId = id;
+      
+      // Switch to products tab
+      const firstTabBtn = document.querySelector('.tab-btn');
+      switchTab('products', firstTabBtn);
+      
+      document.getElementById('itemName').value = name;
+      document.getElementById('itemPrice').value = price;
+      document.getElementById('itemImage').value = imageUrl;
+      
+      // Wait for dropdown to populate if not already
+      setTimeout(() => {
+        document.getElementById('itemCategory').value = categoryId;
+      }, 100);
+
+      const btn = document.getElementById('saveProductBtn');
+      btn.className = 'btn-primary btn-update';
+      btn.innerHTML = '<i class="fas fa-save"></i> Update Product';
+      
+      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Product';
+      document.getElementById('cancelProductBtn').style.display = 'block';
+      document.getElementById('itemName').focus();
+    }
+
+    function cancelEditProduct() {
+      editingProductId = null;
+      document.getElementById('itemName').value = "";
+      document.getElementById('itemPrice').value = "";
+      document.getElementById('itemCategory').value = "";
+      document.getElementById('itemImage').value = "";
+      
+      const btn = document.getElementById('saveProductBtn');
+      btn.className = 'btn-primary';
+      btn.innerHTML = '<i class="fas fa-plus"></i> Add Product';
+      
+      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Product';
+      document.getElementById('cancelProductBtn').style.display = 'none';
     }
 
     function loadProductsList() {
@@ -574,9 +653,14 @@
                 <div class="p-price">${p.price}</div>
                 <div class="p-cat">${p.categoryName || 'No Category'}</div>
               </div>
-              <button class="delete-btn" onclick="deleteProduct('${doc.id}')">
-                <i class="fas fa-trash"></i>
-              </button>
+              <div class="action-btns">
+                <button class="btn-edit" onclick="editProduct('${doc.id}', '${p.name}', '${p.price}', '${p.category}', '${p.imageUrl}')">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn-delete" onclick="deleteProduct('${doc.id}')">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
             </div>`;
         });
         list.innerHTML = html;
@@ -584,11 +668,11 @@
     }
 
     function deleteProduct(id) {
-      if (confirm('Ye product delete karna hai?')) {
+      if (confirm('Ye product hamesha ke liye delete ho jayega. Kya aap sure hain?')) {
         db.collection("items").doc(id).delete().then(() => {
           alert('✅ Product deleted!');
           loadProductsList();
-        });
+        }).catch(err => alert("❌ Error: " + err.message));
       }
     }
 
