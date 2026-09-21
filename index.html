@@ -851,25 +851,16 @@
   <section class="hero" id="home">
     <div class="hero-content">
       <h1>Zashi Store</h1>
-      <p>Your One-Stop Shop for Jewelry, Makeup & Electronics</p>
+      <p>Your One-Stop Shop for Premium Products</p>
       <a href="#products" class="hero-btn">Shop Now</a>
     </div>
   </section>
 
   <!-- Category Filter -->
   <section class="category-filter" id="categories">
-    <div class="filter-buttons">
+    <div class="filter-buttons" id="filterButtons">
       <button class="filter-btn active" onclick="filterProducts('all')">
         <i class="fas fa-th"></i> All
-      </button>
-      <button class="filter-btn" onclick="filterProducts('jewelry')">
-        <i class="fas fa-gem"></i> Jewelry
-      </button>
-      <button class="filter-btn" onclick="filterProducts('makeup')">
-        <i class="fas fa-magic"></i> Makeup
-      </button>
-      <button class="filter-btn" onclick="filterProducts('electronics')">
-        <i class="fas fa-plug"></i> Electronics
       </button>
     </div>
   </section>
@@ -929,15 +920,12 @@
     <p><i class="fas fa-phone"></i> +92 300 1234567</p>
     <p><i class="fas fa-envelope"></i> info@zashistore.com</p>
     <div class="social-links">
-      <!-- Instagram Link - Apna username yahan dalein -->
       <a href="https://instagram.com/zashistore" target="_blank" title="Follow us on Instagram">
         <i class="fab fa-instagram"></i>
       </a>
-      <!-- Facebook Link - Apna page URL yahan dalein -->
       <a href="https://facebook.com/zashistore" target="_blank" title="Like us on Facebook">
         <i class="fab fa-facebook"></i>
       </a>
-      <!-- WhatsApp Link - Apna number yahan dalein -->
       <a href="https://wa.me/923001234567" target="_blank" title="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
       </a>
@@ -951,7 +939,7 @@
 
   <script>
     // ⚠️ YAHAN APNA FIREBASE CONFIG PASTE KAREIN
-     const firebaseConfig = {
+    const firebaseConfig = {
     apiKey: "AIzaSyBgjmBFNOLieDDQNtiKxaE_YK9JqnLgBhc",
     authDomain: "zashi-store.firebaseapp.com",
     projectId: "zashi-store",
@@ -970,13 +958,28 @@
     let selectedItemPrice = "";
     let currentCategory = 'all';
     let cart = JSON.parse(localStorage.getItem('zashiCart')) || [];
+    let categoriesData = {};
 
-    // Category names mapping
-    const categoryNames = {
-      'jewelry': 'Jewelry',
-      'makeup': 'Makeup',
-      'electronics': 'Electronics'
-    };
+    // Load categories from Firebase
+    function loadCategories() {
+      db.collection("categories").orderBy("name").get().then((querySnapshot) => {
+        const filterButtons = document.getElementById('filterButtons');
+        
+        querySnapshot.forEach((doc) => {
+          const category = doc.data();
+          categoriesData[doc.id] = category;
+          
+          const button = `
+            <button class="filter-btn" onclick="filterProducts('${doc.id}')">
+              <i class="fas ${category.icon || 'fa-tag'}"></i> ${category.name}
+            </button>
+          `;
+          filterButtons.innerHTML += button;
+        });
+      }).catch((error) => {
+        console.error("Error loading categories: ", error);
+      });
+    }
 
     // Cart Functions
     function updateCartCount() {
@@ -1150,7 +1153,7 @@
 
         querySnapshot.forEach((doc) => {
           const item = doc.data();
-          const categoryDisplay = categoryNames[item.category] || item.category || 'Product';
+          const categoryDisplay = item.categoryName || categoriesData[item.category]?.name || 'Product';
           
           const card = `
             <div class="card">
@@ -1165,7 +1168,7 @@
                   <button class="btn-order" onclick="openModal('${item.name}', '${item.price}')">
                     <i class="fab fa-whatsapp"></i> Order Now
                   </button>
-                  <button class="btn-cart" onclick="addToCart('${item.name}', '${item.price}', '${item.imageUrl}', '${item.category || 'product'}')">
+                  <button class="btn-cart" onclick="addToCart('${item.name}', '${item.price}', '${item.imageUrl}', '${item.category}')">
                     <i class="fas fa-cart-plus"></i> Add to Cart
                   </button>
                 </div>
@@ -1252,6 +1255,7 @@
 
     // Initialize
     updateCartCount();
+    loadCategories();
     loadProducts();
   </script>
 </body>
