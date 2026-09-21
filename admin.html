@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - Zuki Jewelry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Admin Panel - Zashi Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -13,16 +14,17 @@
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
       min-height: 100vh;
-      padding: 20px;
+      padding: 15px;
       color: #fff;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .container {
       max-width: 650px;
-      margin: 50px auto;
+      margin: 30px auto;
       background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
       border-radius: 25px;
-      padding: 50px;
+      padding: 35px 25px;
       box-shadow: 0 25px 80px rgba(0,0,0,0.5);
       border: 2px solid rgba(212, 175, 55, 0.3);
     }
@@ -31,23 +33,25 @@
       font-family: 'Playfair Display', serif;
       text-align: center;
       color: #d4af37;
-      margin-bottom: 40px;
-      font-size: 2.5em;
+      margin-bottom: 30px;
+      font-size: clamp(1.8em, 5vw, 2.5em);
+      line-height: 1.3;
     }
 
-    input, button {
+    input, select, button {
       width: 100%;
-      padding: 16px;
-      margin: 12px 0;
+      padding: 15px;
+      margin: 10px 0;
       border-radius: 12px;
       border: 2px solid rgba(212, 175, 55, 0.3);
-      font-size: 15px;
+      font-size: 16px;
       background: rgba(255,255,255,0.05);
       color: #fff;
       transition: all 0.3s;
+      min-height: 50px;
     }
 
-    input:focus {
+    input:focus, select:focus {
       outline: none;
       border-color: #d4af37;
       background: rgba(255,255,255,0.1);
@@ -55,6 +59,11 @@
 
     input::placeholder {
       color: rgba(255,255,255,0.5);
+    }
+
+    select option {
+      background: #1a1a1a;
+      color: #fff;
     }
 
     button {
@@ -67,9 +76,10 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       transition: all 0.3s;
+      touch-action: manipulation;
     }
 
-    button:hover {
+    button:hover, button:active {
       transform: scale(1.02);
       box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
     }
@@ -89,9 +99,9 @@
 
     .info {
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(244, 208, 63, 0.1) 100%);
-      padding: 20px;
+      padding: 18px;
       border-radius: 15px;
-      margin: 25px 0;
+      margin: 20px 0;
       font-size: 14px;
       line-height: 1.8;
       border: 1px solid rgba(212, 175, 55, 0.3);
@@ -110,12 +120,40 @@
     .view-btn {
       background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
       color: white;
-      margin-top: 25px;
+      margin-top: 20px;
     }
 
     @media (max-width: 768px) {
-      .container { padding: 30px 20px; margin: 20px auto; }
-      h2 { font-size: 1.8em; }
+      .container {
+        padding: 25px 20px;
+        margin: 15px auto;
+        border-radius: 20px;
+      }
+      
+      h2 {
+        font-size: 1.6em;
+        margin-bottom: 25px;
+      }
+      
+      input, select, button {
+        padding: 14px;
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      .container {
+        padding: 20px 15px;
+      }
+      
+      .info {
+        padding: 15px;
+        font-size: 13px;
+      }
     }
   </style>
 </head>
@@ -130,21 +168,29 @@
 
     <!-- Admin Panel -->
     <div id="adminPanel">
-      <h2><i class="fas fa-gem"></i> Add New Item</h2>
+      <h2><i class="fas fa-plus-circle"></i> Add New Product</h2>
       
       <div class="info">
         <strong><i class="fas fa-info-circle"></i> Image URL Kahan Se Milega?</strong><br>
         1. <a href="https://postimages.org/" target="_blank">Postimages.org</a> par jayen<br>
-        2. Apni jewelry ki photo upload karein<br>
+        2. Apni product ki photo upload karein<br>
         3. "Direct Link" copy karein<br>
         4. Niche "Image URL" mein paste karein
       </div>
 
-      <input type="text" id="itemName" placeholder="Item Name (e.g., Gold Pearl Necklace)">
-      <input type="text" id="itemPrice" placeholder="Price (e.g., Rs. 25,000)">
+      <input type="text" id="itemName" placeholder="Product Name">
+      <input type="text" id="itemPrice" placeholder="Price (e.g., Rs. 2,500)">
+      
+      <select id="itemCategory">
+        <option value="">Select Category</option>
+        <option value="jewelry">💎 Jewelry</option>
+        <option value="makeup">💄 Makeup</option>
+        <option value="electronics">🔌 Electronics</option>
+      </select>
+      
       <input type="text" id="itemImage" placeholder="Image URL (Paste from Postimages)">
-      <button onclick="addItem()"><i class="fas fa-plus"></i> Add Item</button>
-      <p class="success" id="successMsg"><i class="fas fa-check-circle"></i> Item Successfully Added!</p>
+      <button onclick="addItem()"><i class="fas fa-plus"></i> Add Product</button>
+      <p class="success" id="successMsg"><i class="fas fa-check-circle"></i> Product Successfully Added!</p>
       
       <button class="view-btn" onclick="window.open('index.html', '_blank')">
         <i class="fas fa-eye"></i> View Live Website
@@ -170,7 +216,7 @@
     const db = firebase.firestore();
 
     // ⚠️ APNA STRONG PASSWORD YAHAN SET KAREIN
-    const ADMIN_PASSWORD = "Zuki@Jewelry2026!"; 
+    const ADMIN_PASSWORD = "Zashi@Store2026!"; 
 
     function checkLogin() {
       if (document.getElementById("adminPass").value === ADMIN_PASSWORD) {
@@ -184,27 +230,30 @@
     function addItem() {
       const name = document.getElementById("itemName").value;
       const price = document.getElementById("itemPrice").value;
+      const category = document.getElementById("itemCategory").value;
       const imageUrl = document.getElementById("itemImage").value;
 
-      if (!name || !price || !imageUrl) {
-        alert("⚠️ Sari fields fill karein!");
+      if (!name || !price || !category || !imageUrl) {
+        alert("️ Sari fields fill karein!");
         return;
       }
 
       db.collection("items").add({
         name: name,
         price: price,
+        category: category,
         imageUrl: imageUrl,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       }).then(() => {
         document.getElementById("successMsg").style.display = "block";
         document.getElementById("itemName").value = "";
         document.getElementById("itemPrice").value = "";
+        document.getElementById("itemCategory").value = "";
         document.getElementById("itemImage").value = "";
         setTimeout(() => { document.getElementById("successMsg").style.display = "none"; }, 3000);
       }).catch((error) => {
         console.error("Error: ", error);
-        alert("❌ Error adding item!");
+        alert("❌ Error adding product!");
       });
     }
   </script>
