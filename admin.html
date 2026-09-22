@@ -4,258 +4,530 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta name="theme-color" content="#0a0a0a">
-  <title>Admin Panel - Zashi Super Store</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <title>Admin Panel — Zashi Super Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f4d03f;
+      --gold-dark: #b8941f;
+      --dark: #0a0a0a;
+      --green: #25D366;
+      --red: #e74c3c;
+      --blue: #3498db;
+      --glass: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(212, 175, 55, 0.15);
+      --text: #e8e8e8;
+      --text-dim: #999;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      font-family: 'Outfit', sans-serif;
+      background: var(--dark);
       min-height: 100vh;
-      padding: 15px;
-      color: #fff;
+      padding: 20px 15px;
+      color: var(--text);
       -webkit-tap-highlight-color: transparent;
+      line-height: 1.6;
+      position: relative;
     }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 45%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .container {
-      max-width: 700px;
-      margin: 30px auto;
-      background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
-      border-radius: 25px;
-      padding: 35px 25px;
-      box-shadow: 0 25px 80px rgba(0,0,0,0.5);
-      border: 2px solid rgba(212, 175, 55, 0.3);
+      max-width: 780px;
+      margin: 40px auto;
+      background: linear-gradient(160deg, rgba(28, 28, 28, 0.9) 0%, rgba(15, 15, 15, 0.95) 100%);
+      border-radius: 28px;
+      padding: 45px 35px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.6),
+        0 0 80px rgba(212, 175, 55, 0.08);
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(20px);
     }
+
     h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       text-align: center;
-      color: #d4af37;
-      margin-bottom: 25px;
-      font-size: clamp(1.6em, 5vw, 2.2em);
-      line-height: 1.3;
+      color: #fff;
+      margin-bottom: 28px;
+      font-size: clamp(1.8em, 5vw, 2.4em);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
     }
+
+    h2 i { color: var(--gold); margin-right: 10px; }
+
     h3 {
-      color: #d4af37;
-      margin: 25px 0 15px;
-      font-size: 1.2em;
-      border-bottom: 2px solid rgba(212, 175, 55, 0.3);
-      padding-bottom: 10px;
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      margin: 30px 0 18px;
+      font-size: 1.4em;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--glass-border);
     }
+
     input, select, button {
       width: 100%;
-      padding: 14px;
+      padding: 15px 20px;
       margin: 8px 0;
-      border-radius: 12px;
-      border: 2px solid rgba(212, 175, 55, 0.3);
-      font-size: 15px;
-      background: rgba(255,255,255,0.05);
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      font-size: 0.95em;
+      background: var(--glass);
       color: #fff;
       transition: all 0.3s;
-      min-height: 48px;
+      font-family: 'Outfit', sans-serif;
+      backdrop-filter: blur(10px);
     }
+
     input:focus, select:focus {
       outline: none;
-      border-color: #d4af37;
-      background: rgba(255,255,255,0.1);
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.06);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
     }
-    input::placeholder { color: rgba(255,255,255,0.5); }
-    select option { background: #1a1a1a; color: #fff; }
-    
-    /* Default Button (Gold) */
+
+    input::placeholder { color: rgba(255, 255, 255, 0.4); }
+    select option { background: #1a1a1a; color: #fff; padding: 10px; }
+
     .btn-primary {
-      background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
       color: #000;
       border: none;
       font-weight: 600;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 0.9em;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      letter-spacing: 1px;
       transition: all 0.3s;
-      touch-action: manipulation;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
     }
-    .btn-primary:hover, .btn-primary:active {
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 45px rgba(212, 175, 55, 0.45);
     }
-    
-    /* Update Button (Blue) */
+
     .btn-update {
-      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      background: linear-gradient(135deg, #5dade2 0%, #3498db 50%, #2874a6 100%);
       color: #fff;
+      box-shadow: 0 10px 30px rgba(52, 152, 219, 0.25);
     }
-    
-    /* Reset Button (Red) */
+
+    .btn-update:hover {
+      box-shadow: 0 20px 45px rgba(52, 152, 219, 0.45);
+    }
+
     .btn-reset {
-      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      background: linear-gradient(135deg, #ec7063 0%, #e74c3c 50%, #c0392b 100%);
       color: #fff;
       margin-top: 12px;
+      box-shadow: 0 10px 30px rgba(231, 76, 60, 0.25);
     }
-    .btn-reset:hover, .btn-reset:active {
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
-    }
-    
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
-    
-    .success {
-      color: #25D366;
-      text-align: center;
-      display: none;
-      font-weight: 600;
-      margin-top: 15px;
-      font-size: 1em;
-    }
-    .error {
-      color: #e74c3c;
-      text-align: center;
-      display: none;
-      font-weight: 600;
-      margin-top: 15px;
-      font-size: 0.9em;
-      padding: 10px;
-      background: rgba(231, 76, 60, 0.1);
-      border-radius: 8px;
-    }
-    #loginScreen { text-align: center; }
-    #adminPanel { display: none; }
-    .info {
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(244, 208, 63, 0.1) 100%);
-      padding: 15px;
-      border-radius: 12px;
-      margin: 15px 0;
-      font-size: 13px;
-      line-height: 1.8;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-    }
-    .info a { color: #d4af37; text-decoration: none; font-weight: 600; }
-    .info a:hover { text-decoration: underline; }
-    
-    .view-btn { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: white; border:none; margin-top: 20px; }
-    .logout-btn { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; border:none; margin-top: 15px; }
-    .cancel-btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); margin-top: 8px; display: none; }
-    .cancel-btn:hover { background: rgba(255,255,255,0.2); }
 
-    .user-info {
+    .btn-reset:hover {
+      box-shadow: 0 20px 45px rgba(231, 76, 60, 0.45);
+    }
+
+    button:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+    .success {
+      color: var(--green);
       text-align: center;
+      display: none;
+      font-weight: 500;
+      margin-top: 15px;
       padding: 12px;
       background: rgba(37, 211, 102, 0.1);
       border-radius: 10px;
-      margin-bottom: 20px;
       border: 1px solid rgba(37, 211, 102, 0.3);
       font-size: 0.9em;
     }
-    .user-info i { color: #25D366; margin-right: 8px; }
-    .loading { text-align: center; padding: 40px; color: #d4af37; }
+
+    .error {
+      color: var(--red);
+      text-align: center;
+      display: none;
+      font-weight: 500;
+      margin-top: 15px;
+      padding: 12px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(231, 76, 60, 0.3);
+      font-size: 0.9em;
+    }
+
+    #loginScreen { text-align: center; padding: 20px 0; }
+    #adminPanel { display: none; }
+
+    .login-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      color: #000;
+      box-shadow: 0 20px 45px rgba(212, 175, 55, 0.3);
+    }
+
+    .info {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.03) 100%);
+      padding: 18px;
+      border-radius: 14px;
+      margin: 18px 0;
+      font-size: 0.85em;
+      line-height: 1.9;
+      border: 1px solid var(--glass-border);
+      color: var(--text-dim);
+    }
+
+    .info strong { color: var(--gold); font-weight: 600; }
+
+    .info a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dashed var(--gold);
+      transition: all 0.3s;
+    }
+
+    .info a:hover {
+      color: var(--gold-light);
+      border-bottom-style: solid;
+    }
+
+    .view-btn {
+      background: linear-gradient(135deg, var(--green) 0%, #128C7E 100%);
+      color: white;
+      border: none;
+      margin-top: 25px;
+      box-shadow: 0 10px 30px rgba(37, 211, 102, 0.25);
+    }
+
+    .view-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 45px rgba(37, 211, 102, 0.4);
+    }
+
+    .logout-btn {
+      background: transparent;
+      color: var(--red);
+      border: 1px solid rgba(231, 76, 60, 0.4);
+      margin-top: 12px;
+    }
+
+    .logout-btn:hover {
+      background: rgba(231, 76, 60, 0.15);
+      border-color: var(--red);
+    }
+
+    .cancel-btn {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin-top: 8px;
+      display: none;
+    }
+
+    .cancel-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, rgba(37, 211, 102, 0.1) 0%, rgba(37, 211, 102, 0.03) 100%);
+      border-radius: 14px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(37, 211, 102, 0.25);
+      font-size: 0.88em;
+      flex-wrap: wrap;
+    }
+
+    .user-info i { color: var(--green); font-size: 1.2em; }
+    .user-info strong { color: var(--green); font-weight: 600; }
+
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gold);
+      font-size: 1.1em;
+    }
+
+    .loading i { margin-right: 10px; }
 
     /* Tabs */
-    .tab-buttons { display: flex; gap: 10px; margin-bottom: 25px; }
+    .tab-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      padding: 6px;
+      background: var(--glass);
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+    }
+
     .tab-btn {
       flex: 1;
-      background: rgba(212, 175, 55, 0.2);
-      color: #d4af37;
-      border: 2px solid rgba(212, 175, 55, 0.5);
-      font-size: 14px;
+      background: transparent;
+      color: var(--text-dim);
+      border: none;
+      font-size: 0.85em;
+      padding: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      margin: 0;
     }
+
+    .tab-btn:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
     .tab-btn.active {
-      background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
       color: #000;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
     }
-    .tab-content { display: none; }
+
+    .tab-content { display: none; animation: tabIn 0.4s ease; }
     .tab-content.active { display: block; }
+
+    @keyframes tabIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* Lists */
     .category-list, .product-list {
-      background: rgba(255,255,255,0.03);
-      border-radius: 12px;
-      padding: 15px;
-      margin-top: 15px;
-      max-height: 400px;
+      background: var(--glass);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 18px;
+      max-height: 480px;
       overflow-y: auto;
+      border: 1px solid var(--glass-border);
     }
+
+    .category-list::-webkit-scrollbar,
+    .product-list::-webkit-scrollbar { width: 6px; }
+
+    .category-list::-webkit-scrollbar-thumb,
+    .product-list::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.3);
+      border-radius: 3px;
+    }
+
     .category-item, .product-item {
-      background: rgba(212, 175, 55, 0.08);
-      padding: 12px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.06) 0%, rgba(212, 175, 55, 0.02) 100%);
+      padding: 14px;
       margin-bottom: 10px;
-      border-radius: 8px;
+      border-radius: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: 1px solid rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s;
+      gap: 12px;
     }
-    .category-item:last-child, .product-item:last-child { margin-bottom: 0; }
-    
-    .category-name { font-weight: 600; color: #d4af37; }
-    .category-icon { margin-right: 10px; font-size: 1.2em; }
-    
-    .product-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
-    .product-details { flex: 1; margin-left: 12px; }
-    .product-details .p-name { font-weight: 600; font-size: 0.9em; }
-    .product-details .p-price { color: #d4af37; font-size: 0.85em; }
-    .product-details .p-cat { color: #888; font-size: 0.75em; }
 
-    .action-btns { display: flex; gap: 6px; flex-direction: column; }
+    .category-item:hover, .product-item:hover {
+      border-color: rgba(212, 175, 55, 0.35);
+      background: rgba(212, 175, 55, 0.08);
+      transform: translateX(4px);
+    }
+
+    .category-item:last-child, .product-item:last-child { margin-bottom: 0; }
+
+    .category-name {
+      font-weight: 500;
+      color: #fff;
+      font-size: 0.95em;
+    }
+
+    .category-icon {
+      margin-right: 12px;
+      font-size: 1.2em;
+      color: var(--gold);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 10px;
+    }
+
+    .product-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .product-details { flex: 1; min-width: 0; }
+    .product-details .p-name {
+      font-weight: 500;
+      font-size: 0.9em;
+      color: #fff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .product-details .p-price {
+      color: var(--gold);
+      font-size: 0.9em;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .product-details .p-cat {
+      color: var(--text-dim);
+      font-size: 0.75em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+    }
+
+    .btn-edit, .btn-delete {
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.75em;
+      font-weight: 500;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      justify-content: center;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+
     .btn-edit {
-      background: rgba(52, 152, 219, 0.2);
-      color: #3498db;
-      border: 1px solid rgba(52, 152, 219, 0.4);
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.8em;
-      transition: all 0.2s;
+      background: rgba(52, 152, 219, 0.15);
+      color: var(--blue);
+      border: 1px solid rgba(52, 152, 219, 0.35);
     }
-    .btn-edit:hover { background: #3498db; color: #fff; }
-    
+
+    .btn-edit:hover {
+      background: var(--blue);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+    }
+
     .btn-delete {
-      background: rgba(231, 76, 60, 0.2);
-      color: #e74c3c;
-      border: 1px solid rgba(231, 76, 60, 0.4);
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.8em;
-      transition: all 0.2s;
+      background: rgba(231, 76, 60, 0.15);
+      color: var(--red);
+      border: 1px solid rgba(231, 76, 60, 0.35);
     }
-    .btn-delete:hover { background: #e74c3c; color: #fff; }
+
+    .btn-delete:hover {
+      background: var(--red);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-dim);
+    }
+
+    .empty-state i {
+      font-size: 2.5em;
+      color: var(--gold);
+      opacity: 0.4;
+      margin-bottom: 12px;
+      display: block;
+    }
 
     @media (max-width: 768px) {
-      .container { padding: 25px 20px; margin: 15px auto; border-radius: 20px; }
-      h2 { font-size: 1.5em; margin-bottom: 20px; }
-      input, select, button { padding: 13px; font-size: 14px; }
+      .container { padding: 30px 22px; margin: 20px auto; border-radius: 22px; }
+      h2 { font-size: 1.7em; }
+      .tab-btn { font-size: 0.78em; padding: 10px 6px; letter-spacing: 0.3px; }
+      .product-item { padding: 10px; gap: 8px; }
+      .product-item img { width: 50px; height: 50px; }
+      .action-btns { gap: 5px; }
+      .btn-edit, .btn-delete { padding: 6px 10px; font-size: 0.7em; }
     }
+
     @media (max-width: 480px) {
       body { padding: 10px; }
-      .container { padding: 20px 15px; }
-      .info { padding: 12px; font-size: 12px; }
+      .container { padding: 25px 18px; border-radius: 20px; }
       .tab-buttons { flex-direction: column; }
+      .category-item, .product-item { flex-direction: column; align-items: stretch; }
+      .action-btns { flex-direction: row; justify-content: flex-end; margin-top: 10px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
 
-    <!-- Loading -->
     <div id="loadingScreen" class="loading">
       <i class="fas fa-spinner fa-spin"></i> Checking authentication...
     </div>
 
-    <!-- Login -->
     <div id="loginScreen" style="display: none;">
-      <h2><i class="fas fa-lock"></i> Admin Login</h2>
+      <div class="login-icon"><i class="fas fa-lock"></i></div>
+      <h2>Admin Access</h2>
       <input type="email" id="adminEmail" placeholder="Admin Email">
-      <input type="password" id="adminPass" placeholder="Admin Password">
-      <button class="btn-primary" onclick="loginAdmin()" id="loginBtn">Login</button>
+      <input type="password" id="adminPass" placeholder="Password">
+      <button class="btn-primary" onclick="loginAdmin()" id="loginBtn">
+        <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+      </button>
       <p class="error" id="errorMsg"></p>
     </div>
 
-    <!-- Admin Panel -->
     <div id="adminPanel">
       <div class="user-info">
-        <i class="fas fa-user-check"></i> Logged in as: <strong id="userEmail"></strong> | Zashi Super Store Admin
+        <i class="fas fa-user-shield"></i>
+        Logged in as <strong id="userEmail"></strong>
       </div>
 
-      <!-- Tabs -->
       <div class="tab-buttons">
         <button class="tab-btn active" onclick="switchTab('products', this)">
           <i class="fas fa-box"></i> Products
@@ -268,43 +540,43 @@
         </button>
       </div>
 
-      <!-- ===== PRODUCTS TAB ===== -->
+      <!-- PRODUCTS TAB -->
       <div id="productsTab" class="tab-content active">
-        <h2 id="productFormTitle"><i class="fas fa-plus-circle"></i> Add New Product</h2>
+        <h2 id="productFormTitle"><i class="fas fa-plus-circle"></i> Add Product</h2>
         <div class="info">
-          <strong><i class="fas fa-info-circle"></i> Image URL Kahan Se Milega?</strong><br>
-          1. <a href="https://postimages.org/" target="_blank">Postimages.org</a> par jayen<br>
-          2. Product ki photo upload karein<br>
-          3. "Direct Link" copy karein<br>
-          4. Niche "Image URL" mein paste karein
+          <strong><i class="fas fa-lightbulb"></i> Image URL Guide:</strong><br>
+          1. Visit <a href="https://postimages.org/" target="_blank">Postimages.org</a><br>
+          2. Upload your product photo<br>
+          3. Copy the "Direct Link"<br>
+          4. Paste below
         </div>
         <input type="text" id="itemName" placeholder="Product Name">
         <input type="text" id="itemPrice" placeholder="Price (e.g., Rs. 2,500)">
         <select id="itemCategory">
           <option value="">Select Category</option>
         </select>
-        <input type="text" id="itemImage" placeholder="Image URL (Paste from Postimages)">
-        
-        <button class="btn-primary" onclick="saveProduct()" id="saveProductBtn"><i class="fas fa-plus"></i> Add Product</button>
-        <button class="cancel-btn" onclick="cancelEditProduct()" id="cancelProductBtn"><i class="fas fa-times"></i> Cancel Edit</button>
-        <p class="success" id="productSuccessMsg"><i class="fas fa-check-circle"></i> Product Successfully Added!</p>
+        <input type="text" id="itemImage" placeholder="Image URL">
+        <button class="btn-primary" onclick="saveProduct()" id="saveProductBtn">
+          <i class="fas fa-plus"></i> Add Product
+        </button>
+        <button class="cancel-btn" onclick="cancelEditProduct()" id="cancelProductBtn">
+          <i class="fas fa-times"></i> Cancel Edit
+        </button>
+        <p class="success" id="productSuccessMsg"></p>
       </div>
 
-      <!-- ===== CATEGORIES TAB ===== -->
+      <!-- CATEGORIES TAB -->
       <div id="categoriesTab" class="tab-content">
-        <h2 id="categoryFormTitle"><i class="fas fa-tags"></i> Add New Category</h2>
+        <h2 id="categoryFormTitle"><i class="fas fa-tags"></i> Add Category</h2>
         <div class="info">
-          <strong><i class="fas fa-info-circle"></i> Categories Kaise Add Karein?</strong><br>
-          1. Category ka naam likhein (e.g., "Bags", "Shoes")<br>
-          2. Icon select karein<br>
-          3. Button dabayen<br>
-          4. Category automatically website par show hogi
+          <strong><i class="fas fa-lightbulb"></i> Quick Tip:</strong><br>
+          Category add karein aur icon select karein. Website par filter ke tor par show hogi.
         </div>
-        <input type="text" id="categoryName" placeholder="Category Name (e.g., Bags, Shoes)">
+        <input type="text" id="categoryName" placeholder="Category Name">
         <select id="categoryIcon">
           <option value="fa-tag">🏷️ Tag</option>
-          <option value="fa-gem">💎 Gem / Jewelry</option>
-          <option value="fa-wand-magic-sparkles">✨ Makeup / Beauty</option>
+          <option value="fa-gem">💎 Gem</option>
+          <option value="fa-wand-magic-sparkles">✨ Makeup</option>
           <option value="fa-plug">🔌 Electronics</option>
           <option value="fa-bag-shopping">👜 Bags</option>
           <option value="fa-shoe-prints">👟 Shoes</option>
@@ -315,16 +587,21 @@
           <option value="fa-mobile-screen">📱 Mobile</option>
           <option value="fa-laptop">💻 Laptop</option>
           <option value="fa-camera">📷 Camera</option>
-          <option value="fa-headphones">🎧 Headphones</option>
+          <option value="fa-headphones">🎧 Audio</option>
           <option value="fa-star">⭐ Star</option>
           <option value="fa-heart">❤️ Heart</option>
           <option value="fa-gift">🎁 Gift</option>
         </select>
-        
-        <button class="btn-primary" onclick="saveCategory()" id="saveCategoryBtn"><i class="fas fa-plus"></i> Add Category</button>
-        <button class="cancel-btn" onclick="cancelEditCategory()" id="cancelCategoryBtn"><i class="fas fa-times"></i> Cancel Edit</button>
-        <button class="btn-primary btn-reset" onclick="setupDefaultCategories()"><i class="fas fa-sync-alt"></i> Reset All Categories (Default Set)</button>
-        <p class="success" id="categorySuccessMsg"><i class="fas fa-check-circle"></i> Category Added!</p>
+        <button class="btn-primary" onclick="saveCategory()" id="saveCategoryBtn">
+          <i class="fas fa-plus"></i> Add Category
+        </button>
+        <button class="cancel-btn" onclick="cancelEditCategory()" id="cancelCategoryBtn">
+          <i class="fas fa-times"></i> Cancel Edit
+        </button>
+        <button class="btn-primary btn-reset" onclick="setupDefaultCategories()">
+          <i class="fas fa-sync-alt"></i> Reset All Categories (Default Set)
+        </button>
+        <p class="success" id="categorySuccessMsg"></p>
 
         <h3><i class="fas fa-list"></i> All Categories</h3>
         <div class="category-list" id="categoryList">
@@ -332,17 +609,16 @@
         </div>
       </div>
 
-      <!-- ===== MANAGE PRODUCTS TAB ===== -->
+      <!-- MANAGE TAB -->
       <div id="manageTab" class="tab-content">
-        <h2><i class="fas fa-list"></i> Manage Products</h2>
+        <h2><i class="fas fa-list"></i> All Products</h2>
         <div class="product-list" id="productList">
           <p style="text-align:center; color:#888;">Loading...</p>
         </div>
       </div>
 
-      <!-- Buttons -->
       <button class="view-btn" onclick="window.open('index.html', '_blank')">
-        <i class="fas fa-eye"></i> View Live Website (Zashi Super Store)
+        <i class="fas fa-eye"></i> View Live Store
       </button>
       <button class="logout-btn" onclick="logoutAdmin()">
         <i class="fas fa-sign-out-alt"></i> Logout
@@ -350,7 +626,6 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -370,11 +645,9 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Edit State Variables
     let editingCategoryId = null;
     let editingProductId = null;
 
-    // Auth State
     auth.onAuthStateChanged((user) => {
       document.getElementById('loadingScreen').style.display = 'none';
       if (user) {
@@ -390,7 +663,6 @@
       }
     });
 
-    // Tab Switch
     function switchTab(tab, btn) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -399,7 +671,23 @@
       if (tab === 'manage') loadProductsList();
     }
 
-    // Login
+    function showToast(msg, type = 'success') {
+      const t = document.createElement('div');
+      const bg = type === 'success' 
+        ? 'linear-gradient(135deg,#25D366,#128C7E)' 
+        : 'linear-gradient(135deg,#f4d03f,#d4af37)';
+      const color = type === 'success' ? '#fff' : '#000';
+      t.textContent = msg;
+      t.style.cssText = `position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:${bg};color:${color};padding:14px 28px;border-radius:50px;font-weight:500;z-index:99999;box-shadow:0 15px 40px rgba(0,0,0,0.4);transition:all 0.4s;font-size:0.9em;max-width:90%;text-align:center;`;
+      document.body.appendChild(t);
+      setTimeout(() => t.style.transform = 'translateX(-50%) translateY(0)', 50);
+      setTimeout(() => {
+        t.style.transform = 'translateX(-50%) translateY(100px)';
+        t.style.opacity = '0';
+        setTimeout(() => t.remove(), 400);
+      }, 2400);
+    }
+
     function loginAdmin() {
       const email = document.getElementById('adminEmail').value;
       const password = document.getElementById('adminPass').value;
@@ -407,7 +695,7 @@
       const loginBtn = document.getElementById('loginBtn');
 
       if (!email || !password) {
-        errorMsg.textContent = '❌ Email aur password dalein!';
+        errorMsg.textContent = 'Please enter email and password';
         errorMsg.style.display = 'block';
         return;
       }
@@ -417,32 +705,26 @@
       errorMsg.style.display = 'none';
 
       auth.signInWithEmailAndPassword(email, password)
-        .then(() => { console.log('Logged in'); })
         .catch((error) => {
-          let msg = '❌ Login failed!';
-          if (error.code === 'auth/user-not-found') msg = '❌ User not found!';
-          else if (error.code === 'auth/wrong-password') msg = '❌ Wrong password!';
-          else if (error.code === 'auth/invalid-email') msg = '❌ Invalid email!';
-          else if (error.code === 'auth/too-many-requests') msg = '❌ Too many attempts!';
+          let msg = 'Login failed. Try again.';
+          if (error.code === 'auth/user-not-found') msg = 'User not found';
+          else if (error.code === 'auth/wrong-password') msg = 'Incorrect password';
+          else if (error.code === 'auth/invalid-email') msg = 'Invalid email';
+          else if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try later.';
           errorMsg.textContent = msg;
           errorMsg.style.display = 'block';
           loginBtn.disabled = false;
-          loginBtn.innerHTML = 'Login';
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
         });
     }
 
-    // Logout
     function logoutAdmin() {
-      if (confirm('Logout karna hai?')) {
-        auth.signOut().then(() => { location.reload(); });
-      }
+      if (confirm('Logout karna hai?')) auth.signOut().then(() => location.reload());
     }
 
-    // ===== AUTO SETUP DEFAULT CATEGORIES =====
+    // DEFAULT CATEGORIES SETUP
     function setupDefaultCategories() {
-      if (!confirm('⚠️ Ye purani sabhi categories delete kar dega aur nayi 17 categories add karega. Kya aap sure hain?')) {
-        return;
-      }
+      if (!confirm('⚠️ Ye purani sabhi categories delete kar dega aur nayi 17 categories add karega. Sure hain?')) return;
 
       const newCategories = [
         { name: "Cosmetics", icon: "fa-wand-magic-sparkles" },
@@ -464,41 +746,33 @@
         { name: "Wedding Decoration", icon: "fa-ring" }
       ];
 
-      // Step 1: Delete all existing categories
       db.collection("categories").get().then((snapshot) => {
-        const deletePromises = [];
-        snapshot.forEach((doc) => {
-          deletePromises.push(db.collection("categories").doc(doc.id).delete());
-        });
-        return Promise.all(deletePromises);
+        const deletes = [];
+        snapshot.forEach((doc) => deletes.push(db.collection("categories").doc(doc.id).delete()));
+        return Promise.all(deletes);
       }).then(() => {
-        console.log("Old categories deleted");
-        
-        // Step 2: Add new categories
-        const addPromises = [];
+        const adds = [];
         newCategories.forEach((cat) => {
-          addPromises.push(db.collection("categories").add({
+          adds.push(db.collection("categories").add({
             name: cat.name,
             icon: cat.icon,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           }));
         });
-        return Promise.all(addPromises);
+        return Promise.all(adds);
       }).then(() => {
-        alert("✅ Sabhi 17 categories successfully update ho gayi!");
+        showToast('✅ All 17 categories set successfully!');
         loadCategories();
         loadCategoryDropdown();
-      }).catch((err) => {
-        alert("❌ Error: " + err.message);
-      });
+      }).catch(err => showToast('❌ ' + err.message, 'error'));
     }
 
-    // ===== CATEGORIES =====
+    // CATEGORIES
     function loadCategories() {
       const list = document.getElementById('categoryList');
       db.collection("categories").orderBy("name").get().then((snap) => {
         if (snap.empty) {
-          list.innerHTML = '<p style="text-align:center; color:#888;">Koi category nahi hai. Pehle add karein!</p>';
+          list.innerHTML = `<div class="empty-state"><i class="fas fa-tags"></i><p>No categories yet</p></div>`;
           return;
         }
         let html = '';
@@ -507,12 +781,12 @@
           html += `
             <div class="category-item">
               <div style="display:flex; align-items:center;">
-                <i class="fas ${c.icon || 'fa-tag'} category-icon"></i>
+                <div class="category-icon"><i class="fas ${c.icon || 'fa-tag'}"></i></div>
                 <span class="category-name">${c.name}</span>
               </div>
               <div class="action-btns" style="flex-direction:row;">
                 <button class="btn-edit" onclick="editCategory('${doc.id}', '${c.name}', '${c.icon || 'fa-tag'}')">
-                  <i class="fas fa-edit"></i> Edit
+                  <i class="fas fa-edit"></i>
                 </button>
                 <button class="btn-delete" onclick="deleteCategory('${doc.id}')">
                   <i class="fas fa-trash"></i>
@@ -539,33 +813,23 @@
       const name = document.getElementById('categoryName').value.trim();
       const icon = document.getElementById('categoryIcon').value;
       const btn = document.getElementById('saveCategoryBtn');
-
-      if (!name) { alert("⚠️ Category ka naam dalein!"); return; }
+      if (!name) { showToast('⚠️ Enter category name!', 'error'); return; }
 
       btn.disabled = true;
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
-      const categoryData = { name: name, icon: icon, timestamp: firebase.firestore.FieldValue.serverTimestamp() };
+      const data = { name, icon, timestamp: firebase.firestore.FieldValue.serverTimestamp() };
+      const p = editingCategoryId 
+        ? db.collection("categories").doc(editingCategoryId).update(data)
+        : db.collection("categories").add(data);
 
-      let promise;
-      if (editingCategoryId) {
-        promise = db.collection("categories").doc(editingCategoryId).update(categoryData);
-      } else {
-        promise = db.collection("categories").add(categoryData);
-      }
-
-      promise.then(() => {
-        const msg = document.getElementById("categorySuccessMsg");
-        msg.textContent = editingCategoryId ? "✅ Category Updated!" : "✅ Category Added!";
-        msg.style.display = "block";
-        
+      p.then(() => {
+        showToast(editingCategoryId ? '✅ Category updated!' : '✅ Category added!');
         cancelEditCategory();
         loadCategories();
         loadCategoryDropdown();
-        
-        setTimeout(() => { msg.style.display = "none"; }, 3000);
-      }).catch((err) => {
-        alert("❌ Error: " + err.message);
+      }).catch(err => {
+        showToast('❌ ' + err.message, 'error');
         btn.disabled = false;
         btn.innerHTML = editingCategoryId ? '<i class="fas fa-save"></i> Update Category' : '<i class="fas fa-plus"></i> Add Category';
       });
@@ -575,11 +839,9 @@
       editingCategoryId = id;
       document.getElementById('categoryName').value = name;
       document.getElementById('categoryIcon').value = icon;
-      
       const btn = document.getElementById('saveCategoryBtn');
       btn.className = 'btn-primary btn-update';
       btn.innerHTML = '<i class="fas fa-save"></i> Update Category';
-      
       document.getElementById('categoryFormTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Category';
       document.getElementById('cancelCategoryBtn').style.display = 'block';
       document.getElementById('categoryName').focus();
@@ -589,30 +851,28 @@
       editingCategoryId = null;
       document.getElementById('categoryName').value = "";
       document.getElementById('categoryIcon').value = "fa-tag";
-      
       const btn = document.getElementById('saveCategoryBtn');
       btn.className = 'btn-primary';
+      btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-plus"></i> Add Category';
-      
-      document.getElementById('categoryFormTitle').innerHTML = '<i class="fas fa-tags"></i> Add New Category';
+      document.getElementById('categoryFormTitle').innerHTML = '<i class="fas fa-tags"></i> Add Category';
       document.getElementById('cancelCategoryBtn').style.display = 'none';
     }
 
     function deleteCategory(id) {
-      if (confirm('Ye category delete karni hai? Is se products par asar nahi parega, sirf filter se hat jayegi.')) {
+      if (confirm('Delete this category?')) {
         db.collection("categories").doc(id).delete().then(() => {
-          alert('✅ Category deleted!');
+          showToast('✅ Category deleted');
           loadCategories();
           loadCategoryDropdown();
-        }).catch(err => alert("❌ Error: " + err.message));
+        }).catch(err => showToast('❌ ' + err.message, 'error'));
       }
     }
 
-    // ===== PRODUCTS =====
+    // PRODUCTS
     function saveProduct() {
       const user = auth.currentUser;
-      if (!user) { alert('❌ Pehle login karein!'); return; }
-
+      if (!user) return;
       const name = document.getElementById("itemName").value;
       const price = document.getElementById("itemPrice").value;
       const catSelect = document.getElementById("itemCategory");
@@ -622,41 +882,35 @@
       const btn = document.getElementById('saveProductBtn');
 
       if (!name || !price || !categoryId || !imageUrl) {
-        alert("⚠️ Sari fields fill karein!");
+        showToast('⚠️ Fill all fields!', 'error');
         return;
       }
 
       btn.disabled = true;
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
-      const itemData = {
-        name: name,
-        price: price,
+      const data = {
+        name, price,
         category: categoryId,
-        categoryName: categoryName,
-        imageUrl: imageUrl,
+        categoryName,
+        imageUrl,
         addedBy: user.email
       };
 
-      let promise;
+      let p;
       if (editingProductId) {
-        promise = db.collection("items").doc(editingProductId).update(itemData);
+        p = db.collection("items").doc(editingProductId).update(data);
       } else {
-        itemData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
-        promise = db.collection("items").add(itemData);
+        data.timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        p = db.collection("items").add(data);
       }
 
-      promise.then(() => {
-        const msg = document.getElementById("productSuccessMsg");
-        msg.textContent = editingProductId ? "✅ Product Updated!" : "✅ Product Successfully Added!";
-        msg.style.display = "block";
-        
+      p.then(() => {
+        showToast(editingProductId ? '✅ Product updated!' : '✅ Product added!');
         cancelEditProduct();
         loadProductsList();
-        
-        setTimeout(() => { msg.style.display = "none"; }, 3000);
-      }).catch((err) => {
-        alert("❌ Error: " + err.message);
+      }).catch(err => {
+        showToast('❌ ' + err.message, 'error');
         btn.disabled = false;
         btn.innerHTML = editingProductId ? '<i class="fas fa-save"></i> Update Product' : '<i class="fas fa-plus"></i> Add Product';
       });
@@ -664,22 +918,14 @@
 
     function editProduct(id, name, price, categoryId, imageUrl) {
       editingProductId = id;
-      
-      const firstTabBtn = document.querySelector('.tab-btn');
-      switchTab('products', firstTabBtn);
-      
+      switchTab('products', document.querySelector('.tab-btn'));
       document.getElementById('itemName').value = name;
       document.getElementById('itemPrice').value = price;
       document.getElementById('itemImage').value = imageUrl;
-      
-      setTimeout(() => {
-        document.getElementById('itemCategory').value = categoryId;
-      }, 100);
-
+      setTimeout(() => { document.getElementById('itemCategory').value = categoryId; }, 100);
       const btn = document.getElementById('saveProductBtn');
       btn.className = 'btn-primary btn-update';
       btn.innerHTML = '<i class="fas fa-save"></i> Update Product';
-      
       document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Product';
       document.getElementById('cancelProductBtn').style.display = 'block';
       document.getElementById('itemName').focus();
@@ -691,12 +937,11 @@
       document.getElementById('itemPrice').value = "";
       document.getElementById('itemCategory').value = "";
       document.getElementById('itemImage').value = "";
-      
       const btn = document.getElementById('saveProductBtn');
       btn.className = 'btn-primary';
+      btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-plus"></i> Add Product';
-      
-      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Product';
+      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add Product';
       document.getElementById('cancelProductBtn').style.display = 'none';
     }
 
@@ -704,7 +949,7 @@
       const list = document.getElementById('productList');
       db.collection("items").orderBy("timestamp", "desc").get().then((snap) => {
         if (snap.empty) {
-          list.innerHTML = '<p style="text-align:center; color:#888;">Koi product nahi hai.</p>';
+          list.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No products yet</p></div>`;
           return;
         }
         let html = '';
@@ -723,7 +968,7 @@
                   <i class="fas fa-edit"></i> Edit
                 </button>
                 <button class="btn-delete" onclick="deleteProduct('${doc.id}')">
-                  <i class="fas fa-trash"></i> Delete
+                  <i class="fas fa-trash"></i>
                 </button>
               </div>
             </div>`;
@@ -733,15 +978,14 @@
     }
 
     function deleteProduct(id) {
-      if (confirm('Ye product hamesha ke liye delete ho jayega. Kya aap sure hain?')) {
+      if (confirm('Delete this product permanently?')) {
         db.collection("items").doc(id).delete().then(() => {
-          alert('✅ Product deleted!');
+          showToast('✅ Product deleted');
           loadProductsList();
-        }).catch(err => alert("❌ Error: " + err.message));
+        }).catch(err => showToast('❌ ' + err.message, 'error'));
       }
     }
 
-    // Enter key login
     document.getElementById('adminPass').addEventListener('keypress', function(e) {
       if (e.key === 'Enter') loginAdmin();
     });
