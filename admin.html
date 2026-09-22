@@ -601,3 +601,150 @@
     function deleteCategory(id) {
       if (confirm('Ye category delete karni hai? Is se products par asar nahi parega, sirf filter se hat jayegi.')) {
         db.collection("categories").doc(id).delete().then(() => {
+          alert('✅ Category deleted!');
+          loadCategories();
+          loadCategoryDropdown();
+        }).catch(err => alert("❌ Error: " + err.message));
+      }
+    }
+
+    // ===== PRODUCTS =====
+    function saveProduct() {
+      const user = auth.currentUser;
+      if (!user) { alert('❌ Pehle login karein!'); return; }
+
+      const name = document.getElementById("itemName").value;
+      const price = document.getElementById("itemPrice").value;
+      const catSelect = document.getElementById("itemCategory");
+      const categoryId = catSelect.value;
+      const categoryName = catSelect.options[catSelect.selectedIndex]?.getAttribute('data-name') || '';
+      const imageUrl = document.getElementById("itemImage").value;
+      const btn = document.getElementById('saveProductBtn');
+
+      if (!name || !price || !categoryId || !imageUrl) {
+        alert("⚠️ Sari fields fill karein!");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+      const itemData = {
+        name: name,
+        price: price,
+        category: categoryId,
+        categoryName: categoryName,
+        imageUrl: imageUrl,
+        addedBy: user.email
+      };
+
+      let promise;
+      if (editingProductId) {
+        promise = db.collection("items").doc(editingProductId).update(itemData);
+      } else {
+        itemData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        promise = db.collection("items").add(itemData);
+      }
+
+      promise.then(() => {
+        const msg = document.getElementById("productSuccessMsg");
+        msg.textContent = editingProductId ? "✅ Product Updated!" : "✅ Product Successfully Added!";
+        msg.style.display = "block";
+        
+        cancelEditProduct();
+        loadProductsList();
+        
+        setTimeout(() => { msg.style.display = "none"; }, 3000);
+      }).catch((err) => {
+        alert("❌ Error: " + err.message);
+        btn.disabled = false;
+        btn.innerHTML = editingProductId ? '<i class="fas fa-save"></i> Update Product' : '<i class="fas fa-plus"></i> Add Product';
+      });
+    }
+
+    function editProduct(id, name, price, categoryId, imageUrl) {
+      editingProductId = id;
+      
+      const firstTabBtn = document.querySelector('.tab-btn');
+      switchTab('products', firstTabBtn);
+      
+      document.getElementById('itemName').value = name;
+      document.getElementById('itemPrice').value = price;
+      document.getElementById('itemImage').value = imageUrl;
+      
+      setTimeout(() => {
+        document.getElementById('itemCategory').value = categoryId;
+      }, 100);
+
+      const btn = document.getElementById('saveProductBtn');
+      btn.className = 'btn-primary btn-update';
+      btn.innerHTML = '<i class="fas fa-save"></i> Update Product';
+      
+      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Product';
+      document.getElementById('cancelProductBtn').style.display = 'block';
+      document.getElementById('itemName').focus();
+    }
+
+    function cancelEditProduct() {
+      editingProductId = null;
+      document.getElementById('itemName').value = "";
+      document.getElementById('itemPrice').value = "";
+      document.getElementById('itemCategory').value = "";
+      document.getElementById('itemImage').value = "";
+      
+      const btn = document.getElementById('saveProductBtn');
+      btn.className = 'btn-primary';
+      btn.innerHTML = '<i class="fas fa-plus"></i> Add Product';
+      
+      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Product';
+      document.getElementById('cancelProductBtn').style.display = 'none';
+    }
+
+    function loadProductsList() {
+      const list = document.getElementById('productList');
+      db.collection("items").orderBy("timestamp", "desc").get().then((snap) => {
+        if (snap.empty) {
+          list.innerHTML = '<p style="text-align:center; color:#888;">Koi product nahi hai.</p>';
+          return;
+        }
+        let html = '';
+        snap.forEach((doc) => {
+          const p = doc.data();
+          html += `
+            <div class="product-item">
+              <img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/60'">
+              <div class="product-details">
+                <div class="p-name">${p.name}</div>
+                <div class="p-price">${p.price}</div>
+                <div class="p-cat">${p.categoryName || 'No Category'}</div>
+              </div>
+              <div class="action-btns">
+                <button class="btn-edit" onclick="editProduct('${doc.id}', '${p.name}', '${p.price}', '${p.category}', '${p.imageUrl}')">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn-delete" onclick="deleteProduct('${doc.id}')">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>`;
+        });
+        list.innerHTML = html;
+      });
+    }
+
+    function deleteProduct(id) {
+      if (confirm('Ye product hamesha ke liye delete ho jayega. Kya aap sure hain?')) {
+        db.collection("items").doc(id).delete().then(() => {
+          alert('✅ Product deleted!');
+          loadProductsList();
+        }).catch(err => alert("❌ Error: " + err.message));
+      }
+    }
+
+    // Enter key login
+    document.getElementById('adminPass').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') loginAdmin();
+    });
+  </script>
+</body>
+</html>
