@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <meta name="theme-color" content="#0a0a0a">
   <title>Admin Panel — Zashi Super Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,12 +24,13 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
 
     body {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--dark);
       min-height: 100vh;
-      padding: 20px 15px;
+      padding: 15px 12px;
       color: var(--text);
       -webkit-tap-highlight-color: transparent;
       line-height: 1.6;
@@ -49,12 +50,12 @@
 
     .container {
       max-width: 820px;
-      margin: 30px auto;
-      background: linear-gradient(160deg, rgba(28, 28, 28, 0.9) 0%, rgba(15, 15, 15, 0.95) 100%);
-      border-radius: 28px;
-      padding: 40px 32px;
+      margin: 20px auto;
+      background: linear-gradient(160deg, rgba(28, 28, 28, 0.9), rgba(15, 15, 15, 0.95));
+      border-radius: 24px;
+      padding: 32px 22px;
       border: 1px solid var(--glass-border);
-      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 80px rgba(212, 175, 55, 0.08);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
       position: relative;
       z-index: 1;
       backdrop-filter: blur(20px);
@@ -64,43 +65,50 @@
       font-family: 'Cormorant Garamond', serif;
       text-align: center;
       color: #fff;
-      margin-bottom: 24px;
-      font-size: clamp(1.7em, 5vw, 2.3em);
+      margin-bottom: 22px;
+      font-size: clamp(1.5em, 5vw, 2em);
       font-weight: 600;
       line-height: 1.2;
     }
 
-    h2 i { color: var(--gold); margin-right: 10px; }
+    h2 i { color: var(--gold); margin-right: 8px; }
 
     h3 {
       font-family: 'Cormorant Garamond', serif;
       color: var(--gold);
-      margin: 26px 0 16px;
-      font-size: 1.35em;
+      margin: 22px 0 14px;
+      font-size: 1.2em;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       padding-bottom: 10px;
       border-bottom: 1px solid var(--glass-border);
     }
 
     label {
       display: block;
-      font-size: 0.78em;
-      color: var(--text-dim);
-      margin: 10px 0 4px;
+      font-size: 0.72em;
+      color: var(--gold);
+      margin: 12px 0 5px;
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 500;
     }
 
+    .field-hint {
+      font-size: 0.7em;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-style: italic;
+    }
+
     input, select, textarea, button {
       width: 100%;
-      padding: 13px 18px;
+      padding: 12px 15px;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
-      font-size: 0.92em;
+      font-size: 16px;
       background: var(--glass);
       color: #fff;
       transition: all 0.3s;
@@ -120,17 +128,18 @@
     select option { background: #1a1a1a; color: #fff; padding: 10px; }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
       color: #000;
       border: none;
       font-weight: 600;
       cursor: pointer;
-      font-size: 0.88em;
+      font-size: 0.85em;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       transition: all 0.3s;
       box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
       margin-top: 14px;
+      min-height: 48px;
     }
 
     .btn-primary:hover {
@@ -150,31 +159,38 @@
       box-shadow: 0 10px 30px rgba(231, 76, 60, 0.25);
     }
 
+    .btn-help {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(52, 152, 219, 0.2);
+      margin-top: 8px;
+    }
+
     button:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
     #loginScreen { text-align: center; padding: 20px 0; }
     #adminPanel { display: none; }
 
     .login-icon {
-      width: 76px;
-      height: 76px;
-      margin: 0 auto 20px;
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 18px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.9em;
+      font-size: 1.8em;
       color: #000;
       box-shadow: 0 20px 45px rgba(212, 175, 55, 0.3);
     }
 
     .info {
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.03));
-      padding: 16px;
+      padding: 14px;
       border-radius: 12px;
-      margin: 16px 0;
-      font-size: 0.82em;
+      margin: 14px 0;
+      font-size: 0.8em;
       line-height: 1.8;
       border: 1px solid var(--glass-border);
       color: var(--text-dim);
@@ -187,8 +203,14 @@
       background: linear-gradient(135deg, var(--green), var(--green-dark));
       color: white;
       border: none;
-      margin-top: 22px;
+      margin-top: 20px;
       box-shadow: 0 10px 30px rgba(37, 211, 102, 0.25);
+      min-height: 48px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-size: 0.85em;
     }
 
     .logout-btn {
@@ -196,6 +218,11 @@
       color: var(--red);
       border: 1px solid rgba(231, 76, 60, 0.4);
       margin-top: 10px;
+      min-height: 44px;
+      cursor: pointer;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .cancel-btn {
@@ -204,6 +231,11 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       margin-top: 8px;
       display: none;
+      min-height: 44px;
+      cursor: pointer;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .user-info {
@@ -211,47 +243,48 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 12px 18px;
+      padding: 12px 16px;
       background: linear-gradient(135deg, rgba(37, 211, 102, 0.1), rgba(37, 211, 102, 0.03));
       border-radius: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       border: 1px solid rgba(37, 211, 102, 0.25);
-      font-size: 0.85em;
+      font-size: 0.82em;
       flex-wrap: wrap;
+      word-break: break-all;
     }
 
     .user-info i { color: var(--green); font-size: 1.15em; }
     .user-info strong { color: var(--green); font-weight: 600; }
 
-    .loading { text-align: center; padding: 60px 20px; color: var(--gold); font-size: 1.05em; }
-    .loading i { margin-right: 10px; }
+    .loading { text-align: center; padding: 50px 20px; color: var(--gold); font-size: 1em; }
 
     .tab-buttons {
       display: flex;
-      gap: 8px;
-      margin-bottom: 26px;
-      padding: 6px;
+      gap: 6px;
+      margin-bottom: 22px;
+      padding: 5px;
       background: var(--glass);
-      border-radius: 14px;
+      border-radius: 12px;
       border: 1px solid var(--glass-border);
       flex-wrap: wrap;
     }
 
     .tab-btn {
       flex: 1;
-      min-width: 100px;
+      min-width: 90px;
       background: transparent;
       color: var(--text-dim);
       border: none;
-      font-size: 0.78em;
-      padding: 11px 8px;
+      font-size: 0.72em;
+      padding: 10px 6px;
       font-weight: 500;
       letter-spacing: 0.5px;
-      border-radius: 10px;
+      border-radius: 9px;
       cursor: pointer;
       transition: all 0.3s;
       text-transform: uppercase;
       margin: 0;
+      font-family: 'Outfit', sans-serif;
     }
 
     .tab-btn:hover { color: var(--gold); background: rgba(212, 175, 55, 0.08); }
@@ -271,51 +304,53 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Toggle switch */
+    /* Toggle */
     .toggle-wrapper {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 18px;
+      padding: 12px 15px;
       background: var(--glass);
       border: 1px solid var(--glass-border);
       border-radius: 12px;
-      margin-top: 12px;
+      margin-top: 10px;
+      gap: 12px;
     }
 
     .toggle-label {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex: 1;
       cursor: pointer;
       user-select: none;
     }
 
-    .toggle-label i {
+    .toggle-label > i {
       color: var(--gold);
-      font-size: 1.2em;
-      width: 24px;
+      font-size: 1.15em;
+      width: 22px;
+      flex-shrink: 0;
     }
 
     .toggle-label-text strong {
       display: block;
       color: #fff;
-      font-size: 0.92em;
+      font-size: 0.88em;
       font-weight: 500;
     }
 
     .toggle-label-text span {
       display: block;
       color: var(--text-dim);
-      font-size: 0.75em;
+      font-size: 0.72em;
       margin-top: 2px;
     }
 
     .toggle-switch {
       position: relative;
-      width: 52px;
-      height: 28px;
+      width: 48px;
+      height: 26px;
       flex-shrink: 0;
     }
 
@@ -334,9 +369,9 @@
     .toggle-slider::before {
       position: absolute;
       content: "";
-      height: 20px;
-      width: 20px;
-      left: 4px;
+      height: 18px;
+      width: 18px;
+      left: 3px;
       bottom: 3px;
       background: #fff;
       border-radius: 50%;
@@ -349,92 +384,69 @@
     }
 
     .toggle-switch input:checked + .toggle-slider::before {
-      transform: translateX(24px);
+      transform: translateX(22px);
     }
 
     /* Lists */
     .category-list, .product-list {
       background: var(--glass);
-      border-radius: 14px;
-      padding: 14px;
-      margin-top: 16px;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 14px;
       max-height: 500px;
       overflow-y: auto;
       border: 1px solid var(--glass-border);
     }
 
-    .category-list::-webkit-scrollbar,
-    .product-list::-webkit-scrollbar { width: 6px; }
-    .category-list::-webkit-scrollbar-thumb,
-    .product-list::-webkit-scrollbar-thumb {
-      background: rgba(212, 175, 55, 0.3);
-      border-radius: 3px;
-    }
-
     .category-item, .product-item {
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.06), rgba(212, 175, 55, 0.02));
-      padding: 12px;
-      margin-bottom: 10px;
+      padding: 11px;
+      margin-bottom: 9px;
       border-radius: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border: 1px solid var(--glass-border);
-      gap: 10px;
-      transition: all 0.3s;
-    }
-
-    .category-item:hover, .product-item:hover {
-      border-color: rgba(212, 175, 55, 0.35);
-      transform: translateX(4px);
+      gap: 8px;
     }
 
     .category-item:last-child, .product-item:last-child { margin-bottom: 0; }
 
-    .category-name { font-weight: 500; color: #fff; font-size: 0.92em; }
+    .category-name { font-weight: 500; color: #fff; font-size: 0.88em; }
 
     .category-icon {
       margin-right: 10px;
       font-size: 1em;
       color: var(--gold);
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: rgba(212, 175, 55, 0.1);
       border-radius: 8px;
+      flex-shrink: 0;
     }
 
     .product-item img {
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       object-fit: cover;
       border-radius: 8px;
       border: 1px solid var(--glass-border);
+      flex-shrink: 0;
     }
 
     .product-details { flex: 1; min-width: 0; }
-    .product-details .p-name { font-weight: 500; font-size: 0.88em; color: #fff; }
-    .product-details .p-price {
-      color: var(--gold);
-      font-size: 0.85em;
-      font-weight: 600;
-      margin-top: 2px;
-    }
-    .product-details .p-price .old {
-      color: var(--text-dim);
-      text-decoration: line-through;
-      font-weight: 400;
-      font-size: 0.85em;
-      margin-right: 6px;
-    }
-    .product-details .p-cat { color: var(--text-dim); font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .product-details .p-name { font-weight: 500; font-size: 0.85em; color: #fff; }
+    .product-details .p-price { color: var(--gold); font-size: 0.82em; font-weight: 600; margin-top: 2px; }
+    .product-details .p-price .old { color: var(--text-dim); text-decoration: line-through; font-weight: 400; font-size: 0.85em; margin-right: 4px; }
+    .product-details .p-cat { color: var(--text-dim); font-size: 0.68em; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
 
     .product-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
     .mini-tag {
-      font-size: 0.62em;
-      padding: 2px 7px;
+      font-size: 0.6em;
+      padding: 2px 6px;
       border-radius: 10px;
       font-weight: 600;
       letter-spacing: 0.5px;
@@ -445,20 +457,21 @@
     .mini-tag.new { background: rgba(37, 211, 102, 0.2); color: var(--green); }
     .mini-tag.out { background: rgba(255, 255, 255, 0.1); color: #ccc; }
 
-    .action-btns { display: flex; gap: 6px; flex-direction: column; }
+    .action-btns { display: flex; gap: 5px; flex-direction: column; }
 
     .btn-edit, .btn-delete {
       padding: 7px 12px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 0.72em;
+      font-size: 0.7em;
       font-weight: 500;
       transition: all 0.25s;
       display: flex;
       align-items: center;
       gap: 4px;
       justify-content: center;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
+      font-family: 'Outfit', sans-serif;
     }
 
     .btn-edit {
@@ -466,62 +479,130 @@
       color: var(--blue);
       border: 1px solid rgba(52, 152, 219, 0.35);
     }
-    .btn-edit:hover { background: var(--blue); color: #fff; transform: translateY(-2px); }
+    .btn-edit:hover { background: var(--blue); color: #fff; }
 
     .btn-delete {
       background: rgba(231, 76, 60, 0.15);
       color: var(--red);
       border: 1px solid rgba(231, 76, 60, 0.35);
     }
-    .btn-delete:hover { background: var(--red); color: #fff; transform: translateY(-2px); }
+    .btn-delete:hover { background: var(--red); color: #fff; }
 
-    .empty-state { text-align: center; padding: 40px 20px; color: var(--text-dim); }
-    .empty-state i { font-size: 2.5em; color: var(--gold); opacity: 0.4; margin-bottom: 12px; display: block; }
+    .empty-state { text-align: center; padding: 35px 20px; color: var(--text-dim); }
+    .empty-state i { font-size: 2.2em; color: var(--gold); opacity: 0.4; margin-bottom: 10px; display: block; }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .field-hint {
-      font-size: 0.72em;
-      color: var(--text-dim);
-      margin-top: 4px;
-      font-style: italic;
-    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
     .settings-card {
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.06), rgba(212, 175, 55, 0.02));
       border: 1px solid var(--glass-border);
       border-radius: 14px;
-      padding: 20px;
+      padding: 18px;
       margin-top: 14px;
     }
 
     .settings-card h4 {
       font-family: 'Cormorant Garamond', serif;
       color: var(--gold);
-      font-size: 1.15em;
-      margin-bottom: 14px;
+      font-size: 1.1em;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
+    /* Image Upload */
+    .upload-zone {
+      border: 2px dashed var(--glass-border);
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: var(--glass);
+      margin-top: 6px;
+    }
+
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.06);
+    }
+
+    .upload-zone i {
+      font-size: 2em;
+      color: var(--gold);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .upload-zone p {
+      color: var(--text-dim);
+      font-size: 0.82em;
+      margin-bottom: 4px;
+    }
+
+    .upload-zone .small {
+      font-size: 0.7em;
+      color: #666;
+    }
+
+    .image-preview {
+      display: none;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .image-preview img {
+      max-width: 100%;
+      max-height: 180px;
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .image-preview .remove-img {
+      background: rgba(231, 76, 60, 0.15);
+      color: var(--red);
+      border: 1px solid rgba(231, 76, 60, 0.35);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.72em;
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .help-box {
+      background: linear-gradient(135deg, rgba(52, 152, 219, 0.12), rgba(52, 152, 219, 0.03));
+      border: 1px solid rgba(52, 152, 219, 0.3);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 12px;
+      font-size: 0.8em;
+      color: var(--text-dim);
+      line-height: 1.8;
+    }
+
+    .help-box strong { color: var(--blue); }
+
     @media (max-width: 768px) {
-      .container { padding: 26px 18px; margin: 15px auto; border-radius: 22px; }
-      h2 { font-size: 1.6em; }
-      .tab-btn { font-size: 0.72em; }
-      .form-row { grid-template-columns: 1fr; }
+      .container { padding: 24px 16px; margin: 12px auto; border-radius: 20px; }
+      h2 { font-size: 1.4em; }
+      .tab-btn { font-size: 0.68em; min-width: 70px; }
     }
 
     @media (max-width: 480px) {
-      body { padding: 10px; }
-      .container { padding: 22px 16px; }
+      body { padding: 8px; }
+      .container { padding: 20px 14px; }
       .tab-buttons { flex-direction: column; }
+      .form-row { grid-template-columns: 1fr; }
       .category-item, .product-item { flex-direction: column; align-items: stretch; }
-      .action-btns { flex-direction: row; justify-content: flex-end; margin-top: 8px; }
+      .action-btns { flex-direction: row; justify-content: flex-end; margin-top: 6px; }
+    }
+
+    /* Prevent iOS zoom */
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+      input, textarea, select { font-size: 16px; }
     }
   </style>
 </head>
@@ -538,15 +619,15 @@
       <input type="email" id="adminEmail" placeholder="Admin Email">
       <input type="password" id="adminPass" placeholder="Password">
       <button class="btn-primary" onclick="loginAdmin()" id="loginBtn">
-        <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+        <i class="fas fa-sign-in-alt"></i> Login
       </button>
-      <p class="error" id="errorMsg" style="display:none;color:var(--red);text-align:center;margin-top:12px;font-size:0.85em;"></p>
+      <p id="errorMsg" style="display:none;color:var(--red);text-align:center;margin-top:12px;font-size:0.85em;"></p>
     </div>
 
     <div id="adminPanel">
       <div class="user-info">
         <i class="fas fa-user-shield"></i>
-        Logged in as <strong id="userEmail"></strong>
+        <span>Logged in as <strong id="userEmail"></strong></span>
       </div>
 
       <div class="tab-buttons">
@@ -568,11 +649,13 @@
       <div id="productsTab" class="tab-content active">
         <h2 id="productFormTitle"><i class="fas fa-plus-circle"></i> Add Product</h2>
         <div class="info">
-          <strong><i class="fas fa-lightbulb"></i> Image URL Guide:</strong><br>
-          1. Visit <a href="https://postimages.org/" target="_blank">Postimages.org</a><br>
-          2. Upload product photo<br>
-          3. Copy "Direct Link"<br>
-          4. Paste below
+          <strong><i class="fas fa-lightbulb"></i> Mobile Se Product Upload:</strong><br>
+          1. Image upload zone par tap karein<br>
+          2. Phone se photo select karein<br>
+          3. Product name, price & details bharein<br>
+          4. "Add Product" button dabayen<br>
+          <br>
+          <strong><i class="fas fa-info-circle"></i> Ya Image URL use karein</strong> — <a href="https://postimages.org/" target="_blank">Postimages.org</a> par upload kar ke Direct Link copy karein
         </div>
 
         <label>Product Name *</label>
@@ -584,7 +667,7 @@
             <input type="text" id="itemPrice" placeholder="e.g., 1200">
           </div>
           <div>
-            <label>Discount Price (Rs.) — Optional</label>
+            <label>Discount Price (Rs.)</label>
             <input type="text" id="itemDiscountPrice" placeholder="e.g., 600">
             <div class="field-hint">Khali chhoren agar discount nahi</div>
           </div>
@@ -600,26 +683,43 @@
 
         <div class="form-row">
           <div>
-            <label>Available Colors / Designs</label>
-            <input type="text" id="itemColors" placeholder="Red, Blue, Green (comma separated)">
+            <label>Available Colors</label>
+            <input type="text" id="itemColors" placeholder="Red, Blue, Green">
           </div>
           <div>
             <label>Available Sizes</label>
-            <input type="text" id="itemSizes" placeholder="S, M, L, XL (comma separated)">
+            <input type="text" id="itemSizes" placeholder="S, M, L, XL">
           </div>
         </div>
 
-        <label>Image URL *</label>
-        <input type="text" id="itemImage" placeholder="https://...">
+        <!-- Image Upload Zone -->
+        <label>Product Image *</label>
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('imageFileInput').click()">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p><strong>Tap to upload from phone</strong></p>
+          <p class="small">JPG, PNG — max 5MB recommended</p>
+        </div>
+        <input type="file" id="imageFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
 
-        <label style="margin-top:18px;">Product Tags</label>
+        <div class="image-preview" id="imagePreview">
+          <img id="previewImg" src="" alt="Preview">
+          <button class="remove-img" onclick="removeImage()">
+            <i class="fas fa-times"></i> Remove Image
+          </button>
+        </div>
+
+        <label style="margin-top:14px;">OR Image URL</label>
+        <input type="text" id="itemImage" placeholder="https://..." oninput="handleUrlInput(this.value)">
+
+        <!-- Product Tags -->
+        <label style="margin-top:14px;">Product Tags</label>
 
         <div class="toggle-wrapper">
           <label class="toggle-label">
             <i class="fas fa-star"></i>
             <div class="toggle-label-text">
               <strong>Featured Product</strong>
-              <span>Home page "Featured" section mein show karein</span>
+              <span>Home page "Featured" section</span>
             </div>
           </label>
           <div class="toggle-switch">
@@ -633,7 +733,7 @@
             <i class="fas fa-sparkles"></i>
             <div class="toggle-label-text">
               <strong>New Arrival</strong>
-              <span>"New Arrivals" section mein show karein</span>
+              <span>"New Arrivals" section mein dikhayein</span>
             </div>
           </label>
           <div class="toggle-switch">
@@ -724,19 +824,19 @@
         <h2><i class="fas fa-cog"></i> Store Settings</h2>
         
         <div class="info">
-          <strong><i class="fas fa-info-circle"></i> Ye Settings Website Par Live Update Honge</strong><br>
-          Free delivery toggle, delivery charges, aur announcement bar yahan se control karein.
+          <strong><i class="fas fa-info-circle"></i> Ye Settings Website Par Live Update Hongi</strong><br>
+          Free delivery, delivery charges, WhatsApp number, aur announcement yahan se control karein.
         </div>
 
         <div class="settings-card">
           <h4><i class="fas fa-truck-fast"></i> Delivery Settings</h4>
           
-          <div class="toggle-wrapper" style="background:transparent;border:none;padding:0;margin-bottom:14px;">
+          <div class="toggle-wrapper" style="background:transparent;border:none;padding:0;margin-bottom:10px;">
             <label class="toggle-label">
               <i class="fas fa-gift"></i>
               <div class="toggle-label-text">
                 <strong>Free Delivery Mode</strong>
-                <span>ON karne se saare orders free delivery honge</span>
+                <span>ON karne se saare orders free delivery</span>
               </div>
             </label>
             <div class="toggle-switch">
@@ -747,14 +847,14 @@
 
           <label>Delivery Charges (Rs.)</label>
           <input type="number" id="settingDeliveryCharges" placeholder="200">
-          <div class="field-hint">Ye charges tab lagenge jab free delivery OFF ho</div>
+          <div class="field-hint">Jab free delivery OFF ho tab ye charges lagenge</div>
 
           <label>Free Delivery Threshold (Rs.)</label>
           <input type="number" id="settingFreeThreshold" placeholder="2000">
-          <div class="field-hint">Is amount se upar wale orders par free delivery hogi (jab Free Delivery Mode OFF ho)</div>
+          <div class="field-hint">Is amount se upar free delivery hogi</div>
 
           <label>Announcement Bar Text</label>
-          <input type="text" id="settingAnnouncement" placeholder="FREE DELIVERY on orders above Rs. 2000 — Limited Time Offer!">
+          <input type="text" id="settingAnnouncement" placeholder="FREE DELIVERY on orders above Rs. 2000 — COD Available 🇵🇰">
           <div class="field-hint">Top announcement bar mein dikhega</div>
 
           <button class="btn-primary" onclick="saveSettings()" id="saveSettingsBtn">
@@ -762,13 +862,14 @@
           </button>
         </div>
 
-        <div class="settings-card" style="margin-top:20px;">
+        <div class="settings-card" style="margin-top:16px;">
           <h4><i class="fas fa-store"></i> Store Contact Info</h4>
-          <label>WhatsApp Number (with country code)</label>
+          
+          <label>WhatsApp Number *</label>
           <input type="text" id="settingWhatsApp" placeholder="923001234567">
-          <div class="field-hint">Format: 923001234567 (no + or spaces)</div>
+          <div class="field-hint">Format: 923001234567 (no + or spaces) — yahan apna actual business number daalein</div>
 
-          <label>Phone Number (for footer)</label>
+          <label>Phone Number (Footer)</label>
           <input type="text" id="settingPhone" placeholder="+92 300 1234567">
 
           <label>Email Address</label>
@@ -818,6 +919,11 @@
 
     let editingCategoryId = null;
     let editingProductId = null;
+    let uploadedImageUrl = '';
+
+    // Cloudinary config (FREE image hosting)
+    const CLOUDINARY_CLOUD_NAME = 'YOUR_CLOUD_NAME'; // ⚠️ CHANGE THIS
+    const CLOUDINARY_UPLOAD_PRESET = 'YOUR_UPLOAD_PRESET'; // ⚠️ CHANGE THIS
 
     auth.onAuthStateChanged((user) => {
       document.getElementById('loadingScreen').style.display = 'none';
@@ -846,12 +952,10 @@
 
     function showToast(msg, type = 'success') {
       const t = document.createElement('div');
-      const bg = type === 'success' 
-        ? 'linear-gradient(135deg,#25D366,#128C7E)' 
-        : 'linear-gradient(135deg,#f4d03f,#d4af37)';
+      const bg = type === 'success' ? 'linear-gradient(135deg,#25D366,#128C7E)' : 'linear-gradient(135deg,#f4d03f,#d4af37)';
       const color = type === 'success' ? '#fff' : '#000';
       t.textContent = msg;
-      t.style.cssText = `position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:${bg};color:${color};padding:14px 28px;border-radius:50px;font-weight:500;z-index:99999;box-shadow:0 15px 40px rgba(0,0,0,0.4);transition:all 0.4s;font-size:0.88em;max-width:90%;text-align:center;`;
+      t.style.cssText = `position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:${bg};color:${color};padding:13px 26px;border-radius:50px;font-weight:500;z-index:99999;box-shadow:0 15px 40px rgba(0,0,0,0.4);transition:all 0.4s;font-size:0.85em;max-width:90%;text-align:center;`;
       document.body.appendChild(t);
       setTimeout(() => t.style.transform = 'translateX(-50%) translateY(0)', 50);
       setTimeout(() => {
@@ -887,12 +991,77 @@
           errorMsg.textContent = msg;
           errorMsg.style.display = 'block';
           loginBtn.disabled = false;
-          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
         });
     }
 
     function logoutAdmin() {
       if (confirm('Logout karna hai?')) auth.signOut().then(() => location.reload());
+    }
+
+    // ===== IMAGE UPLOAD =====
+    async function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('⚠️ Image 5MB se choti honi chahiye', 'error');
+        return;
+      }
+
+      showToast('📤 Uploading image...');
+
+      // Try Cloudinary if configured
+      if (CLOUDINARY_CLOUD_NAME !== 'YOUR_CLOUD_NAME') {
+        try {
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+          const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+            method: 'POST',
+            body: formData
+          });
+          const data = await res.json();
+          if (data.secure_url) {
+            uploadedImageUrl = data.secure_url;
+            document.getElementById('itemImage').value = uploadedImageUrl;
+            showPreview(uploadedImageUrl);
+            showToast('✅ Image uploaded!');
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      // Fallback: Base64 local preview (for testing)
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedImageUrl = e.target.result;
+        showPreview(uploadedImageUrl);
+        showToast('⚠️ Local preview — Cloudinary setup karein for real upload', 'error');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function showPreview(src) {
+      document.getElementById('previewImg').src = src;
+      document.getElementById('imagePreview').style.display = 'block';
+    }
+
+    function removeImage() {
+      uploadedImageUrl = '';
+      document.getElementById('imageFileInput').value = '';
+      document.getElementById('itemImage').value = '';
+      document.getElementById('imagePreview').style.display = 'none';
+    }
+
+    function handleUrlInput(url) {
+      if (url && url.trim()) {
+        uploadedImageUrl = url.trim();
+        showPreview(url.trim());
+      }
     }
 
     // ===== SETTINGS =====
@@ -920,7 +1089,7 @@
         freeDeliveryEnabled: document.getElementById('settingFreeDelivery').checked,
         deliveryCharges: parseInt(document.getElementById('settingDeliveryCharges').value) || 200,
         freeDeliveryThreshold: parseInt(document.getElementById('settingFreeThreshold').value) || 2000,
-        announcementText: document.getElementById('settingAnnouncement').value || 'Welcome to Zashi Super Store!',
+        announcementText: document.getElementById('settingAnnouncement').value || 'FREE DELIVERY on orders above Rs. 2000 — COD Available 🇵🇰',
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
@@ -942,10 +1111,18 @@
       btn.disabled = true;
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
 
+      const wa = document.getElementById('settingWhatsApp').value.trim();
+      if (wa && !/^\d{10,15}$/.test(wa)) {
+        showToast('⚠️ WhatsApp number format: 923001234567 (only digits)', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Save Contact Info';
+        return;
+      }
+
       const data = {
-        whatsappNumber: document.getElementById('settingWhatsApp').value || '',
-        phoneNumber: document.getElementById('settingPhone').value || '',
-        emailAddress: document.getElementById('settingEmail').value || '',
+        whatsappNumber: wa,
+        phoneNumber: document.getElementById('settingPhone').value.trim(),
+        emailAddress: document.getElementById('settingEmail').value.trim(),
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
@@ -1122,13 +1299,14 @@
       const description = document.getElementById("itemDescription").value.trim();
       const colors = document.getElementById("itemColors").value.trim();
       const sizes = document.getElementById("itemSizes").value.trim();
-      const imageUrl = document.getElementById("itemImage").value.trim();
+      const urlInput = document.getElementById("itemImage").value.trim();
+      const imageUrl = urlInput || uploadedImageUrl;
       const isFeatured = document.getElementById("itemIsFeatured").checked;
       const isNewArrival = document.getElementById("itemIsNew").checked;
       const outOfStock = document.getElementById("itemOutOfStock").checked;
 
       if (!name || !price || !categoryId || !imageUrl) {
-        showToast('⚠️ Fill all required fields!', 'error');
+        showToast('⚠️ Fill all required fields including image!', 'error');
         return;
       }
 
@@ -1184,6 +1362,11 @@
       document.getElementById('itemIsNew').checked = !!data.isNewArrival;
       document.getElementById('itemOutOfStock').checked = !!data.outOfStock;
       
+      if (data.imageUrl) {
+        uploadedImageUrl = data.imageUrl;
+        showPreview(data.imageUrl);
+      }
+
       setTimeout(() => { document.getElementById('itemCategory').value = data.category || ''; }, 100);
 
       const btn = document.getElementById('saveProductBtn');
@@ -1196,6 +1379,7 @@
 
     function cancelEditProduct() {
       editingProductId = null;
+      uploadedImageUrl = '';
       ['itemName','itemPrice','itemDiscountPrice','itemImage','itemDescription','itemColors','itemSizes'].forEach(id => {
         document.getElementById(id).value = '';
       });
@@ -1203,6 +1387,8 @@
       document.getElementById('itemIsFeatured').checked = false;
       document.getElementById('itemIsNew').checked = false;
       document.getElementById('itemOutOfStock').checked = false;
+      document.getElementById('imageFileInput').value = '';
+      document.getElementById('imagePreview').style.display = 'none';
 
       const btn = document.getElementById('saveProductBtn');
       btn.className = 'btn-primary';
@@ -1226,15 +1412,15 @@
           if (p.isFeatured) tags.push('<span class="mini-tag featured">Featured</span>');
           if (p.discountPrice && parseFloat(String(p.discountPrice).replace(/[^0-9.]/g,'')) > 0) tags.push('<span class="mini-tag sale">Sale</span>');
           if (p.isNewArrival) tags.push('<span class="mini-tag new">New</span>');
-          if (p.outOfStock) tags.push('<span class="mini-tag out">Out of Stock</span>');
+          if (p.outOfStock) tags.push('<span class="mini-tag out">Out</span>');
 
           const priceHtml = p.discountPrice && parseFloat(String(p.discountPrice).replace(/[^0-9.]/g,'')) > 0
             ? `<span class="old">Rs. ${p.price}</span> Rs. ${p.discountPrice}`
             : `Rs. ${p.price}`;
 
           const pData = JSON.stringify({
-            name: p.name, price: p.price, discountPrice: p.discountPrice || '',
-            category: p.category, imageUrl: p.imageUrl,
+            name: p.name || '', price: p.price || '', discountPrice: p.discountPrice || '',
+            category: p.category || '', imageUrl: p.imageUrl || '',
             description: p.description || '', colors: p.colors || '', sizes: p.sizes || '',
             isFeatured: !!p.isFeatured, isNewArrival: !!p.isNewArrival, outOfStock: !!p.outOfStock
           }).replace(/'/g, "&#39;").replace(/"/g, "&quot;");
