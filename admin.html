@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta name="theme-color" content="#0a0a0a">
-  <title>Admin Panel - Zashi Store</title>
+  <title>Admin Panel - Zashi Super Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -83,6 +83,17 @@
     .btn-update {
       background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
       color: #fff;
+    }
+    
+    /* Reset Button (Red) */
+    .btn-reset {
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      color: #fff;
+      margin-top: 12px;
+    }
+    .btn-reset:hover, .btn-reset:active {
+      transform: scale(1.02);
+      box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
     }
     
     button:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -241,7 +252,7 @@
     <!-- Admin Panel -->
     <div id="adminPanel">
       <div class="user-info">
-        <i class="fas fa-user-check"></i> Logged in as: <strong id="userEmail"></strong>
+        <i class="fas fa-user-check"></i> Logged in as: <strong id="userEmail"></strong> | Zashi Super Store Admin
       </div>
 
       <!-- Tabs -->
@@ -312,6 +323,7 @@
         
         <button class="btn-primary" onclick="saveCategory()" id="saveCategoryBtn"><i class="fas fa-plus"></i> Add Category</button>
         <button class="cancel-btn" onclick="cancelEditCategory()" id="cancelCategoryBtn"><i class="fas fa-times"></i> Cancel Edit</button>
+        <button class="btn-primary btn-reset" onclick="setupDefaultCategories()"><i class="fas fa-sync-alt"></i> Reset All Categories (Default Set)</button>
         <p class="success" id="categorySuccessMsg"><i class="fas fa-check-circle"></i> Category Added!</p>
 
         <h3><i class="fas fa-list"></i> All Categories</h3>
@@ -330,7 +342,7 @@
 
       <!-- Buttons -->
       <button class="view-btn" onclick="window.open('index.html', '_blank')">
-        <i class="fas fa-eye"></i> View Live Website
+        <i class="fas fa-eye"></i> View Live Website (Zashi Super Store)
       </button>
       <button class="logout-btn" onclick="logoutAdmin()">
         <i class="fas fa-sign-out-alt"></i> Logout
@@ -344,15 +356,15 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
   <script>
-     const firebaseConfig = {
-    apiKey: "AIzaSyBgjmBFNOLieDDQNtiKxaE_YK9JqnLgBhc",
-    authDomain: "zashi-store.firebaseapp.com",
-    projectId: "zashi-store",
-    storageBucket: "zashi-store.firebasestorage.app",
-    messagingSenderId: "1073727653000",
-    appId: "1:1073727653000:web:57c717b6dd882541e9cb3d",
-    measurementId: "G-9953FW8MTP"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBgjmBFNOLieDDQNtiKxaE_YK9JqnLgBhc",
+      authDomain: "zashi-store.firebaseapp.com",
+      projectId: "zashi-store",
+      storageBucket: "zashi-store.firebasestorage.app",
+      messagingSenderId: "1073727653000",
+      appId: "1:1073727653000:web:57c717b6dd882541e9cb3d",
+      measurementId: "G-9953FW8MTP"
+    };
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
@@ -426,6 +438,61 @@
       }
     }
 
+    // ===== AUTO SETUP DEFAULT CATEGORIES =====
+    function setupDefaultCategories() {
+      if (!confirm('⚠️ Ye purani sabhi categories delete kar dega aur nayi 17 categories add karega. Kya aap sure hain?')) {
+        return;
+      }
+
+      const newCategories = [
+        { name: "Cosmetics", icon: "fa-wand-magic-sparkles" },
+        { name: "Makeup", icon: "fa-wand-magic-sparkles" },
+        { name: "Artificial Jewellery", icon: "fa-gem" },
+        { name: "Watches", icon: "fa-watch" },
+        { name: "Purses / Bags", icon: "fa-bag-shopping" },
+        { name: "Undergarments", icon: "fa-shirt" },
+        { name: "Decoration Items", icon: "fa-star" },
+        { name: "Birthday Items", icon: "fa-gift" },
+        { name: "Anniversary Items", icon: "fa-heart" },
+        { name: "Wedding Ceremony Items", icon: "fa-ring" },
+        { name: "Balloons", icon: "fa-star" },
+        { name: "Mehndi Sets", icon: "fa-tag" },
+        { name: "Gajra Sets", icon: "fa-tag" },
+        { name: "Imam Zamin", icon: "fa-gift" },
+        { name: "Gift Boxes", icon: "fa-gift" },
+        { name: "Gift Packing Items", icon: "fa-gift" },
+        { name: "Wedding Decoration", icon: "fa-ring" }
+      ];
+
+      // Step 1: Delete all existing categories
+      db.collection("categories").get().then((snapshot) => {
+        const deletePromises = [];
+        snapshot.forEach((doc) => {
+          deletePromises.push(db.collection("categories").doc(doc.id).delete());
+        });
+        return Promise.all(deletePromises);
+      }).then(() => {
+        console.log("Old categories deleted");
+        
+        // Step 2: Add new categories
+        const addPromises = [];
+        newCategories.forEach((cat) => {
+          addPromises.push(db.collection("categories").add({
+            name: cat.name,
+            icon: cat.icon,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          }));
+        });
+        return Promise.all(addPromises);
+      }).then(() => {
+        alert("✅ Sabhi 17 categories successfully update ho gayi!");
+        loadCategories();
+        loadCategoryDropdown();
+      }).catch((err) => {
+        alert("❌ Error: " + err.message);
+      });
+    }
+
     // ===== CATEGORIES =====
     function loadCategories() {
       const list = document.getElementById('categoryList');
@@ -450,7 +517,7 @@
                 <button class="btn-delete" onclick="deleteCategory('${doc.id}')">
                   <i class="fas fa-trash"></i>
                 </button>
-              </div
+              </div>
             </div>`;
         });
         list.innerHTML = html;
@@ -492,7 +559,7 @@
         msg.textContent = editingCategoryId ? "✅ Category Updated!" : "✅ Category Added!";
         msg.style.display = "block";
         
-        cancelEditCategory(); // Reset form
+        cancelEditCategory();
         loadCategories();
         loadCategoryDropdown();
         
@@ -534,152 +601,3 @@
     function deleteCategory(id) {
       if (confirm('Ye category delete karni hai? Is se products par asar nahi parega, sirf filter se hat jayegi.')) {
         db.collection("categories").doc(id).delete().then(() => {
-          alert('✅ Category deleted!');
-          loadCategories();
-          loadCategoryDropdown();
-        }).catch(err => alert("❌ Error: " + err.message));
-      }
-    }
-
-    // ===== PRODUCTS =====
-    function saveProduct() {
-      const user = auth.currentUser;
-      if (!user) { alert('❌ Pehle login karein!'); return; }
-
-      const name = document.getElementById("itemName").value;
-      const price = document.getElementById("itemPrice").value;
-      const catSelect = document.getElementById("itemCategory");
-      const categoryId = catSelect.value;
-      const categoryName = catSelect.options[catSelect.selectedIndex]?.getAttribute('data-name') || '';
-      const imageUrl = document.getElementById("itemImage").value;
-      const btn = document.getElementById('saveProductBtn');
-
-      if (!name || !price || !categoryId || !imageUrl) {
-        alert("⚠️ Sari fields fill karein!");
-        return;
-      }
-
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-
-      const itemData = {
-        name: name,
-        price: price,
-        category: categoryId,
-        categoryName: categoryName,
-        imageUrl: imageUrl,
-        addedBy: user.email
-      };
-
-      let promise;
-      if (editingProductId) {
-        promise = db.collection("items").doc(editingProductId).update(itemData);
-      } else {
-        itemData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
-        promise = db.collection("items").add(itemData);
-      }
-
-      promise.then(() => {
-        const msg = document.getElementById("productSuccessMsg");
-        msg.textContent = editingProductId ? "✅ Product Updated!" : "✅ Product Successfully Added!";
-        msg.style.display = "block";
-        
-        cancelEditProduct(); // Reset form
-        loadProductsList(); // Refresh manage list
-        
-        setTimeout(() => { msg.style.display = "none"; }, 3000);
-      }).catch((err) => {
-        alert("❌ Error: " + err.message);
-        btn.disabled = false;
-        btn.innerHTML = editingProductId ? '<i class="fas fa-save"></i> Update Product' : '<i class="fas fa-plus"></i> Add Product';
-      });
-    }
-
-    function editProduct(id, name, price, categoryId, imageUrl) {
-      editingProductId = id;
-      
-      // Switch to products tab
-      const firstTabBtn = document.querySelector('.tab-btn');
-      switchTab('products', firstTabBtn);
-      
-      document.getElementById('itemName').value = name;
-      document.getElementById('itemPrice').value = price;
-      document.getElementById('itemImage').value = imageUrl;
-      
-      // Wait for dropdown to populate if not already
-      setTimeout(() => {
-        document.getElementById('itemCategory').value = categoryId;
-      }, 100);
-
-      const btn = document.getElementById('saveProductBtn');
-      btn.className = 'btn-primary btn-update';
-      btn.innerHTML = '<i class="fas fa-save"></i> Update Product';
-      
-      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Product';
-      document.getElementById('cancelProductBtn').style.display = 'block';
-      document.getElementById('itemName').focus();
-    }
-
-    function cancelEditProduct() {
-      editingProductId = null;
-      document.getElementById('itemName').value = "";
-      document.getElementById('itemPrice').value = "";
-      document.getElementById('itemCategory').value = "";
-      document.getElementById('itemImage').value = "";
-      
-      const btn = document.getElementById('saveProductBtn');
-      btn.className = 'btn-primary';
-      btn.innerHTML = '<i class="fas fa-plus"></i> Add Product';
-      
-      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Product';
-      document.getElementById('cancelProductBtn').style.display = 'none';
-    }
-
-    function loadProductsList() {
-      const list = document.getElementById('productList');
-      db.collection("items").orderBy("timestamp", "desc").get().then((snap) => {
-        if (snap.empty) {
-          list.innerHTML = '<p style="text-align:center; color:#888;">Koi product nahi hai.</p>';
-          return;
-        }
-        let html = '';
-        snap.forEach((doc) => {
-          const p = doc.data();
-          html += `
-            <div class="product-item">
-              <img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/60'">
-              <div class="product-details">
-                <div class="p-name">${p.name}</div>
-                <div class="p-price">${p.price}</div>
-                <div class="p-cat">${p.categoryName || 'No Category'}</div>
-              </div>
-              <div class="action-btns">
-                <button class="btn-edit" onclick="editProduct('${doc.id}', '${p.name}', '${p.price}', '${p.category}', '${p.imageUrl}')">
-                  <i class="fas fa-edit"></i> Edit
-                </button>
-                <button class="btn-delete" onclick="deleteProduct('${doc.id}')">
-                  <i class="fas fa-trash"></i> Delete
-                </button>
-              </div>
-            </div>`;
-        });
-        list.innerHTML = html;
-      });
-    }
-
-    function deleteProduct(id) {
-      if (confirm('Ye product hamesha ke liye delete ho jayega. Kya aap sure hain?')) {
-        db.collection("items").doc(id).delete().then(() => {
-          alert('✅ Product deleted!');
-          loadProductsList();
-        }).catch(err => alert("❌ Error: " + err.message));
-      }
-    }
-
-    // Enter key login
-    document.getElementById('adminPass').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') loginAdmin();
-    });
-  </script>
-</body>
-</html>
