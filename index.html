@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#fdfbf7">
   <meta name="description" content="Zashi Super Store - Pakistan's Premium Online Shopping Destination. Cash on Delivery Available.">
   <title>Zashi Super Store — Premium Online Shopping in Pakistan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,23 +12,25 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg-primary: #ffffff;
-      --bg-secondary: #f8f9fa;
-      --bg-tertiary: #f1f3f5;
-      --text-primary: #1a1a1a;
-      --text-secondary: #495057;
-      --text-dim: #868e96;
-      --nav-bg: rgba(255, 255, 255, 0.9);
-      --glass: rgba(0, 0, 0, 0.03);
+      /* PREMIUM LIGHT MODE (Warm, Elegant, Luxury) */
+      --bg-primary: #fdfbf7;       /* Warm off-white */
+      --bg-secondary: #f4f1ea;     /* Soft beige */
+      --bg-tertiary: #ebe7df;      /* Warm grey */
+      --text-primary: #2c241b;     /* Rich dark brown (softer than pure black) */
+      --text-secondary: #5a5247;   /* Warm grey text */
+      --text-dim: #8a8178;
+      --nav-bg: rgba(253, 251, 247, 0.95);
+      --glass: rgba(212, 175, 55, 0.08); /* Subtle gold tint */
       --glass-border: rgba(212, 175, 55, 0.25);
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      --shadow-hover: 0 10px 30px rgba(212, 175, 55, 0.15);
+      --shadow: 0 4px 20px rgba(44, 36, 27, 0.06);
+      --shadow-hover: 0 12px 35px rgba(212, 175, 55, 0.15);
       --modal-bg: #ffffff;
-      --input-bg: #f8f9fa;
+      --input-bg: #ffffff;
       --card-bg: #ffffff;
-      --hero-overlay: rgba(255, 255, 255, 0.75);
-      --hero-overlay-bottom: rgba(255, 255, 255, 0.95);
-      --modal-overlay: rgba(0, 0, 0, 0.6);
+      --hero-overlay: rgba(253, 251, 247, 0.8);
+      --hero-overlay-bottom: rgba(253, 251, 247, 0.95);
+      --modal-overlay: rgba(44, 36, 27, 0.6);
+      
       --gold: #d4af37;
       --gold-light: #f4d03f;
       --gold-dark: #b8941f;
@@ -38,21 +40,22 @@
     }
 
     [data-theme="dark"] {
+      /* DARK MODE */
       --bg-primary: #0a0a0a;
       --bg-secondary: #141414;
       --bg-tertiary: #1c1c1c;
       --text-primary: #e8e8e8;
       --text-secondary: #ced4da;
       --text-dim: #868e96;
-      --nav-bg: rgba(10, 10, 10, 0.9);
+      --nav-bg: rgba(10, 10, 10, 0.95);
       --glass: rgba(255, 255, 255, 0.04);
       --glass-border: rgba(212, 175, 55, 0.15);
       --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      --shadow-hover: 0 10px 30px rgba(212, 175, 55, 0.1);
+      --shadow-hover: 0 12px 35px rgba(212, 175, 55, 0.1);
       --modal-bg: #1c1c1c;
       --input-bg: rgba(255, 255, 255, 0.05);
       --card-bg: #141414;
-      --hero-overlay: rgba(10, 10, 10, 0.7);
+      --hero-overlay: rgba(10, 10, 10, 0.75);
       --hero-overlay-bottom: rgba(10, 10, 10, 0.95);
       --modal-overlay: rgba(0, 0, 0, 0.85);
     }
@@ -66,7 +69,7 @@
       overflow-x: hidden;
       -webkit-tap-highlight-color: transparent;
       line-height: 1.6;
-      transition: background 0.3s, color 0.3s;
+      transition: background 0.4s ease, color 0.4s ease;
     }
 
     /* ===== NAVBAR ===== */
@@ -74,21 +77,40 @@
       position: sticky; top: 0; padding: 12px 20px; z-index: 1000;
       display: flex; justify-content: space-between; align-items: center; gap: 15px;
       background: var(--nav-bg); backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid var(--glass-border); transition: background 0.3s;
+      border-bottom: 1px solid var(--glass-border); transition: background 0.4s;
     }
     .logo {
-      font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1em, 4vw, 1.6em); font-weight: 700;
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(1.2em, 4vw, 1.7em); font-weight: 700;
       text-decoration: none; background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      display: flex; align-items: center; gap: 6px;
+      display: flex; align-items: center; gap: 8px;
     }
-    .nav-menu { display: flex; gap: 20px; align-items: center; list-style: none; }
+    .search-wrapper {
+      flex: 1; max-width: 350px; position: relative; display: none;
+    }
+    @media (min-width: 768px) { .search-wrapper { display: block; } }
+    .search-wrapper input {
+      width: 100%; padding: 10px 40px 10px 18px; border-radius: 50px;
+      border: 1px solid var(--glass-border); background: var(--input-bg);
+      color: var(--text-primary); font-size: 0.85em; font-family: 'Outfit', sans-serif;
+      transition: all 0.3s;
+    }
+    .search-wrapper input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
+    .search-wrapper i { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--gold); pointer-events: none; }
+
+    .nav-menu { display: flex; gap: 25px; align-items: center; list-style: none; }
     .nav-menu a {
       color: var(--text-primary); text-decoration: none; font-size: 0.85em; font-weight: 500;
-      transition: all 0.3s; cursor: pointer;
+      transition: all 0.3s; cursor: pointer; position: relative;
+    }
+    .nav-menu a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+      background: var(--gold); transition: width 0.3s;
     }
     .nav-menu a:hover { color: var(--gold); }
-    .nav-icons { display: flex; gap: 8px; align-items: center; }
+    .nav-menu a:hover::after { width: 100%; }
+
+    .nav-icons { display: flex; gap: 10px; align-items: center; }
     .theme-toggle, .cart-icon {
       background: var(--glass); border: 1px solid var(--glass-border); color: var(--gold);
       width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center;
@@ -103,88 +125,98 @@
     .cart-icon { position: relative; }
     .mobile-menu-btn { display: none; background: none; border: none; color: var(--gold); font-size: 1.5em; cursor: pointer; }
 
-    /* ===== INFO PAGES (About, Contact, Policies) ===== */
-    .info-page {
-      display: none;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 40px 20px;
-      animation: fadeInUp 0.5s ease;
-    }
+    /* ===== INFO PAGES ===== */
+    .info-page { display: none; max-width: 900px; margin: 40px auto; padding: 40px 20px; animation: fadeInUp 0.5s ease; }
     .info-page.active { display: block; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
     .back-to-shop {
-      display: inline-flex; align-items: center; gap: 8px;
-      color: var(--gold); font-weight: 600; font-size: 0.9em;
+      display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9em;
       cursor: pointer; margin-bottom: 30px; transition: all 0.3s;
       background: var(--glass); padding: 8px 16px; border-radius: 30px; border: 1px solid var(--glass-border);
     }
     .back-to-shop:hover { background: rgba(212, 175, 55, 0.15); transform: translateX(-5px); }
+    
     .info-page h1 {
-      font-family: 'Cormorant Garamond', serif; font-size: 2.5em; color: var(--text-primary);
-      margin-bottom: 20px; background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+      font-family: 'Cormorant Garamond', serif; font-size: 2.5em; color: var(--text-primary); margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .info-page h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.5em; color: var(--text-primary); margin: 25px 0 10px; }
     .info-page p, .info-page li { color: var(--text-secondary); font-size: 0.95em; line-height: 1.8; margin-bottom: 12px; }
     .info-page ul { padding-left: 20px; }
     .info-page .highlight-box {
-      background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px;
-      padding: 20px; margin: 20px 0;
+      background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; margin: 20px 0;
     }
 
     /* ===== SHOP VIEW ===== */
     #shop-view { display: block; }
     #shop-view.hidden { display: none; }
 
-    /* Hero, Categories, Products, Footer styles (abbreviated for brevity, keeping existing logic) */
-    .hero { min-height: 88vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; padding: 70px 20px 60px; }
+    .hero { min-height: 85vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 20px 60px; }
     .hero-bg { position: absolute; inset: 0; background: linear-gradient(180deg, var(--hero-overlay) 0%, var(--hero-overlay-bottom) 60%, var(--bg-primary) 100%), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1920') center/cover; z-index: -1; }
-    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2em, 8vw, 4.5em); font-weight: 700; background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold) 40%, var(--gold-dark) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 18px; }
-    .hero p { color: var(--text-secondary); font-size: clamp(0.95em, 2.5vw, 1.1em); margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
-    .hero-btn { padding: 14px 34px; border-radius: 50px; font-size: 0.85em; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.4s; cursor: pointer; border: none; min-height: 48px; }
-    .hero-btn-primary { background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark)); color: #000; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5em, 8vw, 5em); font-weight: 700; background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold) 40%, var(--gold-dark) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 18px; line-height: 1.1; }
+    .hero p { color: var(--text-secondary); font-size: clamp(1em, 2.5vw, 1.2em); margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    
+    .hero-btn { padding: 14px 34px; border-radius: 50px; font-size: 0.85em; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.4s; cursor: pointer; border: none; min-height: 48px; letter-spacing: 0.5px; }
+    .hero-btn-primary { background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark)); color: #000; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3); }
+    .hero-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4); }
     .hero-btn-secondary { background: var(--glass); color: var(--text-primary); border: 1px solid var(--glass-border); }
+    .hero-btn-secondary:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+
+    .section-block { padding: 60px 20px; max-width: 1400px; margin: 0 auto; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8em, 5vw, 2.8em); text-align: center; color: var(--text-primary); margin-bottom: 40px; }
+    .section-title span { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     
-    .section-block { padding: 55px 20px; max-width: 1400px; margin: 0 auto; }
-    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.7em, 5vw, 2.5em); text-align: center; color: var(--text-primary); margin-bottom: 35px; }
-    .section-title span { background: linear-gradient(135deg, var(--gold-light), var(--gold-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
-    .card { background: var(--card-bg); border-radius: 18px; overflow: hidden; border: 1px solid var(--glass-border); transition: all 0.4s; cursor: pointer; box-shadow: var(--shadow); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .card { background: var(--card-bg); border-radius: 18px; overflow: hidden; border: 1px solid var(--glass-border); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; box-shadow: var(--shadow); }
     .card:hover { transform: translateY(-8px); border-color: rgba(212, 175, 55, 0.4); box-shadow: var(--shadow-hover); }
     .card-image-wrapper { position: relative; overflow: hidden; aspect-ratio: 1; background: var(--bg-tertiary); }
-    .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
     .card:hover img { transform: scale(1.08); }
-    .card-body { padding: 14px; }
-    .card-category { color: var(--gold); font-size: 0.65em; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
-    .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05em; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; line-height: 1.3; min-height: 2.5em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .price-current { font-size: 1.15em; font-weight: 700; background: linear-gradient(135deg, var(--gold-light), var(--gold-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .card-actions { display: flex; gap: 6px; margin-top: 10px; }
-    .btn-order-sm, .btn-cart-sm { border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: 500; font-size: 0.72em; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Outfit', sans-serif; min-height: 40px; flex: 1; }
-    .btn-order-sm { background: linear-gradient(135deg, var(--green), var(--green-dark)); color: #fff; }
-    .btn-cart-sm { background: var(--glass); color: var(--gold); border: 1px solid var(--glass-border); flex: 0 0 40px; }
+    .card-body { padding: 16px; }
+    .card-category { color: var(--gold); font-size: 0.65em; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+    .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1em; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; line-height: 1.3; min-height: 2.6em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .price-current { font-size: 1.2em; font-weight: 700; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    
+    .card-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .btn-order-sm, .btn-cart-sm { border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.75em; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: 'Outfit', sans-serif; min-height: 42px; }
+    .btn-order-sm { flex: 1; background: linear-gradient(135deg, var(--green), var(--green-dark)); color: #fff; }
+    .btn-order-sm:hover { box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3); transform: translateY(-2px); }
+    .btn-cart-sm { flex: 0 0 42px; background: var(--glass); color: var(--gold); border: 1px solid var(--glass-border); }
+    .btn-cart-sm:hover { background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: #000; border-color: transparent; }
 
     /* Footer */
-    footer { background: var(--bg-secondary); padding: 60px 20px 30px; border-top: 1px solid var(--glass-border); margin-top: 50px; }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto 40px; text-align: left; }
-    .footer-col h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.2em; color: var(--text-primary); margin-bottom: 15px; }
-    .footer-col a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 0.9em; margin-bottom: 8px; transition: color 0.3s; cursor: pointer; }
-    .footer-col a:hover { color: var(--gold); }
-    .footer-bottom { text-align: center; color: var(--text-dim); font-size: 0.85em; border-top: 1px solid var(--glass-border); padding-top: 20px; }
+    footer { background: var(--bg-secondary); padding: 60px 20px 30px; border-top: 1px solid var(--glass-border); margin-top: 60px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto 40px; text-align: left; }
+    .footer-col h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.3em; color: var(--text-primary); margin-bottom: 20px; }
+    .footer-col a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 0.9em; margin-bottom: 10px; transition: all 0.3s; cursor: pointer; }
+    .footer-col a:hover { color: var(--gold); transform: translateX(5px); }
+    .footer-bottom { text-align: center; color: var(--text-dim); font-size: 0.85em; border-top: 1px solid var(--glass-border); padding-top: 25px; }
 
-    /* Modal & Cart (Existing styles preserved) */
+    /* Modal & Cart */
     .modal, .product-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: var(--modal-overlay); backdrop-filter: blur(12px); overflow-y: auto; padding: 15px; }
-    .modal-content, .product-modal-content { background: var(--modal-bg); margin: 3% auto; padding: 28px 22px; width: 100%; max-width: 480px; border-radius: 22px; position: relative; border: 1px solid var(--glass-border); animation: modalIn 0.5s; }
-    @keyframes modalIn { from { opacity: 0; transform: translateY(-40px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    .modal .close, .product-modal .close { position: absolute; right: 15px; top: 15px; font-size: 1.2em; cursor: pointer; color: var(--gold); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--glass); border: 1px solid var(--glass-border); }
+    .modal-content, .product-modal-content { background: var(--modal-bg); margin: 5% auto; padding: 30px 24px; width: 100%; max-width: 500px; border-radius: 24px; position: relative; border: 1px solid var(--glass-border); animation: modalIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .modal .close, .product-modal .close { position: absolute; right: 15px; top: 15px; font-size: 1.2em; cursor: pointer; color: var(--text-dim); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--glass); border: 1px solid var(--glass-border); transition: all 0.3s; }
+    .modal .close:hover, .product-modal .close:hover { background: rgba(231, 76, 60, 0.1); color: var(--red); border-color: var(--red); transform: rotate(90deg); }
     
     /* Mobile */
     @media (max-width: 768px) {
-      .nav-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--nav-bg); flex-direction: column; padding: 20px; border-bottom: 1px solid var(--glass-border); gap: 15px; }
+      .nav-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--nav-bg); flex-direction: column; padding: 20px; border-bottom: 1px solid var(--glass-border); gap: 15px; box-shadow: var(--shadow); }
       .nav-menu.active { display: flex; }
       .mobile-menu-btn { display: block; }
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .card-body { padding: 12px; }
+      .card-title { font-size: 0.95em; min-height: 2.4em; }
+      .btn-order-sm { font-size: 0.7em; padding: 8px; }
+      .btn-cart-sm { flex: 0 0 38px; min-height: 38px; }
       .info-page h1 { font-size: 2em; }
+      .hero { min-height: 75vh; padding: 60px 15px 40px; }
+    }
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .hero-btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -193,6 +225,12 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <a href="#" class="logo" onclick="showShop()"><i class="fas fa-crown"></i> Zashi Store</a>
+    
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" placeholder="Search products..." oninput="handleSearch(this.value)">
+      <i class="fas fa-search"></i>
+    </div>
+
     <ul class="nav-menu" id="navMenu">
       <li><a onclick="showShop()">Home</a></li>
       <li><a onclick="showShop(); setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}), 100)">Shop</a></li>
@@ -200,6 +238,7 @@
       <li><a onclick="showPage('page-about')">About Us</a></li>
       <li><a onclick="showPage('page-contact')">Contact</a></li>
     </ul>
+
     <div class="nav-icons">
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme"><i class="fas fa-moon" id="themeIcon"></i></button>
       <div class="cart-icon" onclick="toggleCart()">
@@ -228,8 +267,8 @@
     <!-- Categories -->
     <section class="section-block" id="categories">
       <h2 class="section-title">Shop <span>Categories</span></h2>
-      <div class="grid" id="categoriesGrid" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));">
-        <div style="text-align:center; grid-column:1/-1; padding:40px; color:var(--text-dim);"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+      <div class="grid" id="categoriesGrid" style="grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));">
+        <div style="text-align:center; grid-column:1/-1; padding:40px; color:var(--text-dim);"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading Categories...</div>
       </div>
     </section>
 
@@ -237,14 +276,12 @@
     <section class="section-block" id="products">
       <h2 class="section-title">All <span>Products</span></h2>
       <div class="grid" id="itemsContainer">
-        <div style="text-align:center; grid-column:1/-1; padding:40px; color:var(--text-dim);"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+        <div style="text-align:center; grid-column:1/-1; padding:40px; color:var(--text-dim);"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading Products...</div>
       </div>
     </section>
   </div>
 
   <!-- ================= INFO PAGES ================= -->
-
-  <!-- 5. About Us -->
   <section id="page-about" class="info-page">
     <div class="back-to-shop" onclick="showShop()"><i class="fas fa-arrow-left"></i> Back to Shop</div>
     <h1>About Zashi Super Store</h1>
@@ -262,24 +299,22 @@
     </ul>
   </section>
 
-  <!-- 6. Contact Us -->
   <section id="page-contact" class="info-page">
     <div class="back-to-shop" onclick="showShop()"><i class="fas fa-arrow-left"></i> Back to Shop</div>
     <h1>Contact Us</h1>
     <p>We'd love to hear from you! Reach out to us for any queries, order tracking, or feedback.</p>
     <div class="highlight-box">
-      <p><i class="fas fa-phone" style="color:var(--gold); margin-right:10px;"></i> <strong>Phone:</strong> +92 3333487086- +92 3263310288 </p>
-      <p><i class="fas fa-phone" style="color:var(--gold); margin-right:10px;"></i> <strong>Whatsapp:</strong> ++92 3263310288 </p>
+      <p><i class="fas fa-phone" style="color:var(--gold); margin-right:10px;"></i> <strong>Phone:</strong> +92 333 3487086 / +92 326 3310288</p>
+      <p><i class="fab fa-whatsapp" style="color:var(--green); margin-right:10px;"></i> <strong>WhatsApp:</strong> +92 326 3310288</p>
       <p><i class="fas fa-map-marker-alt" style="color:var(--gold); margin-right:10px;"></i> <strong>Location:</strong> Sukkur, Sindh, Pakistan</p>
     </div>
     <h2>Send us a Message</h2>
-    <p>For the fastest response, please click the WhatsApp button below to chat with our support team directly.</p>
-    <button class="hero-btn hero-btn-primary" style="margin-top:15px;" onclick="window.open('https://wa.me/923001234567', '_blank')">
+    <p>For the fastest response, please click the button below to chat with our support team directly.</p>
+    <button class="hero-btn hero-btn-primary" style="margin-top:15px;" onclick="window.open('https://wa.me/923263310288', '_blank')">
       <i class="fab fa-whatsapp"></i> Chat on WhatsApp
     </button>
   </section>
 
-  <!-- 7. Delivery Information -->
   <section id="page-delivery" class="info-page">
     <div class="back-to-shop" onclick="showShop()"><i class="fas fa-arrow-left"></i> Back to Shop</div>
     <h1>Delivery Information</h1>
@@ -301,7 +336,6 @@
     </ul>
   </section>
 
-  <!-- 8. Return / Exchange Policy -->
   <section id="page-returns" class="info-page">
     <div class="back-to-shop" onclick="showShop()"><i class="fas fa-arrow-left"></i> Back to Shop</div>
     <h1>Return & Exchange Policy</h1>
@@ -320,7 +354,6 @@
     <p>For hygiene reasons, opened makeup products, earrings, and personalized items cannot be returned or exchanged unless they are factory defective.</p>
   </section>
 
-  <!-- 9. Privacy Policy -->
   <section id="page-privacy" class="info-page">
     <div class="back-to-shop" onclick="showShop()"><i class="fas fa-arrow-left"></i> Back to Shop</div>
     <h1>Privacy Policy</h1>
@@ -337,7 +370,6 @@
     <p>We do not sell, share, or distribute your personal information to any third parties for marketing purposes. Your data is securely stored and used solely for order fulfillment.</p>
   </section>
 
-  <!-- 10. Terms & Conditions -->
   <section id="page-terms" class="info-page">
     <div class="back-to-shop" onclick="showShop()"><i class="fas fa-arrow-left"></i> Back to Shop</div>
     <h1>Terms & Conditions</h1>
@@ -357,11 +389,11 @@
     <div class="footer-grid">
       <div class="footer-col">
         <h4>Zashi Super Store</h4>
-        <p style="color:var(--text-secondary); font-size:0.9em; margin-bottom:15px;">Pakistan's Premium Shopping Destination for Jewelry, Makeup & Electronics.</p>
-        <div style="display:flex; gap:10px;">
-          <a href="https://instagram.com/zashisuperstore" target="_blank" style="width:35px; height:35px; background:var(--glass); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--gold);"><i class="fab fa-instagram"></i></a>
-          <a href="https://facebook.com/zashisuperstore" target="_blank" style="width:35px; height:35px; background:var(--glass); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--gold);"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://wa.me/923001234567" target="_blank" style="width:35px; height:35px; background:var(--glass); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--gold);"><i class="fab fa-whatsapp"></i></a>
+        <p style="color:var(--text-secondary); font-size:0.9em; margin-bottom:20px; line-height:1.7;">Pakistan's Premium Shopping Destination for Jewelry, Makeup & Electronics.</p>
+        <div style="display:flex; gap:12px;">
+          <a href="https://instagram.com/zashisuperstore" target="_blank" style="width:40px; height:40px; background:var(--glass); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:1.1em; border:1px solid var(--glass-border);"><i class="fab fa-instagram"></i></a>
+          <a href="https://facebook.com/zashisuperstore" target="_blank" style="width:40px; height:40px; background:var(--glass); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:1.1em; border:1px solid var(--glass-border);"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://wa.me/923263310288" target="_blank" style="width:40px; height:40px; background:var(--glass); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:1.1em; border:1px solid var(--glass-border);"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer-col">
@@ -386,7 +418,7 @@
   </footer>
 
   <!-- CART SIDEBAR -->
-  <div class="modal" id="cartSidebar" style="background:var(--modal-overlay);">
+  <div class="modal" id="cartSidebar">
     <div class="modal-content" style="max-width:420px; height:100vh; margin:0; border-radius:0; display:flex; flex-direction:column;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid var(--glass-border);">
         <h2 style="font-family:'Cormorant Garamond',serif; color:var(--text-primary); font-size:1.4em;"><i class="fas fa-shopping-bag"></i> Your Cart</h2>
@@ -430,7 +462,7 @@
     </div>
   </div>
 
-  <!-- PRODUCT DETAIL MODAL (4. Product Details) -->
+  <!-- PRODUCT DETAIL MODAL -->
   <div class="product-modal" id="productModal">
     <div class="modal-content" style="max-width:600px;">
       <span class="close" onclick="closeProductModal()">&times;</span>
@@ -465,13 +497,27 @@
       document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     })();
 
+    // ===== SMART ICON MAPPING =====
+    function getSmartIcon(categoryName) {
+      const name = categoryName.toLowerCase();
+      if (name.includes('jewel') || name.includes('ring') || name.includes('necklace') || name.includes('gold')) return 'fa-gem';
+      if (name.includes('makeup') || name.includes('beauty') || name.includes('cosmetic') || name.includes('lipstick')) return 'fa-wand-magic-sparkles';
+      if (name.includes('electronic') || name.includes('gadget') || name.includes('mobile') || name.includes('charger')) return 'fa-plug';
+      if (name.includes('bag') || name.includes('purse') || name.includes('wallet')) return 'fa-bag-shopping';
+      if (name.includes('shoe') || name.includes('sandal') || name.includes('heel')) return 'fa-shoe-prints';
+      if (name.includes('watch') || name.includes('clock') || name.includes('time')) return 'fa-clock';
+      if (name.includes('cloth') || name.includes('dress') || name.includes('suit') || name.includes('shirt')) return 'fa-shirt';
+      if (name.includes('home') || name.includes('decor') || name.includes('kitchen')) return 'fa-couch';
+      return 'fa-tag'; // fallback
+    }
+
     // ===== PAGE NAVIGATION (SPA) =====
     function showPage(pageId) {
       document.getElementById('shop-view').classList.add('hidden');
       document.querySelectorAll('.info-page').forEach(p => p.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      document.getElementById('navMenu').classList.remove('active'); // Close mobile menu
+      document.getElementById('navMenu').classList.remove('active');
     }
 
     function showShop() {
@@ -498,19 +544,26 @@
     let allProducts = [];
     let currentProduct = null;
     let orderContext = null;
-    const whatsappNumber = "923001234567";
+    const whatsappNumber = "923263310288"; // Updated to your provided number
 
     function loadCategories() {
       db.collection("categories").orderBy("name").get().then((snap) => {
         const grid = document.getElementById('categoriesGrid');
         grid.innerHTML = '';
+        if (snap.empty) {
+          grid.innerHTML = `<div style="text-align:center; grid-column:1/-1; padding:40px; color:var(--text-dim);">No categories found.</div>`;
+          return;
+        }
         snap.forEach((doc) => {
           const cat = doc.data();
           categoriesData[doc.id] = cat;
+          // Use smart icon if admin didn't set one, or fallback to admin's choice
+          const iconClass = cat.icon && cat.icon !== 'fa-tag' ? cat.icon : getSmartIcon(cat.name);
+          
           grid.innerHTML += `
-            <div class="card" style="padding:20px; text-align:center; cursor:pointer;" onclick="filterByCategory('${doc.id}')">
-              <i class="fas ${cat.icon || 'fa-tag'}" style="font-size:2em; color:var(--gold); margin-bottom:10px;"></i>
-              <div style="font-weight:600; color:var(--text-primary);">${cat.name}</div>
+            <div class="card" style="padding:25px 15px; text-align:center; cursor:pointer;" onclick="filterByCategory('${doc.id}')">
+              <i class="fas ${iconClass}" style="font-size:2.2em; color:var(--gold); margin-bottom:12px; transition: transform 0.3s;"></i>
+              <div style="font-weight:600; color:var(--text-primary); font-size:0.95em;">${cat.name}</div>
             </div>`;
         });
       });
@@ -559,6 +612,21 @@
       }, 100);
     }
 
+    // ===== SEARCH =====
+    let searchTimeout;
+    function handleSearch(query) {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const q = query.trim().toLowerCase();
+        if (!q) { renderProducts(allProducts); return; }
+        const filtered = allProducts.filter(p => 
+          (p.name || '').toLowerCase().includes(q) ||
+          (p.categoryName || '').toLowerCase().includes(q)
+        );
+        renderProducts(filtered);
+      }, 300);
+    }
+
     // ===== MODAL & CART FUNCTIONS =====
     function openProductModal(product) {
       currentProduct = product;
@@ -567,7 +635,7 @@
       document.getElementById('pmCategory').textContent = product.categoryName || 'Product';
       document.getElementById('pmName').textContent = product.name;
       document.getElementById('pmPriceBlock').textContent = `Rs. ${Number(price).toLocaleString()}`;
-      document.getElementById('pmDescription').textContent = product.description || 'Premium quality product from Zashi Super Store.';
+      document.getElementById('pmDescription').textContent = product.description || 'Premium quality product from Zashi Super Store. 100% authentic with cash on delivery available.';
       document.getElementById('productModal').style.display = 'block';
       document.body.style.overflow = 'hidden';
     }
@@ -583,6 +651,18 @@
       if (existing) existing.quantity++;
       else cart.push({ id: product.id, name: product.name, price: price, imageUrl: product.imageUrl, quantity: 1 });
       updateCart();
+      
+      // Visual feedback
+      const btn = event.target.closest('.btn-cart-sm');
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i>';
+      btn.style.background = 'var(--green)';
+      btn.style.color = '#fff';
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 1000);
     }
 
     function updateCart() {
@@ -590,7 +670,7 @@
       document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.quantity, 0);
       const box = document.getElementById('cartItems');
       if (!cart.length) {
-        box.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-dim);">Your cart is empty</div>';
+        box.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-dim);"><i class="fas fa-shopping-basket" style="font-size:3em; margin-bottom:15px; opacity:0.3;"></i><br>Your cart is empty</div>';
         document.getElementById('cartTotal').textContent = 'Rs. 0';
         return;
       }
@@ -598,13 +678,13 @@
       box.innerHTML = cart.map((item, i) => {
         total += item.price * item.quantity;
         return `
-        <div style="display:flex; gap:12px; margin-bottom:15px; align-items:center;">
+        <div style="display:flex; gap:12px; margin-bottom:15px; align-items:center; background:var(--glass); padding:10px; border-radius:12px; border:1px solid var(--glass-border);">
           <img src="${item.imageUrl}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
           <div style="flex:1;">
             <div style="font-weight:600; font-size:0.9em; color:var(--text-primary);">${item.name}</div>
             <div style="color:var(--gold); font-size:0.85em;">Rs. ${Number(item.price).toLocaleString()} x ${item.quantity}</div>
           </div>
-          <button onclick="removeFromCart(${i})" style="background:none; border:none; color:var(--red); cursor:pointer;"><i class="fas fa-trash"></i></button>
+          <button onclick="removeFromCart(${i})" style="background:none; border:none; color:var(--red); cursor:pointer; padding:5px;"><i class="fas fa-trash"></i></button>
         </div>`;
       }).join('');
       document.getElementById('cartTotal').textContent = `Rs. ${total.toLocaleString()}`;
@@ -619,7 +699,8 @@
 
     function quickOrder(product) {
       orderContext = { type: 'single', product: product, qty: 1 };
-      document.getElementById('orderSummaryBox').innerHTML = `<strong>${product.name}</strong><br>Qty: 1<br>Total: Rs. ${Number(product.discountPrice && product.discountPrice < product.price ? product.discountPrice : product.price).toLocaleString()}`;
+      const price = product.discountPrice && product.discountPrice < product.price ? product.discountPrice : product.price;
+      document.getElementById('orderSummaryBox').innerHTML = `<strong>${product.name}</strong><br>Qty: 1<br>Total: Rs. ${Number(price).toLocaleString()}`;
       document.getElementById('orderModal').style.display = 'block';
     }
 
@@ -637,7 +718,7 @@
         const sub = item.price * item.quantity; total += sub;
         html += `<strong>${item.name}</strong> x ${item.quantity} = Rs. ${sub.toLocaleString()}<br>`;
       });
-      document.getElementById('orderSummaryBox').innerHTML = html + `<hr style="margin:10px 0; border-color:var(--glass-border);"><strong>Total: Rs. ${total.toLocaleString()}</strong>`;
+      document.getElementById('orderSummaryBox').innerHTML = html + `<hr style="margin:10px 0; border-color:var(--glass-border); border:none; border-top:1px dashed var(--glass-border);"><strong>Total: Rs. ${total.toLocaleString()}</strong>`;
       toggleCart();
       document.getElementById('orderModal').style.display = 'block';
     }
@@ -652,7 +733,7 @@
       const phone = document.getElementById("custPhone").value;
       const address = document.getElementById("custAddress").value;
       const city = document.getElementById("custCity").value;
-      if (!name || !phone || !address || !city) return alert('Please fill all fields!');
+      if (!name || !phone || !address || !city) return alert('Please fill all required fields!');
 
       let msg = '🛍️ *NEW ORDER — ZASHI SUPER STORE*\n━━━━━━━━━━━━━━━━\n';
       if (orderContext.type === 'single') {
@@ -667,7 +748,7 @@
         });
         msg += `💰 *Total:* Rs. ${total.toLocaleString()}\n`;
       }
-      msg += `\n👤 *Customer:* ${name}\n📱 *Phone:* ${phone}\n📍 *Address:* ${address}, ${city}\n━━━━━━━━━━━━━━━━\n💳 *Payment:* Cash on Delivery 🇵🇰`;
+      msg += `\n👤 *Customer:* ${name}\n📱 *Phone:* ${phone}\n📍 *Address:* ${address}, ${city}\n━━━━━━━━━━━━━━━━\n💳 *Payment:* Cash on Delivery 🇵🇰\n\nPlease confirm my order.`;
       
       window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
       closeModal();
