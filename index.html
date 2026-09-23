@@ -72,7 +72,7 @@
 
     /* ===== NAVBAR ===== */
     .navbar {
-      position: sticky; top: 0; padding: 14px 20px; z-index: 1000;
+      position: sticky; top: 0; padding: 12px 20px; z-index: 1000;
       display: flex; justify-content: space-between; align-items: center; gap: 15px;
       background: var(--nav-bg); backdrop-filter: blur(20px) saturate(180%);
       border-bottom: 1px solid var(--glass-border); transition: background 0.4s;
@@ -81,10 +81,12 @@
       display: flex; align-items: center; gap: 10px; text-decoration: none;
     }
     .logo img {
-      width: 40px; height: 40px; object-fit: contain;
+      height: 50px; /* Adjusted for perfect logo display */
+      width: auto;
+      object-fit: contain;
     }
     .logo-text {
-      font-family: 'Playfair Display', serif; font-size: clamp(1.2em, 4vw, 1.7em); font-weight: 700;
+      font-family: 'Playfair Display', serif; font-size: clamp(1.1em, 3vw, 1.5em); font-weight: 700;
       color: var(--brand-navy);
     }
     .search-wrapper {
@@ -229,6 +231,7 @@
       .info-page h1 { font-size: 2em; }
       .hero { min-height: 75vh; padding: 60px 15px 40px; }
       .category-icon-img { width: 60px; height: 60px; }
+      .logo img { height: 40px; } /* Slightly smaller on mobile */
     }
     @media (max-width: 480px) {
       .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -241,9 +244,8 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <a href="#" class="logo" onclick="showShop()">
-      <!-- ⚠️ YAHAN APNA ZASHI STORE LOGO PNG URL PASTE KAREIN -->
-      <img src="https://i.postimg.cc/T3h0ZzNW/Zashi-Super-Store-copy.png" alt="Zashi Store Logo">
-      <span class="logo-text">Zashi Store</span>
+      <!-- ✅ AAPKA ZASHI STORE LOGO YAHAN IMPLEMENT KAR DIYA GAYA HAI -->
+      <img src="https://i.postimg.cc/T3h0ZzNW/Zashi-Super-Store-copy.png" alt="Zashi Super Store Logo">
     </a>
     
     <div class="search-wrapper">
@@ -520,24 +522,22 @@
     // ===== PNG ICON MAPPING (Category ke naam ke hisaab se) =====
     function getCategoryIcon(categoryName) {
       const name = categoryName.toLowerCase();
-      // ⚠️ YAHAN APNI PNG ICONS KE URLS PASTE KAREIN
       if (name.includes('jewel') || name.includes('ring') || name.includes('necklace') || name.includes('gold')) 
-        return 'https://cdn-icons-png.flaticon.com/512/2917/2917934.png'; // Jewelry icon
+        return 'https://cdn-icons-png.flaticon.com/512/2917/2917934.png'; 
       if (name.includes('makeup') || name.includes('beauty') || name.includes('cosmetic') || name.includes('lipstick')) 
-        return 'https://cdn-icons-png.flaticon.com/512/3585/3585189.png'; // Makeup icon
+        return 'https://cdn-icons-png.flaticon.com/512/3585/3585189.png'; 
       if (name.includes('electronic') || name.includes('gadget') || name.includes('mobile') || name.includes('charger')) 
-        return 'https://cdn-icons-png.flaticon.com/512/3659/3659899.png'; // Electronics icon
+        return 'https://cdn-icons-png.flaticon.com/512/3659/3659899.png'; 
       if (name.includes('bag') || name.includes('purse') || name.includes('wallet')) 
-        return 'https://cdn-icons-png.flaticon.com/512/3597/3597066.png'; // Bag icon
+        return 'https://cdn-icons-png.flaticon.com/512/3597/3597066.png'; 
       if (name.includes('shoe') || name.includes('sandal') || name.includes('heel')) 
-        return 'https://cdn-icons-png.flaticon.com/512/2913/2913134.png'; // Shoes icon
+        return 'https://cdn-icons-png.flaticon.com/512/2913/2913134.png'; 
       if (name.includes('watch') || name.includes('clock') || name.includes('time')) 
-        return 'https://cdn-icons-png.flaticon.com/512/1039/1039786.png'; // Watch icon
+        return 'https://cdn-icons-png.flaticon.com/512/1039/1039786.png'; 
       if (name.includes('cloth') || name.includes('dress') || name.includes('suit') || name.includes('shirt')) 
-        return 'https://cdn-icons-png.flaticon.com/512/3531/3531845.png'; // Clothing icon
+        return 'https://cdn-icons-png.flaticon.com/512/3531/3531845.png'; 
       if (name.includes('home') || name.includes('decor') || name.includes('kitchen')) 
-        return 'https://cdn-icons-png.flaticon.com/512/2609/2609819.png'; // Home icon
-      // Default icon agar koi match na ho
+        return 'https://cdn-icons-png.flaticon.com/512/2609/2609819.png'; 
       return 'https://cdn-icons-png.flaticon.com/512/3524/3524636.png';
     }
 
