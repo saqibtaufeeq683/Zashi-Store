@@ -12,16 +12,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      /* TRUST & PROFESSIONAL THEME (Deep Navy, White, Silver) */
       --bg-primary: #ffffff;
-      --bg-secondary: #f8fafc;       /* Very light silver/blue tint */
-      --bg-tertiary: #f1f5f9;        /* Light silver */
-      --text-primary: #0f172a;       /* Deep Navy Blue (Professional & Trustworthy) */
-      --text-secondary: #475569;     /* Slate Gray */
-      --text-dim: #94a3b8;           /* Silver */
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-dim: #94a3b8;
       --nav-bg: rgba(255, 255, 255, 0.95);
-      --glass: rgba(15, 23, 42, 0.03); /* Subtle navy tint */
-      --glass-border: rgba(148, 163, 184, 0.4); /* Silver border */
+      --glass: rgba(15, 23, 42, 0.03);
+      --glass-border: rgba(148, 163, 184, 0.4);
       --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
       --shadow-hover: 0 12px 35px rgba(15, 23, 42, 0.12);
       --modal-bg: #ffffff;
@@ -31,18 +30,18 @@
       --hero-overlay-bottom: rgba(255, 255, 255, 0.95);
       --modal-overlay: rgba(15, 23, 42, 0.7);
       
-      --brand-navy: #0f172a;         /* Primary Brand Color */
-      --brand-blue: #1e40af;         /* Accent Blue for hover/active */
+      --brand-navy: #0f172a;
+      --brand-blue: #1e40af;
       --brand-silver: #cbd5e1;
-      --green: #25D366;              /* WhatsApp Green (Standard) */
+      --green: #25D366;
       --green-dark: #128C7E;
-      --red: #ef4444;                /* Professional Red for sales/errors */
+      --red: #ef4444;
     }
 
     [data-theme="dark"] {
-      --bg-primary: #020617;         /* Deepest Navy Black */
-      --bg-secondary: #0f172a;       /* Deep Navy */
-      --bg-tertiary: #1e293b;        /* Slate */
+      --bg-primary: #020617;
+      --bg-secondary: #0f172a;
+      --bg-tertiary: #1e293b;
       --text-primary: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-dim: #64748b;
@@ -62,7 +61,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; /* Inter is more professional/trustworthy than Outfit */
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       overflow-x: hidden;
@@ -79,10 +78,14 @@
       border-bottom: 1px solid var(--glass-border); transition: background 0.4s;
     }
     .logo {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .logo img {
+      width: 40px; height: 40px; object-fit: contain;
+    }
+    .logo-text {
       font-family: 'Playfair Display', serif; font-size: clamp(1.2em, 4vw, 1.7em); font-weight: 700;
-      text-decoration: none; background: linear-gradient(135deg, var(--brand-navy) 0%, #475569 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      display: flex; align-items: center; gap: 8px;
+      color: var(--brand-navy);
     }
     .search-wrapper {
       flex: 1; max-width: 350px; position: relative; display: none;
@@ -183,6 +186,21 @@
     .btn-cart-sm { flex: 0 0 42px; background: var(--bg-secondary); color: var(--brand-navy); border: 1px solid var(--glass-border); }
     .btn-cart-sm:hover { background: var(--brand-navy); color: #fff; border-color: var(--brand-navy); }
 
+    /* Category Card with PNG Icon */
+    .category-card {
+      padding: 30px 15px; text-align: center; cursor: pointer;
+    }
+    .category-icon-img {
+      width: 70px; height: 70px; object-fit: contain; margin: 0 auto 15px; display: block;
+      transition: transform 0.3s;
+    }
+    .category-card:hover .category-icon-img {
+      transform: scale(1.1);
+    }
+    .category-name {
+      font-weight: 600; color: var(--brand-navy); font-size: 0.95em;
+    }
+
     /* Footer */
     footer { background: var(--brand-navy); padding: 60px 20px 30px; margin-top: 60px; }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto 40px; text-align: left; }
@@ -210,6 +228,7 @@
       .btn-cart-sm { flex: 0 0 38px; min-height: 38px; }
       .info-page h1 { font-size: 2em; }
       .hero { min-height: 75vh; padding: 60px 15px 40px; }
+      .category-icon-img { width: 60px; height: 60px; }
     }
     @media (max-width: 480px) {
       .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -221,7 +240,11 @@
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <a href="#" class="logo" onclick="showShop()"><i class="fas fa-store"></i> Zashi Store</a>
+    <a href="#" class="logo" onclick="showShop()">
+      <!-- ⚠️ YAHAN APNA ZASHI STORE LOGO PNG URL PASTE KAREIN -->
+      <img src="https://via.placeholder.com/40x40.png?text=Z" alt="Zashi Store Logo">
+      <span class="logo-text">Zashi Store</span>
+    </a>
     
     <div class="search-wrapper">
       <input type="text" id="searchInput" placeholder="Search products..." oninput="handleSearch(this.value)">
@@ -494,18 +517,28 @@
       document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     })();
 
-    // ===== SMART ICON MAPPING =====
-    function getSmartIcon(categoryName) {
+    // ===== PNG ICON MAPPING (Category ke naam ke hisaab se) =====
+    function getCategoryIcon(categoryName) {
       const name = categoryName.toLowerCase();
-      if (name.includes('jewel') || name.includes('ring') || name.includes('necklace') || name.includes('gold')) return 'fa-gem';
-      if (name.includes('makeup') || name.includes('beauty') || name.includes('cosmetic') || name.includes('lipstick')) return 'fa-wand-magic-sparkles';
-      if (name.includes('electronic') || name.includes('gadget') || name.includes('mobile') || name.includes('charger')) return 'fa-plug';
-      if (name.includes('bag') || name.includes('purse') || name.includes('wallet')) return 'fa-bag-shopping';
-      if (name.includes('shoe') || name.includes('sandal') || name.includes('heel')) return 'fa-shoe-prints';
-      if (name.includes('watch') || name.includes('clock') || name.includes('time')) return 'fa-clock';
-      if (name.includes('cloth') || name.includes('dress') || name.includes('suit') || name.includes('shirt')) return 'fa-shirt';
-      if (name.includes('home') || name.includes('decor') || name.includes('kitchen')) return 'fa-couch';
-      return 'fa-tag';
+      // ⚠️ YAHAN APNI PNG ICONS KE URLS PASTE KAREIN
+      if (name.includes('jewel') || name.includes('ring') || name.includes('necklace') || name.includes('gold')) 
+        return 'https://cdn-icons-png.flaticon.com/512/2917/2917934.png'; // Jewelry icon
+      if (name.includes('makeup') || name.includes('beauty') || name.includes('cosmetic') || name.includes('lipstick')) 
+        return 'https://cdn-icons-png.flaticon.com/512/3585/3585189.png'; // Makeup icon
+      if (name.includes('electronic') || name.includes('gadget') || name.includes('mobile') || name.includes('charger')) 
+        return 'https://cdn-icons-png.flaticon.com/512/3659/3659899.png'; // Electronics icon
+      if (name.includes('bag') || name.includes('purse') || name.includes('wallet')) 
+        return 'https://cdn-icons-png.flaticon.com/512/3597/3597066.png'; // Bag icon
+      if (name.includes('shoe') || name.includes('sandal') || name.includes('heel')) 
+        return 'https://cdn-icons-png.flaticon.com/512/2913/2913134.png'; // Shoes icon
+      if (name.includes('watch') || name.includes('clock') || name.includes('time')) 
+        return 'https://cdn-icons-png.flaticon.com/512/1039/1039786.png'; // Watch icon
+      if (name.includes('cloth') || name.includes('dress') || name.includes('suit') || name.includes('shirt')) 
+        return 'https://cdn-icons-png.flaticon.com/512/3531/3531845.png'; // Clothing icon
+      if (name.includes('home') || name.includes('decor') || name.includes('kitchen')) 
+        return 'https://cdn-icons-png.flaticon.com/512/2609/2609819.png'; // Home icon
+      // Default icon agar koi match na ho
+      return 'https://cdn-icons-png.flaticon.com/512/3524/3524636.png';
     }
 
     // ===== PAGE NAVIGATION (SPA) =====
@@ -554,12 +587,12 @@
         snap.forEach((doc) => {
           const cat = doc.data();
           categoriesData[doc.id] = cat;
-          const iconClass = cat.icon && cat.icon !== 'fa-tag' ? cat.icon : getSmartIcon(cat.name);
+          const iconUrl = getCategoryIcon(cat.name);
           
           grid.innerHTML += `
-            <div class="card" style="padding:25px 15px; text-align:center; cursor:pointer;" onclick="filterByCategory('${doc.id}')">
-              <i class="fas ${iconClass}" style="font-size:2.2em; color:var(--brand-blue); margin-bottom:12px; transition: transform 0.3s;"></i>
-              <div style="font-weight:600; color:var(--brand-navy); font-size:0.95em;">${cat.name}</div>
+            <div class="card category-card" onclick="filterByCategory('${doc.id}')">
+              <img src="${iconUrl}" alt="${cat.name}" class="category-icon-img">
+              <div class="category-name">${cat.name}</div>
             </div>`;
         });
       });
