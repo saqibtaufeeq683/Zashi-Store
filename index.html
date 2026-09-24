@@ -57,24 +57,37 @@
     html { scroll-behavior:smooth; }
     body { font-family:'Inter',sans-serif; background:var(--bg-primary); color:var(--text-primary); overflow-x:hidden; line-height:1.6; transition:background 0.4s,color 0.4s; }
 
-    .navbar { position:sticky; top:0; padding:12px 20px; z-index:1000; display:flex; justify-content:space-between; align-items:center; gap:15px; background:var(--nav-bg); backdrop-filter:blur(20px); border-bottom:1px solid var(--glass-border); }
-    .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
-    .logo img { height:50px; width:auto; object-fit:contain; }
-    .search-wrapper { flex:1; max-width:350px; position:relative; display:none; }
-    @media(min-width:768px){ .search-wrapper{display:block;} }
-    .search-wrapper input { width:100%; padding:10px 40px 10px 18px; border-radius:8px; border:1px solid var(--glass-border); background:var(--input-bg); color:var(--text-primary); font-size:0.85em; font-family:'Inter',sans-serif; }
+    /* ===== NAVBAR ===== */
+    .navbar { position:sticky; top:0; padding:10px 20px; z-index:1000; display:flex; justify-content:space-between; align-items:center; gap:15px; background:var(--nav-bg); backdrop-filter:blur(20px); border-bottom:1px solid var(--glass-border); }
+    
+    /* LOGO + STORE NAME */
+    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .logo img { height:45px; width:auto; object-fit:contain; }
+    .logo-text { display:flex; flex-direction:column; line-height:1.1; }
+    .logo-text .brand-name { font-family:'Playfair Display',serif; font-size:1.3em; font-weight:700; background:linear-gradient(135deg,var(--brand-navy) 0%,var(--brand-blue) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    [data-theme="dark"] .logo-text .brand-name { background:linear-gradient(135deg,#f8fafc 0%,#cbd5e1 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .logo-text .brand-tag { font-size:0.65em; color:var(--text-dim); letter-spacing:2px; text-transform:uppercase; font-weight:500; }
+
+    /* SEARCH BAR - Always visible now */
+    .search-wrapper { flex:1; max-width:400px; position:relative; }
+    .search-wrapper input { width:100%; padding:11px 42px 11px 40px; border-radius:50px; border:1px solid var(--glass-border); background:var(--input-bg); color:var(--text-primary); font-size:0.88em; font-family:'Inter',sans-serif; transition:all 0.3s; }
     .search-wrapper input:focus { outline:none; border-color:var(--brand-navy); box-shadow:0 0 0 3px rgba(15,23,42,0.1); }
-    .search-wrapper i { position:absolute; right:16px; top:50%; transform:translateY(-50%); color:var(--text-dim); }
-    .nav-menu { display:flex; gap:25px; align-items:center; list-style:none; }
+    .search-wrapper .search-icon-left { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-dim); pointer-events:none; font-size:0.9em; }
+    .search-wrapper .search-clear { position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--text-dim); cursor:pointer; background:none; border:none; font-size:0.9em; display:none; padding:4px; }
+    .search-wrapper .search-clear.show { display:block; }
+    .search-wrapper .search-clear:hover { color:var(--red); }
+
+    .nav-menu { display:flex; gap:22px; align-items:center; list-style:none; }
     .nav-menu a { color:var(--text-secondary); text-decoration:none; font-size:0.85em; font-weight:500; cursor:pointer; transition:color 0.3s; }
     .nav-menu a:hover { color:var(--brand-navy); }
-    .nav-icons { display:flex; gap:10px; align-items:center; }
-    .theme-toggle,.cart-icon { background:var(--glass); border:1px solid var(--glass-border); color:var(--brand-navy); width:42px; height:42px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s; font-size:1.1em; }
+    .nav-icons { display:flex; gap:8px; align-items:center; }
+    .theme-toggle,.cart-icon { background:var(--glass); border:1px solid var(--glass-border); color:var(--brand-navy); width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s; font-size:1em; }
     .theme-toggle:hover,.cart-icon:hover { background:var(--bg-tertiary); }
     .cart-icon { position:relative; }
     .cart-count { position:absolute; top:-4px; right:-4px; background:var(--brand-navy); color:#fff; font-size:0.62em; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; border:2px solid var(--bg-primary); }
-    .mobile-menu-btn { display:none; background:none; border:none; color:var(--brand-navy); font-size:1.5em; cursor:pointer; }
+    .mobile-menu-btn { display:none; background:none; border:none; color:var(--brand-navy); font-size:1.4em; cursor:pointer; }
 
+    /* INFO PAGES */
     .info-page { display:none; max-width:900px; margin:40px auto; padding:40px 20px; }
     .info-page.active { display:block; animation:fadeInUp 0.5s ease; }
     @keyframes fadeInUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
@@ -100,6 +113,15 @@
     .section-block { padding:50px 20px; max-width:1400px; margin:0 auto; }
     .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.8em,5vw,2.8em); text-align:center; color:var(--brand-navy); margin-bottom:30px; }
     .section-title span { color:var(--brand-blue); }
+
+    /* Search Results Header */
+    .search-results-header { display:none; max-width:1400px; margin:0 auto 20px; padding:0 20px; }
+    .search-results-header.show { display:block; }
+    .search-results-bar { background:var(--bg-secondary); border:1px solid var(--glass-border); border-radius:12px; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+    .search-results-bar .search-info { display:flex; align-items:center; gap:10px; font-size:0.9em; color:var(--text-secondary); }
+    .search-results-bar .search-info strong { color:var(--brand-navy); }
+    .search-results-bar .clear-search { background:var(--brand-navy); color:#fff; border:none; padding:6px 14px; border-radius:20px; font-size:0.8em; cursor:pointer; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
+    .search-results-bar .clear-search:hover { background:var(--brand-blue); }
 
     #categoriesGrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:12px; }
     @media(min-width:768px){ #categoriesGrid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:16px;} }
@@ -140,16 +162,24 @@
     @keyframes modalIn { from{opacity:0;transform:translateY(30px) scale(0.95);} to{opacity:1;transform:translateY(0) scale(1);} }
     .modal .close,.product-modal .close { position:absolute; right:15px; top:15px; font-size:1.2em; cursor:pointer; color:var(--text-dim); width:38px; height:38px; display:flex; align-items:center; justify-content:center; border-radius:8px; background:var(--bg-secondary); border:1px solid var(--glass-border); }
 
-    @media(max-width:768px){
+    /* Mobile */
+    @media(max-width:900px){
       .nav-menu { display:none; position:absolute; top:100%; left:0; right:0; background:var(--nav-bg); flex-direction:column; padding:20px; border-bottom:1px solid var(--glass-border); gap:15px; }
       .nav-menu.active { display:flex; }
       .mobile-menu-btn { display:block; }
+      .logo img { height:38px; }
+      .logo-text .brand-name { font-size:1.1em; }
+      .logo-text .brand-tag { font-size:0.55em; letter-spacing:1.5px; }
+    }
+    @media(max-width:768px){
       .grid { grid-template-columns:repeat(2,1fr); gap:12px; }
       .hero { min-height:75vh; padding:60px 15px 40px; }
-      .logo img { height:40px; }
+      .navbar { padding:10px 14px; gap:10px; flex-wrap:wrap; }
+      .search-wrapper { order:3; flex-basis:100%; max-width:100%; margin-top:4px; }
     }
     @media(max-width:480px){
       .hero-btn { width:100%; justify-content:center; }
+      .logo-text .brand-name { font-size:1em; }
     }
   </style>
 </head>
@@ -158,11 +188,18 @@
   <nav class="navbar">
     <a href="#" class="logo" onclick="showShop()">
       <img src="https://i.postimg.cc/T3h0ZzNW/Zashi-Super-Store-copy.png" alt="Zashi Store">
+      <div class="logo-text">
+        <span class="brand-name">Zashi Super Store</span>
+        <span class="brand-tag">Premium Shopping</span>
+      </div>
     </a>
+    
     <div class="search-wrapper">
-      <input type="text" id="searchInput" placeholder="Search products..." oninput="handleSearch(this.value)">
-      <i class="fas fa-search"></i>
+      <i class="fas fa-search search-icon-left"></i>
+      <input type="text" id="searchInput" placeholder="Search products, categories..." oninput="handleSearch(this.value)">
+      <button class="search-clear" id="searchClear" onclick="clearSearch()"><i class="fas fa-times"></i></button>
     </div>
+
     <ul class="nav-menu" id="navMenu">
       <li><a onclick="showShop()">Home</a></li>
       <li><a onclick="showShop();setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),100)">Shop</a></li>
@@ -170,6 +207,7 @@
       <li><a onclick="showPage('page-about')">About Us</a></li>
       <li><a onclick="showPage('page-contact')">Contact</a></li>
     </ul>
+
     <div class="nav-icons">
       <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
       <div class="cart-icon" onclick="toggleCart()">
@@ -200,8 +238,19 @@
       </div>
     </section>
 
+    <!-- Search Results Header -->
+    <div class="search-results-header" id="searchResultsHeader">
+      <div class="search-results-bar">
+        <div class="search-info">
+          <i class="fas fa-search" style="color:var(--brand-blue);"></i>
+          <span>Showing results for: <strong id="searchQueryDisplay"></strong></span>
+        </div>
+        <button class="clear-search" onclick="clearSearch()"><i class="fas fa-times"></i> Clear Search</button>
+      </div>
+    </div>
+
     <section class="section-block" id="products">
-      <h2 class="section-title">All <span>Products</span></h2>
+      <h2 class="section-title" id="productsTitle">All <span>Products</span></h2>
       <div class="grid" id="itemsContainer">
         <div style="text-align:center;grid-column:1/-1;padding:40px;color:var(--text-dim);"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading...</div>
       </div>
@@ -328,6 +377,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script>
+    // Theme toggle
     function toggleTheme(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('themeIcon').className=n==='dark'?'fas fa-sun':'fas fa-moon';}
     (function(){const s=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',s);document.getElementById('themeIcon').className=s==='dark'?'fas fa-sun':'fas fa-moon';})();
 
@@ -343,8 +393,8 @@
     let currentProduct=null;
     let orderContext=null;
     let storeWhatsApp="923263310288";
+    let currentSearchQuery='';
 
-    // ===== LOAD SETTINGS FROM FIREBASE =====
     function loadStoreSettings(){
       db.collection("settings").doc("store").get().then(doc=>{
         if(doc.exists){
@@ -359,7 +409,6 @@
       });
     }
 
-    // ===== CATEGORIES FROM FIREBASE (iconUrl directly from DB) =====
     function loadCategories(){
       db.collection("categories").orderBy("name").get().then(snap=>{
         const grid=document.getElementById('categoriesGrid');
@@ -367,18 +416,114 @@
         if(snap.empty){grid.innerHTML='<div style="text-align:center;grid-column:1/-1;padding:40px;color:var(--text-dim);">No categories found.</div>';return;}
         snap.forEach(doc=>{
           const cat=doc.data();
-          // YAHAN SEEDHA FIREBASE SE iconUrl AATA HAI — koi hardcoded function nahi
-          const iconSrc = cat.iconUrl || 'https://cdn-icons-png.flaticon.com/512/3524/3524636.png';
+          const iconSrc=cat.iconUrl||'https://cdn-icons-png.flaticon.com/512/3524/3524636.png';
           grid.innerHTML+=`<div class="category-card" onclick="filterByCategory('${doc.id}')"><img src="${iconSrc}" alt="${cat.name}" class="category-icon-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3524/3524636.png'"><div class="category-name">${cat.name}</div></div>`;
         });
       });
     }
 
-    function loadProducts(){db.collection("items").orderBy("timestamp","desc").get().then(snap=>{allProducts=[];snap.forEach(doc=>allProducts.push({id:doc.id,...doc.data()}));renderProducts(allProducts);});}
-    function renderProducts(products){const box=document.getElementById('itemsContainer');if(!products.length){box.innerHTML='<div style="text-align:center;grid-column:1/-1;padding:40px;color:var(--text-dim);">No products.</div>';return;}box.innerHTML=products.map(p=>{const price=p.discountPrice&&p.discountPrice<p.price?p.discountPrice:p.price;return`<div class="card" onclick='openProductModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><div class="card-image-wrapper"><img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/400'"></div><div class="card-body"><div class="card-category">${p.categoryName||'Product'}</div><div class="card-title">${p.name}</div><div class="price-current">Rs. ${Number(price).toLocaleString()}</div><div class="card-actions"><button class="btn-order-sm" onclick="event.stopPropagation();quickOrder(${JSON.stringify(p).replace(/'/g,"&#39;")})"><i class="fab fa-whatsapp"></i> Order</button><button class="btn-cart-sm" onclick="event.stopPropagation();addToCart(${JSON.stringify(p).replace(/'/g,"&#39;")})"><i class="fas fa-cart-plus"></i></button></div></div></div>`;}).join('');}
-    function filterByCategory(catId){showShop();setTimeout(()=>{renderProducts(allProducts.filter(p=>p.category===catId));document.getElementById('products').scrollIntoView({behavior:'smooth'});},100);}
+    function loadProducts(){
+      db.collection("items").orderBy("timestamp","desc").get().then(snap=>{
+        allProducts=[];
+        snap.forEach(doc=>allProducts.push({id:doc.id,...doc.data()}));
+        renderProducts(allProducts);
+      });
+    }
+
+    function renderProducts(products){
+      const box=document.getElementById('itemsContainer');
+      if(!products.length){
+        if(currentSearchQuery){
+          box.innerHTML=`<div style="text-align:center;grid-column:1/-1;padding:60px 20px;color:var(--text-dim);"><i class="fas fa-search" style="font-size:3em;opacity:0.3;margin-bottom:15px;display:block;"></i><p style="font-size:1.1em;color:var(--text-secondary);margin-bottom:8px;">No products found for "<strong style="color:var(--brand-navy);">${currentSearchQuery}</strong>"</p><p style="font-size:0.85em;">Try different keywords or <button onclick="clearSearch()" style="background:none;border:none;color:var(--brand-blue);cursor:pointer;font-weight:600;text-decoration:underline;">clear search</button></p></div>`;
+        } else {
+          box.innerHTML='<div style="text-align:center;grid-column:1/-1;padding:40px;color:var(--text-dim);">No products.</div>';
+        }
+        return;
+      }
+      box.innerHTML=products.map(p=>{
+        const price=p.discountPrice&&p.discountPrice<p.price?p.discountPrice:p.price;
+        return`<div class="card" onclick='openProductModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><div class="card-image-wrapper"><img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/400'"></div><div class="card-body"><div class="card-category">${p.categoryName||'Product'}</div><div class="card-title">${p.name}</div><div class="price-current">Rs. ${Number(price).toLocaleString()}</div><div class="card-actions"><button class="btn-order-sm" onclick="event.stopPropagation();quickOrder(${JSON.stringify(p).replace(/'/g,"&#39;")})"><i class="fab fa-whatsapp"></i> Order</button><button class="btn-cart-sm" onclick="event.stopPropagation();addToCart(${JSON.stringify(p).replace(/'/g,"&#39;")})"><i class="fas fa-cart-plus"></i></button></div></div></div>`;
+      }).join('');
+    }
+
+    // ===== IMPROVED SEARCH FUNCTION =====
     let searchTimeout;
-    function handleSearch(q){clearTimeout(searchTimeout);searchTimeout=setTimeout(()=>{const s=q.trim().toLowerCase();if(!s){renderProducts(allProducts);return;}renderProducts(allProducts.filter(p=>(p.name||'').toLowerCase().includes(s)||(p.categoryName||'').toLowerCase().includes(s)));},300);}
+    function handleSearch(query){
+      const clearBtn=document.getElementById('searchClear');
+      const resultsHeader=document.getElementById('searchResultsHeader');
+      const productsTitle=document.getElementById('productsTitle');
+      
+      // Show/hide clear button
+      if(query.trim()){
+        clearBtn.classList.add('show');
+      } else {
+        clearBtn.classList.remove('show');
+      }
+      
+      clearTimeout(searchTimeout);
+      searchTimeout=setTimeout(()=>{
+        const q=query.trim().toLowerCase();
+        currentSearchQuery=q;
+        
+        if(!q){
+          // Clear search - show all products
+          renderProducts(allProducts);
+          resultsHeader.classList.remove('show');
+          productsTitle.innerHTML='All <span>Products</span>';
+          return;
+        }
+        
+        // Filter products
+        const filtered=allProducts.filter(p=>
+          (p.name||'').toLowerCase().includes(q)||
+          (p.categoryName||'').toLowerCase().includes(q)||
+          (p.description||'').toLowerCase().includes(q)||
+          (p.colors||'').toLowerCase().includes(q)
+        );
+        
+        // Show search results header
+        document.getElementById('searchQueryDisplay').textContent=query.trim();
+        resultsHeader.classList.add('show');
+        productsTitle.innerHTML=`Search Results <span>(${filtered.length})</span>`;
+        
+        // Make sure we're on shop view
+        if(document.getElementById('shop-view').classList.contains('hidden')){
+          showShop();
+        }
+        
+        // Render filtered products
+        renderProducts(filtered);
+        
+        // Scroll to products section
+        setTimeout(()=>{
+          document.getElementById('products').scrollIntoView({behavior:'smooth',block:'start'});
+        },100);
+        
+      },300);
+    }
+
+    function clearSearch(){
+      document.getElementById('searchInput').value='';
+      document.getElementById('searchClear').classList.remove('show');
+      document.getElementById('searchResultsHeader').classList.remove('show');
+      document.getElementById('productsTitle').innerHTML='All <span>Products</span>';
+      currentSearchQuery='';
+      renderProducts(allProducts);
+      document.getElementById('searchInput').focus();
+    }
+
+    function filterByCategory(catId){
+      // Clear any existing search
+      clearSearch();
+      showShop();
+      setTimeout(()=>{
+        const catName=allProducts.find(p=>p.category===catId)?.categoryName||'Category';
+        const filtered=allProducts.filter(p=>p.category===catId);
+        document.getElementById('productsTitle').innerHTML=`${catName} <span>(${filtered.length})</span>`;
+        renderProducts(filtered);
+        document.getElementById('products').scrollIntoView({behavior:'smooth'});
+      },100);
+    }
 
     function openProductModal(p){currentProduct=p;const price=p.discountPrice&&p.discountPrice<p.price?p.discountPrice:p.price;document.getElementById('pmImage').src=p.imageUrl;document.getElementById('pmCategory').textContent=p.categoryName||'Product';document.getElementById('pmName').textContent=p.name;document.getElementById('pmPriceBlock').textContent='Rs. '+Number(price).toLocaleString();document.getElementById('pmDescription').textContent=p.description||'Premium quality product.';document.getElementById('productModal').style.display='block';document.body.style.overflow='hidden';}
     function closeProductModal(){document.getElementById('productModal').style.display='none';document.body.style.overflow='auto';}
