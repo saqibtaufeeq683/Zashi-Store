@@ -81,7 +81,7 @@
       display: flex; align-items: center; gap: 10px; text-decoration: none;
     }
     .logo img {
-      height: 50px; /* Adjusted for perfect logo display */
+      height: 50px;
       width: auto;
       object-fit: contain;
     }
@@ -170,7 +170,7 @@
     .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8em, 5vw, 2.8em); text-align: center; color: var(--brand-navy); margin-bottom: 40px; }
     .section-title span { color: var(--brand-blue); }
     
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
     .card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; box-shadow: var(--shadow); }
     .card:hover { transform: translateY(-6px); border-color: var(--brand-silver); box-shadow: var(--shadow-hover); }
     .card-image-wrapper { position: relative; overflow: hidden; aspect-ratio: 1; background: var(--bg-tertiary); }
@@ -190,17 +190,17 @@
 
     /* Category Card with PNG Icon */
     .category-card {
-      padding: 30px 15px; text-align: center; cursor: pointer;
+      padding: 25px 15px; text-align: center; cursor: pointer;
     }
     .category-icon-img {
-      width: 70px; height: 70px; object-fit: contain; margin: 0 auto 15px; display: block;
+      width: 65px; height: 65px; object-fit: contain; margin: 0 auto 12px; display: block;
       transition: transform 0.3s;
     }
     .category-card:hover .category-icon-img {
       transform: scale(1.1);
     }
     .category-name {
-      font-weight: 600; color: var(--brand-navy); font-size: 0.95em;
+      font-weight: 600; color: var(--brand-navy); font-size: 0.9em; line-height: 1.3;
     }
 
     /* Footer */
@@ -230,11 +230,11 @@
       .btn-cart-sm { flex: 0 0 38px; min-height: 38px; }
       .info-page h1 { font-size: 2em; }
       .hero { min-height: 75vh; padding: 60px 15px 40px; }
-      .category-icon-img { width: 60px; height: 60px; }
-      .logo img { height: 40px; } /* Slightly smaller on mobile */
+      .category-icon-img { width: 55px; height: 55px; }
+      .logo img { height: 40px; }
     }
     @media (max-width: 480px) {
-      .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .hero-btn { width: 100%; justify-content: center; }
     }
   </style>
@@ -244,7 +244,6 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <a href="#" class="logo" onclick="showShop()">
-      <!-- ✅ AAPKA ZASHI STORE LOGO YAHAN IMPLEMENT KAR DIYA GAYA HAI -->
       <img src="https://i.postimg.cc/T3h0ZzNW/Zashi-Super-Store-copy.png" alt="Zashi Super Store Logo">
     </a>
     
@@ -289,7 +288,7 @@
     <!-- Categories -->
     <section class="section-block" id="categories">
       <h2 class="section-title">Shop by <span>Category</span></h2>
-      <div class="grid" id="categoriesGrid" style="grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));">
+      <div class="grid" id="categoriesGrid">
         <div style="text-align:center; grid-column:1/-1; padding:40px; color:var(--text-dim);"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading Categories...</div>
       </div>
     </section>
@@ -297,7 +296,7 @@
     <!-- Products -->
     <section class="section-block" id="products">
       <h2 class="section-title">All <span>Products</span></h2>
-      <div class="grid" id="itemsContainer">
+      <div class="grid" id="itemsContainer" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
         <div style="text-align:center; grid-column:1/-1; padding:40px; color:var(--text-dim);"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading Products...</div>
       </div>
     </section>
@@ -519,25 +518,27 @@
       document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     })();
 
-    // ===== PNG ICON MAPPING (Category ke naam ke hisaab se) =====
+    // ===== PNG ICON MAPPING (Aapke diye gaye links ke mutabiq) =====
     function getCategoryIcon(categoryName) {
       const name = categoryName.toLowerCase();
-      if (name.includes('jewel') || name.includes('ring') || name.includes('necklace') || name.includes('gold')) 
-        return 'https://cdn-icons-png.flaticon.com/512/2917/2917934.png'; 
-      if (name.includes('makeup') || name.includes('beauty') || name.includes('cosmetic') || name.includes('lipstick')) 
-        return 'https://cdn-icons-png.flaticon.com/512/3585/3585189.png'; 
-      if (name.includes('electronic') || name.includes('gadget') || name.includes('mobile') || name.includes('charger')) 
-        return 'https://cdn-icons-png.flaticon.com/512/3659/3659899.png'; 
-      if (name.includes('bag') || name.includes('purse') || name.includes('wallet')) 
-        return 'https://cdn-icons-png.flaticon.com/512/3597/3597066.png'; 
-      if (name.includes('shoe') || name.includes('sandal') || name.includes('heel')) 
-        return 'https://cdn-icons-png.flaticon.com/512/2913/2913134.png'; 
-      if (name.includes('watch') || name.includes('clock') || name.includes('time')) 
-        return 'https://cdn-icons-png.flaticon.com/512/1039/1039786.png'; 
-      if (name.includes('cloth') || name.includes('dress') || name.includes('suit') || name.includes('shirt')) 
-        return 'https://cdn-icons-png.flaticon.com/512/3531/3531845.png'; 
-      if (name.includes('home') || name.includes('decor') || name.includes('kitchen')) 
-        return 'https://cdn-icons-png.flaticon.com/512/2609/2609819.png'; 
+      if (name.includes('anniversary')) return 'https://i.postimg.cc/zB4J8Y8B/anniversary.png';
+      if (name.includes('jewel') || name.includes('artificial')) return 'https://i.postimg.cc/nzXHyhbr/Artificial-Jewellery.png';
+      if (name.includes('baloon') || name.includes('baloons')) return 'https://i.postimg.cc/xCB0nVnz/Baloons.png';
+      if (name.includes('birthday')) return 'https://i.postimg.cc/vBCQbwbZ/Birthday.png';
+      if (name.includes('cosmetic') || name.includes('cosmatics')) return 'https://i.postimg.cc/HxFpd1dS/cosmatics.png';
+      if (name.includes('decoration')) return 'https://i.postimg.cc/nzNHpfpP/Decoration.png';
+      if (name.includes('gajra')) return 'https://i.postimg.cc/LXGH2F2W/Gajra-Sets.png';
+      if (name.includes('gift-box') || name.includes('gift boxes')) return 'https://i.postimg.cc/J0JRhYzP/Gift-Boxes.png';
+      if (name.includes('gift-pack') || name.includes('gift packing')) return 'https://i.postimg.cc/GtYbpgmg/Gift-Packing.png';
+      if (name.includes('makeup')) return 'https://i.postimg.cc/mkMTrprf/Makeup.png';
+      if (name.includes('mehndi')) return 'https://i.postimg.cc/D0s7zpzT/mehndi.png';
+      if (name.includes('purse') || name.includes('bag')) return 'https://i.postimg.cc/90TcfgfV/Purses-Bags.png';
+      if (name.includes('undergarment')) return 'https://i.postimg.cc/wMJ9B4B6/Undergarments.png';
+      if (name.includes('watch')) return 'https://i.postimg.cc/BZ1SNbBD/Watches.png';
+      if (name.includes('wedding-ceremony') || name.includes('wedding ceremony')) return 'https://i.postimg.cc/gc6z4jHv/Wedding-Ceremony.png';
+      if (name.includes('wedding-decor') || name.includes('wedding decoration')) return 'https://i.postimg.cc/sfZjKx4c/Wedding-Decoration.png';
+      
+      // Fallback icon agar koi match na ho
       return 'https://cdn-icons-png.flaticon.com/512/3524/3524636.png';
     }
 
@@ -591,7 +592,7 @@
           
           grid.innerHTML += `
             <div class="card category-card" onclick="filterByCategory('${doc.id}')">
-              <img src="${iconUrl}" alt="${cat.name}" class="category-icon-img">
+              <img src="${iconUrl}" alt="${cat.name}" class="category-icon-img" onerror="this.style.display='none'">
               <div class="category-name">${cat.name}</div>
             </div>`;
         });
