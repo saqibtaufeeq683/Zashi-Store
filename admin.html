@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root{--bg:#f8fafc;--sidebar:#fff;--card:#fff;--text:#0f172a;--text2:#475569;--dim:#94a3b8;--border:#e2e8f0;--navy:#0f172a;--blue:#1e40af;--green:#25D366;--red:#ef4444;}
+    :root{--bg:#f8fafc;--sidebar:#fff;--card:#fff;--text:#0f172a;--text2:#475569;--dim:#94a3b8;--border:#e2e8f0;--navy:#0f172a;--blue:#1e40af;--green:#25D366;--red:#ef4444;--orange:#f59e0b;}
     [data-theme="dark"]{--bg:#020617;--sidebar:#0f172a;--card:#1e293b;--text:#f8fafc;--text2:#cbd5e1;--dim:#64748b;--border:#334155;}
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
@@ -28,10 +28,12 @@
     .page-title{font-family:'Playfair Display',serif;font-size:1.8em;}
 
     .btn{padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
-    .btn-p{background:var(--navy);color:#fff;}.btn-p:hover{background:var(--blue);}
+    .btn:disabled{opacity:0.6;cursor:not-allowed;}
+    .btn-p{background:var(--navy);color:#fff;}.btn-p:hover:not(:disabled){background:var(--blue);}
     .btn-s{background:var(--green);color:#fff;}.btn-s:hover{background:#128C7E;}
     .btn-o{background:transparent;border:1px solid var(--border);color:var(--text);}
     .btn-d{background:rgba(239,68,68,0.1);color:var(--red);}.btn-d:hover{background:var(--red);color:#fff;}
+    .btn-w{background:var(--orange);color:#fff;}.btn-w:hover:not(:disabled){background:#d97706;}
 
     .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:24px;}
     .card-title{font-size:1.1em;font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
@@ -50,8 +52,9 @@
     .cat-icon-sm{width:36px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--blue);overflow:hidden;}
     .cat-icon-sm img{width:24px;height:24px;object-fit:contain;}
 
-    .prod-item{display:flex;align-items:center;gap:16px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;}
-    .prod-item img{width:48px;height:48px;object-fit:cover;border-radius:6px;}
+    .prod-item{display:flex;align-items:center;gap:16px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;transition:all 0.2s;}
+    .prod-item:hover{border-color:var(--blue);}
+    .prod-item img{width:48px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0;}
 
     .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
     .toggle-row:last-child{border-bottom:none;}
@@ -71,12 +74,50 @@
 
     #toast{position:fixed;bottom:30px;right:30px;background:var(--green);color:#fff;padding:14px 24px;border-radius:8px;font-weight:600;transform:translateY(100px);opacity:0;transition:all 0.4s;z-index:99999;}
 
+    /* Sync Result */
+    .sync-result{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:16px;}
+    .sync-result.success{border-color:var(--green);background:rgba(37,211,102,0.05);}
+    .sync-result.error{border-color:var(--red);background:rgba(239,68,68,0.05);}
+    .sync-stat{display:flex;justify-content:space-between;padding:8px 0;font-size:0.9em;border-bottom:1px solid var(--border);}
+    .sync-stat:last-child{border-bottom:none;}
+    .sync-stat strong{color:var(--text);}
+
+    /* Slider Position Box */
+    #sliderPositionBox{display:none;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:8px;}
+    #sliderPositionBox.show{display:block;}
+    .slider-hint{font-size:0.75em;color:var(--dim);margin-top:6px;display:flex;align-items:center;gap:6px;}
+
+    /* ===== MANAGE TAB SEARCH BAR ===== */
+    .manage-toolbar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+    .manage-search{flex:1;min-width:220px;position:relative;}
+    .manage-search input{padding-left:40px;padding-right:36px;}
+    .manage-search .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;}
+    .manage-search .search-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;padding:6px;font-size:0.9em;display:none;}
+    .manage-search .search-clear.show{display:block;}
+    .manage-search .search-clear:hover{color:var(--red);}
+    .manage-toolbar select{width:auto;min-width:150px;}
+    
+    .manage-stats{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;}
+    .manage-stat{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:0.85em;}
+    .manage-stat strong{color:var(--blue);font-size:1.1em;}
+    
+    .prod-meta{font-size:0.8em;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
+    .prod-meta .tag{background:var(--card);padding:2px 8px;border-radius:4px;border:1px solid var(--border);font-size:0.9em;}
+    .prod-meta .tag.slider{background:var(--orange);color:#fff;border-color:var(--orange);}
+    .prod-meta .tag.stock{background:var(--red);color:#fff;border-color:var(--red);}
+    
+    .empty-state{text-align:center;padding:50px 20px;color:var(--dim);}
+    .empty-state i{font-size:3em;opacity:0.3;margin-bottom:12px;display:block;}
+
     @media(max-width:768px){
       .sidebar{transform:translateX(-100%);width:280px;}
       .sidebar.open{transform:translateX(0);box-shadow:10px 0 30px rgba(0,0,0,0.2);}
       .main{margin-left:0;padding:20px;}
       .fg{grid-template-columns:1fr;}
       .mob-btn{display:block!important;}
+      .manage-toolbar{flex-direction:column;align-items:stretch;}
+      .manage-toolbar select{width:100%;}
+      .prod-item{flex-wrap:wrap;}
     }
     .mob-btn{display:none;background:none;border:none;font-size:1.5em;color:var(--text);cursor:pointer;}
   </style>
@@ -146,6 +187,20 @@
             <div class="toggle-row"><div><strong>Featured</strong><br><span style="font-size:0.8em;color:var(--dim);">Show in Featured section</span></div><label class="sw"><input type="checkbox" id="itemIsFeatured"><span class="sl"></span></label></div>
             <div class="toggle-row"><div><strong>New Arrival</strong><br><span style="font-size:0.8em;color:var(--dim);">Show in New section</span></div><label class="sw"><input type="checkbox" id="itemIsNew"><span class="sl"></span></label></div>
             <div class="toggle-row"><div><strong>Out of Stock</strong></div><label class="sw"><input type="checkbox" id="itemOutOfStock"><span class="sl"></span></label></div>
+            
+            <div class="toggle-row">
+              <div>
+                <strong><i class="fas fa-images" style="color:var(--orange);"></i> Show in Hero Slider</strong><br>
+                <span style="font-size:0.8em;color:var(--dim);">Homepage ke slider mein dikhayein</span>
+              </div>
+              <label class="sw"><input type="checkbox" id="itemShowInSlider" onchange="toggleSliderPosition()"><span class="sl"></span></label>
+            </div>
+            
+            <div id="sliderPositionBox">
+              <label style="color:var(--orange);">Slider Position *</label>
+              <input type="number" id="itemSliderPosition" min="1" max="20" placeholder="1" style="border-color:var(--orange);">
+              <p class="slider-hint"><i class="fas fa-info-circle"></i> 1 = pehla slide, 2 = doosra. Duplicate na karein.</p>
+            </div>
           </div>
         </div>
         <div style="display:flex;gap:12px;margin-top:20px;">
@@ -184,6 +239,24 @@
 
     <!-- SETTINGS -->
     <div id="tab-settings" class="tab">
+      <div class="card" style="border:2px dashed var(--orange);">
+        <div class="card-title"><i class="fas fa-sync-alt" style="color:var(--orange);"></i> Sync Product Fields</div>
+        <p style="color:var(--text2);font-size:0.9em;margin-bottom:16px;">
+          Ye tool purane products mein <strong>showInSlider</strong> aur <strong>sliderPosition</strong> fields automatically add karega.
+          Jo fields pehle se hain unhe touch nahi karega.
+        </p>
+        <div style="background:var(--bg);padding:14px;border-radius:8px;margin-bottom:16px;border-left:3px solid var(--blue);">
+          <p style="font-size:0.85em;color:var(--text2);margin:0;">
+            <i class="fas fa-info-circle" style="color:var(--blue);"></i>
+            <strong>Safe operation:</strong> Existing data delete nahi hoga. Sirf missing fields add hongi.
+          </p>
+        </div>
+        <button class="btn btn-w" onclick="syncProductFields()" id="syncBtn">
+          <i class="fas fa-sync-alt"></i> Sync Now
+        </button>
+        <div id="syncResult" style="display:none;"></div>
+      </div>
+
       <div class="card">
         <div class="card-title"><i class="fas fa-truck" style="color:var(--blue);"></i> Delivery</div>
         <div class="toggle-row"><div><strong>Free Delivery Mode</strong></div><label class="sw"><input type="checkbox" id="setFreeDel"><span class="sl"></span></label></div>
@@ -220,6 +293,34 @@
     <div id="tab-manage" class="tab">
       <div class="card">
         <div class="card-title"><i class="fas fa-list" style="color:var(--blue);"></i> All Products</div>
+        
+        <!-- SEARCH + FILTER TOOLBAR -->
+        <div class="manage-toolbar">
+          <div class="manage-search">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="manageSearch" placeholder="Search by name, category, price..." oninput="filterManageProducts()">
+            <button class="search-clear" id="manageSearchClear" onclick="clearManageSearch()"><i class="fas fa-times"></i></button>
+          </div>
+          <select id="manageCategoryFilter" onchange="filterManageProducts()">
+            <option value="">All Categories</option>
+          </select>
+          <select id="manageSort" onchange="filterManageProducts()">
+            <option value="newest">Newest First</option>
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="price-asc">Price (Low-High)</option>
+            <option value="price-desc">Price (High-Low)</option>
+            <option value="slider">Slider Products First</option>
+          </select>
+        </div>
+        
+        <!-- STATS -->
+        <div class="manage-stats" id="manageStats">
+          <div class="manage-stat">Total: <strong id="statTotal">0</strong></div>
+          <div class="manage-stat">Showing: <strong id="statShowing">0</strong></div>
+          <div class="manage-stat" style="border-color:var(--orange);">In Slider: <strong id="statSlider" style="color:var(--orange);">0</strong></div>
+        </div>
+        
         <div id="prodList"><p style="text-align:center;color:var(--dim);padding:20px;">Loading...</p></div>
       </div>
     </div>
@@ -234,9 +335,10 @@
     const fb={apiKey:"AIzaSyBgjmBFNOLieDDQNtiKxaE_YK9JqnLgBhc",authDomain:"zashi-store.firebaseapp.com",projectId:"zashi-store",storageBucket:"zashi-store.firebasestorage.app",messagingSenderId:"1073727653000",appId:"1:1073727653000:web:57c717b6dd882541e9cb3d"};
     firebase.initializeApp(fb);const auth=firebase.auth();const db=firebase.firestore();
     let editCatId=null,editProdId=null;
+    let allManageProducts=[];
 
     auth.onAuthStateChanged(u=>{
-      if(u){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('userEmail').textContent=u.email;loadCats();loadCatDD();loadProds();loadSets();loadSoc();}
+      if(u){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('userEmail').textContent=u.email;loadCats();loadCatDD();loadProds();loadSets();loadSoc();loadManageCategories();}
       else{document.getElementById('loginScreen').classList.remove('hidden');}
     });
 
@@ -245,7 +347,7 @@
       if(btn)btn.classList.add('active');
       document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
       document.getElementById('tab-'+id).classList.add('active');
-      const titles={products:'Products',categories:'Categories',settings:'Settings',social:'Social Media',manage:'Manage'};
+      const titles={products:'Products',categories:'Categories',settings:'Settings',social:'Social Media',manage:'Manage Products'};
       document.getElementById('pageTitle').textContent=titles[id]||'';
       if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
       if(id==='manage')loadProds();
@@ -259,6 +361,21 @@
     function prevImg(u){const b=document.getElementById('imgPrev');if(u.trim())b.innerHTML=`<img src="${u.trim()}" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-times\\' style=\\'color:var(--red)\\'></i>'">`;else b.innerHTML='<i class="fas fa-image"></i>';}
     function prevCatIcon(u){const b=document.getElementById('catIconPrev');if(u.trim())b.innerHTML=`<img src="${u.trim()}" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-times\\' style=\\'color:var(--red)\\'></i>'">`;else b.innerHTML='<i class="fas fa-image"></i>';}
 
+    // ===== Slider Toggle =====
+    function toggleSliderPosition(){
+      const cb=document.getElementById('itemShowInSlider');
+      const box=document.getElementById('sliderPositionBox');
+      if(cb.checked){
+        box.classList.add('show');
+        if(!document.getElementById('itemSliderPosition').value){
+          document.getElementById('itemSliderPosition').value='1';
+        }
+      } else {
+        box.classList.remove('show');
+        document.getElementById('itemSliderPosition').value='';
+      }
+    }
+
     // ===== CATEGORIES =====
     function loadCats(){
       const c=document.getElementById('catList');
@@ -268,6 +385,17 @@
       });
     }
     function loadCatDD(){db.collection("categories").orderBy("name").get().then(s=>{const d=document.getElementById('itemCategory');d.innerHTML='<option value="">Select</option>';s.forEach(doc=>{d.innerHTML+=`<option value="${doc.id}" data-name="${doc.data().name}">${doc.data().name}</option>`;});});}
+    
+    // Load categories into Manage filter dropdown
+    function loadManageCategories(){
+      db.collection("categories").orderBy("name").get().then(s=>{
+        const d=document.getElementById('manageCategoryFilter');
+        d.innerHTML='<option value="">All Categories</option>';
+        s.forEach(doc=>{
+          d.innerHTML+=`<option value="${doc.id}">${doc.data().name}</option>`;
+        });
+      });
+    }
 
     function saveCategory(){
       const name=document.getElementById('catName').value.trim();const iconUrl=document.getElementById('catIconUrl').value.trim();const btn=document.getElementById('saveCatBtn');
@@ -276,11 +404,11 @@
       btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>...';
       const data={name,iconUrl,timestamp:firebase.firestore.FieldValue.serverTimestamp()};
       const p=editCatId?db.collection("categories").doc(editCatId).update(data):db.collection("categories").add(data);
-      p.then(()=>{toast(editCatId?'Updated!':'Added!');cancelEditCat();loadCats();loadCatDD();}).catch(e=>{toast(e.message,true);btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Save';});
+      p.then(()=>{toast(editCatId?'Updated!':'Added!');cancelEditCat();loadCats();loadCatDD();loadManageCategories();}).catch(e=>{toast(e.message,true);btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Save';});
     }
     function editCat(id,name,url){editCatId=id;document.getElementById('catName').value=name;document.getElementById('catIconUrl').value=url;prevCatIcon(url);document.getElementById('saveCatBtn').innerHTML='<i class="fas fa-save"></i> Update';document.getElementById('cancelCatBtn').classList.remove('hidden');document.getElementById('pageTitle').textContent='Edit Category';}
     function cancelEditCat(){editCatId=null;document.getElementById('catName').value='';document.getElementById('catIconUrl').value='';prevCatIcon('');document.getElementById('saveCatBtn').innerHTML='<i class="fas fa-save"></i> Save Category';document.getElementById('cancelCatBtn').classList.add('hidden');document.getElementById('pageTitle').textContent='Categories';}
-    function delCat(id){if(confirm('Delete?'))db.collection("categories").doc(id).delete().then(()=>{toast('Deleted');loadCats();loadCatDD();});}
+    function delCat(id){if(confirm('Delete?'))db.collection("categories").doc(id).delete().then(()=>{toast('Deleted');loadCats();loadCatDD();loadManageCategories();});}
 
     function resetCategories(){
       if(!confirm('Delete all & add 17 defaults with PNG links?'))return;
@@ -303,22 +431,333 @@
         {name:"Gift Packing Items",iconUrl:"https://i.postimg.cc/GtYbpgmg/Gift-Packing.png"},
         {name:"Wedding Decoration",iconUrl:"https://i.postimg.cc/sfZjKx4c/Wedding-Decoration.png"}
       ];
-      db.collection("categories").get().then(s=>Promise.all(s.docs.map(d=>d.ref.delete()))).then(()=>Promise.all(defs.map(c=>db.collection("categories").add({...c,timestamp:firebase.firestore.FieldValue.serverTimestamp()})))).then(()=>{toast('17 categories loaded!');loadCats();loadCatDD();});
+      db.collection("categories").get().then(s=>Promise.all(s.docs.map(d=>d.ref.delete()))).then(()=>Promise.all(defs.map(c=>db.collection("categories").add({...c,timestamp:firebase.firestore.FieldValue.serverTimestamp()})))).then(()=>{toast('17 categories loaded!');loadCats();loadCatDD();loadManageCategories();});
     }
 
     // ===== PRODUCTS =====
     function saveProduct(){
-      const name=document.getElementById('itemName').value.trim();const price=document.getElementById('itemPrice').value.trim();const dp=document.getElementById('itemDiscountPrice').value.trim();const cs=document.getElementById('itemCategory');const img=document.getElementById('itemImage').value.trim();
+      const name=document.getElementById('itemName').value.trim();
+      const price=document.getElementById('itemPrice').value.trim();
+      const dp=document.getElementById('itemDiscountPrice').value.trim();
+      const cs=document.getElementById('itemCategory');
+      const img=document.getElementById('itemImage').value.trim();
+      const showInSlider=document.getElementById('itemShowInSlider').checked;
+      const sliderPosition=parseInt(document.getElementById('itemSliderPosition').value)||0;
+      
       if(!name||!price||!cs.value||!img){toast('Fill all * fields!',true);return;}
+      if(showInSlider && sliderPosition<1){toast('Slider position must be 1 or greater!',true);return;}
+      
       const btn=document.getElementById('saveProdBtn');btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>...';
-      const data={name,price,discountPrice:dp||'',category:cs.value,categoryName:cs.options[cs.selectedIndex]?.getAttribute('data-name')||'',description:document.getElementById('itemDescription').value.trim(),colors:document.getElementById('itemColors').value.trim(),imageUrl:img,isFeatured:document.getElementById('itemIsFeatured').checked,isNewArrival:document.getElementById('itemIsNew').checked,outOfStock:document.getElementById('itemOutOfStock').checked,addedBy:auth.currentUser.email};
+      
+      const data={
+        name,
+        price,
+        discountPrice:dp||'',
+        category:cs.value,
+        categoryName:cs.options[cs.selectedIndex]?.getAttribute('data-name')||'',
+        description:document.getElementById('itemDescription').value.trim(),
+        colors:document.getElementById('itemColors').value.trim(),
+        imageUrl:img,
+        isFeatured:document.getElementById('itemIsFeatured').checked,
+        isNewArrival:document.getElementById('itemIsNew').checked,
+        outOfStock:document.getElementById('itemOutOfStock').checked,
+        showInSlider:showInSlider,
+        sliderPosition:showInSlider?sliderPosition:0,
+        addedBy:auth.currentUser.email
+      };
+      
       const p=editProdId?db.collection("items").doc(editProdId).update(data):db.collection("items").add({...data,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
-      p.then(()=>{toast(editProdId?'Updated!':'Added!');cancelEditProd();loadProds();}).catch(e=>{toast(e.message,true);btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Save';});
+      p.then(()=>{
+        toast(editProdId?'Updated!':'Added!');
+        cancelEditProd();
+        loadProds();
+      }).catch(e=>{
+        toast(e.message,true);
+        btn.disabled=false;
+        btn.innerHTML='<i class="fas fa-save"></i> Save';
+      });
     }
-    function editProd(id,d){editProdId=id;goTab('products',document.querySelector('.nav-btn'));document.getElementById('itemName').value=d.name||'';document.getElementById('itemPrice').value=d.price||'';document.getElementById('itemDiscountPrice').value=d.discountPrice||'';document.getElementById('itemImage').value=d.imageUrl||'';document.getElementById('itemDescription').value=d.description||'';document.getElementById('itemColors').value=d.colors||'';document.getElementById('itemIsFeatured').checked=!!d.isFeatured;document.getElementById('itemIsNew').checked=!!d.isNewArrival;document.getElementById('itemOutOfStock').checked=!!d.outOfStock;prevImg(d.imageUrl);setTimeout(()=>{document.getElementById('itemCategory').value=d.category||'';},100);document.getElementById('saveProdBtn').innerHTML='<i class="fas fa-save"></i> Update';document.getElementById('cancelProdBtn').classList.remove('hidden');document.getElementById('pageTitle').textContent='Edit Product';}
-    function cancelEditProd(){editProdId=null;['itemName','itemPrice','itemDiscountPrice','itemImage','itemDescription','itemColors'].forEach(id=>document.getElementById(id).value='');document.getElementById('itemCategory').value='';document.getElementById('itemIsFeatured').checked=false;document.getElementById('itemIsNew').checked=false;document.getElementById('itemOutOfStock').checked=false;prevImg('');document.getElementById('saveProdBtn').innerHTML='<i class="fas fa-save"></i> Save Product';document.getElementById('cancelProdBtn').classList.add('hidden');document.getElementById('pageTitle').textContent='Products';}
-    function loadProds(){const c=document.getElementById('prodList');db.collection("items").orderBy("timestamp","desc").get().then(s=>{if(s.empty){c.innerHTML='<p style="text-align:center;color:var(--dim);">No products.</p>';return;}let h='';s.forEach(d=>{const p=d.data();const pd=JSON.stringify({name:p.name||'',price:p.price||'',discountPrice:p.discountPrice||'',category:p.category||'',imageUrl:p.imageUrl||'',description:p.description||'',colors:p.colors||'',isFeatured:!!p.isFeatured,isNewArrival:!!p.isNewArrival,outOfStock:!!p.outOfStock}).replace(/'/g,"&#39;").replace(/"/g,"&quot;");h+=`<div class="prod-item"><img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/48'"><div style="flex:1;"><h4 style="font-size:0.9em;">${p.name}</h4><p style="font-size:0.8em;color:var(--text2);">Rs. ${p.price} • ${p.categoryName||''}</p></div><button class="btn btn-o" style="padding:6px 12px;font-size:0.8em;" onclick='editProd("${d.id}",${pd.replace(/'/g,"\\'")})'><i class="fas fa-edit"></i></button><button class="btn btn-d" style="padding:6px 12px;font-size:0.8em;" onclick="delProd('${d.id}')"><i class="fas fa-trash"></i></button></div>`;});c.innerHTML=h;});}
-    function delProd(id){if(confirm('Delete?'))db.collection("items").doc(id).delete().then(()=>{toast('Deleted');loadProds();});}
+    
+    function editProd(id,d){
+      editProdId=id;
+      goTab('products',document.querySelector('.nav-btn'));
+      document.getElementById('itemName').value=d.name||'';
+      document.getElementById('itemPrice').value=d.price||'';
+      document.getElementById('itemDiscountPrice').value=d.discountPrice||'';
+      document.getElementById('itemImage').value=d.imageUrl||'';
+      document.getElementById('itemDescription').value=d.description||'';
+      document.getElementById('itemColors').value=d.colors||'';
+      document.getElementById('itemIsFeatured').checked=!!d.isFeatured;
+      document.getElementById('itemIsNew').checked=!!d.isNewArrival;
+      document.getElementById('itemOutOfStock').checked=!!d.outOfStock;
+      
+      // Slider fields
+      document.getElementById('itemShowInSlider').checked=!!d.showInSlider;
+      document.getElementById('itemSliderPosition').value=d.sliderPosition||'';
+      toggleSliderPosition();
+      if(d.showInSlider && d.sliderPosition){
+        document.getElementById('itemSliderPosition').value=d.sliderPosition;
+      }
+      
+      prevImg(d.imageUrl);
+      setTimeout(()=>{document.getElementById('itemCategory').value=d.category||'';},100);
+      document.getElementById('saveProdBtn').innerHTML='<i class="fas fa-save"></i> Update';
+      document.getElementById('cancelProdBtn').classList.remove('hidden');
+      document.getElementById('pageTitle').textContent='Edit Product';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    
+    function cancelEditProd(){
+      editProdId=null;
+      ['itemName','itemPrice','itemDiscountPrice','itemImage','itemDescription','itemColors','itemSliderPosition'].forEach(id=>document.getElementById(id).value='');
+      document.getElementById('itemCategory').value='';
+      document.getElementById('itemIsFeatured').checked=false;
+      document.getElementById('itemIsNew').checked=false;
+      document.getElementById('itemOutOfStock').checked=false;
+      document.getElementById('itemShowInSlider').checked=false;
+      document.getElementById('sliderPositionBox').classList.remove('show');
+      prevImg('');
+      document.getElementById('saveProdBtn').innerHTML='<i class="fas fa-save"></i> Save Product';
+      document.getElementById('cancelProdBtn').classList.add('hidden');
+      document.getElementById('pageTitle').textContent='Products';
+    }
+    
+    // Load all products for Manage tab
+    function loadProds(){
+      const c=document.getElementById('prodList');
+      c.innerHTML='<p style="text-align:center;color:var(--dim);padding:20px;"><i class="fas fa-spinner fa-spin"></i> Loading...</p>';
+      
+      db.collection("items").orderBy("timestamp","desc").get().then(s=>{
+        allManageProducts=[];
+        s.forEach(d=>{
+          allManageProducts.push({id:d.id,...d.data()});
+        });
+        updateStats();
+        filterManageProducts();
+      }).catch(e=>{
+        c.innerHTML='<p style="text-align:center;color:var(--red);padding:20px;">Error: '+e.message+'</p>';
+      });
+    }
+    
+    function updateStats(){
+      document.getElementById('statTotal').textContent=allManageProducts.length;
+      const sliderCount=allManageProducts.filter(p=>p.showInSlider).length;
+      document.getElementById('statSlider').textContent=sliderCount;
+    }
+    
+    // Filter and render manage products
+    function filterManageProducts(){
+      const query=document.getElementById('manageSearch').value.trim().toLowerCase();
+      const categoryFilter=document.getElementById('manageCategoryFilter').value;
+      const sortBy=document.getElementById('manageSort').value;
+      
+      // Show/hide clear button
+      const clearBtn=document.getElementById('manageSearchClear');
+      if(query)clearBtn.classList.add('show');
+      else clearBtn.classList.remove('show');
+      
+      // Filter
+      let filtered=allManageProducts.filter(p=>{
+        // Category filter
+        if(categoryFilter && p.category!==categoryFilter)return false;
+        
+        // Search filter
+        if(query){
+          const searchIn=[
+            (p.name||'').toLowerCase(),
+            (p.categoryName||'').toLowerCase(),
+            (p.description||'').toLowerCase(),
+            (p.colors||'').toLowerCase(),
+            String(p.price||''),
+            String(p.discountPrice||'')
+          ].join(' ');
+          if(!searchIn.includes(query))return false;
+        }
+        return true;
+      });
+      
+      // Sort
+      filtered.sort((a,b)=>{
+        switch(sortBy){
+          case 'name-asc': return (a.name||'').localeCompare(b.name||'');
+          case 'name-desc': return (b.name||'').localeCompare(a.name||'');
+          case 'price-asc': return (parseFloat(a.price)||0)-(parseFloat(b.price)||0);
+          case 'price-desc': return (parseFloat(b.price)||0)-(parseFloat(a.price)||0);
+          case 'slider':
+            if(a.showInSlider && !b.showInSlider)return -1;
+            if(!a.showInSlider && b.showInSlider)return 1;
+            return (a.sliderPosition||0)-(b.sliderPosition||0);
+          case 'newest':
+          default:
+            const at=a.timestamp?.toMillis?.()||0;
+            const bt=b.timestamp?.toMillis?.()||0;
+            return bt-at;
+        }
+      });
+      
+      document.getElementById('statShowing').textContent=filtered.length;
+      renderManageList(filtered);
+    }
+    
+    function renderManageList(products){
+      const c=document.getElementById('prodList');
+      
+      if(!products.length){
+        if(allManageProducts.length===0){
+          c.innerHTML='<div class="empty-state"><i class="fas fa-box-open"></i><p>Abhi koi product nahi hai. Products tab se add karein.</p></div>';
+        } else {
+          c.innerHTML='<div class="empty-state"><i class="fas fa-search"></i><p>Koi product nahi mila.</p><button class="btn btn-o" style="margin-top:12px;" onclick="clearManageSearch()"><i class="fas fa-times"></i> Clear Search</button></div>';
+        }
+        return;
+      }
+      
+      let h='';
+      products.forEach(p=>{
+        const pd=JSON.stringify({
+          name:p.name||'',price:p.price||'',discountPrice:p.discountPrice||'',
+          category:p.category||'',categoryName:p.categoryName||'',
+          imageUrl:p.imageUrl||'',description:p.description||'',colors:p.colors||'',
+          isFeatured:!!p.isFeatured,isNewArrival:!!p.isNewArrival,outOfStock:!!p.outOfStock,
+          showInSlider:!!p.showInSlider,sliderPosition:p.sliderPosition||0
+        }).replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+        
+        // Tags
+        let tags='';
+        if(p.showInSlider)tags+=`<span class="tag slider"><i class="fas fa-images"></i> Slider #${p.sliderPosition||'?'}</span>`;
+        if(p.outOfStock)tags+=`<span class="tag stock"><i class="fas fa-times-circle"></i> Out of Stock</span>`;
+        if(p.isFeatured)tags+=`<span class="tag"><i class="fas fa-star"></i> Featured</span>`;
+        if(p.isNewArrival)tags+=`<span class="tag"><i class="fas fa-sparkles"></i> New</span>`;
+        
+        h+=`<div class="prod-item">
+          <img src="${p.imageUrl||''}" onerror="this.src='https://via.placeholder.com/48'">
+          <div style="flex:1;min-width:0;">
+            <h4 style="font-size:0.9em;margin-bottom:4px;">${p.name||'Untitled'}</h4>
+            <div class="prod-meta">
+              <span>Rs. ${p.price||'0'}</span>
+              <span>• ${p.categoryName||'No category'}</span>
+            </div>
+            ${tags?`<div class="prod-meta" style="margin-top:6px;">${tags}</div>`:''}
+          </div>
+          <div style="display:flex;gap:6px;flex-shrink:0;">
+            <button class="btn btn-o" style="padding:6px 12px;font-size:0.8em;" onclick='editProd("${p.id}",${pd.replace(/'/g,"\\'")})' title="Edit"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-d" style="padding:6px 12px;font-size:0.8em;" onclick="delProd('${p.id}','${(p.name||'').replace(/'/g,"\\'")}')" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>`;
+      });
+      c.innerHTML=h;
+    }
+    
+    function clearManageSearch(){
+      document.getElementById('manageSearch').value='';
+      document.getElementById('manageCategoryFilter').value='';
+      document.getElementById('manageSort').value='newest';
+      filterManageProducts();
+      document.getElementById('manageSearch').focus();
+    }
+    
+    function delProd(id,name){
+      if(confirm(`Delete "${name||'this product'}"? Ye action undo nahi ho sakti.`)){
+        db.collection("items").doc(id).delete().then(()=>{
+          toast('Product deleted');
+          loadProds();
+        }).catch(e=>toast(e.message,true));
+      }
+    }
+
+    // ===== SYNC =====
+    function syncProductFields(){
+      if(!confirm('Ye operation saare products ko scan karega aur missing fields add karega. Continue?'))return;
+      
+      const btn=document.getElementById('syncBtn');
+      const resultBox=document.getElementById('syncResult');
+      btn.disabled=true;
+      btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Syncing...';
+      resultBox.style.display='none';
+      
+      db.collection("items").get().then(snapshot=>{
+        const total=snapshot.size;
+        let toUpdate=[];
+        let alreadyHad=0;
+        
+        snapshot.forEach(doc=>{
+          const data=doc.data();
+          const missing={};
+          
+          if(data.showInSlider===undefined)missing.showInSlider=false;
+          if(data.sliderPosition===undefined)missing.sliderPosition=0;
+          
+          if(Object.keys(missing).length>0){
+            toUpdate.push({id:doc.id,missing});
+          } else {
+            alreadyHad++;
+          }
+        });
+        
+        if(toUpdate.length===0){
+          resultBox.className='sync-result success';
+          resultBox.innerHTML=`
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <i class="fas fa-check-circle" style="color:var(--green);font-size:1.5em;"></i>
+              <strong>Sab kuch already synced hai!</strong>
+            </div>
+            <div class="sync-stat"><span>Total Products:</span><strong>${total}</strong></div>
+            <div class="sync-stat"><span>Already Had Fields:</span><strong>${alreadyHad}</strong></div>
+            <div class="sync-stat"><span>Updated:</span><strong>0</strong></div>
+          `;
+          resultBox.style.display='block';
+          toast('Sab already synced!');
+          btn.disabled=false;
+          btn.innerHTML='<i class="fas fa-sync-alt"></i> Sync Now';
+          return;
+        }
+        
+        // Batch update (max 500 per batch)
+        const batches=[];
+        for(let i=0;i<toUpdate.length;i+=500){
+          batches.push(toUpdate.slice(i,i+500));
+        }
+        
+        let completed=0;
+        const promises=batches.map(batchItems=>{
+          const batch=db.batch();
+          batchItems.forEach(item=>{
+            const ref=db.collection("items").doc(item.id);
+            batch.update(ref,item.missing);
+          });
+          return batch.commit().then(()=>{completed+=batchItems.length;});
+        });
+        
+        return Promise.all(promises).then(()=>{
+          resultBox.className='sync-result success';
+          resultBox.innerHTML=`
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <i class="fas fa-check-circle" style="color:var(--green);font-size:1.5em;"></i>
+              <strong>Sync Complete!</strong>
+            </div>
+            <div class="sync-stat"><span>Total Products Scanned:</span><strong>${total}</strong></div>
+            <div class="sync-stat"><span>Products Updated:</span><strong style="color:var(--green);">${completed}</strong></div>
+            <div class="sync-stat"><span>Already Had Fields:</span><strong>${alreadyHad}</strong></div>
+            <div class="sync-stat"><span>Errors:</span><strong style="color:var(--green);">0</strong></div>
+          `;
+          resultBox.style.display='block';
+          toast(`${completed} products synced!`);
+          loadProds();
+        });
+      }).catch(e=>{
+        resultBox.className='sync-result error';
+        resultBox.innerHTML=`
+          <div style="display:flex;align-items:center;gap:10px;">
+            <i class="fas fa-exclamation-circle" style="color:var(--red);font-size:1.5em;"></i>
+            <div><strong>Sync failed</strong><br><span style="font-size:0.85em;">${e.message}</span></div>
+          </div>
+        `;
+        resultBox.style.display='block';
+        toast('Sync failed: '+e.message,true);
+      }).finally(()=>{
+        btn.disabled=false;
+        btn.innerHTML='<i class="fas fa-sync-alt"></i> Sync Now';
+      });
+    }
 
     // ===== SETTINGS =====
     function loadSets(){db.collection("settings").doc("store").get().then(d=>{if(d.exists){const s=d.data();document.getElementById('setFreeDel').checked=s.freeDeliveryEnabled||false;document.getElementById('setDelCharge').value=s.deliveryCharges||200;document.getElementById('setFreeThresh').value=s.freeDeliveryThreshold||2000;document.getElementById('setAnnounce').value=s.announcementText||'';document.getElementById('setWA').value=s.whatsappNumber||'';document.getElementById('setPhone').value=s.phoneNumber||'';document.getElementById('setEmail').value=s.emailAddress||'';}});}
