@@ -56,6 +56,8 @@
       --hero-overlay: rgba(2,6,23,0.85);
       --hero-overlay-bottom: rgba(2,6,23,0.95);
       --modal-overlay: rgba(0,0,0,0.85);
+      --brand-navy: #f8fafc;
+      --brand-blue: #60a5fa;
     }
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
     html { scroll-behavior:smooth; }
@@ -70,11 +72,9 @@
     img { max-width: 100%; height: auto; }
     button { -webkit-appearance: none; }
 
-    /* ===== DARK MODE PNG FIX ===== */
+    /* ===== DARK MODE PNG INVERT ===== */
     [data-theme="dark"] .category-icon-img,
-    [data-theme="dark"] .cat-icon-sm img {
-      filter: invert(1) brightness(1.3) contrast(1.1);
-    }
+    [data-theme="dark"] .cat-icon-sm img,
     [data-theme="dark"] .logo img {
       filter: invert(1) brightness(1.3) contrast(1.1);
     }
@@ -103,7 +103,7 @@
 
     .search-wrapper { flex:1; max-width:400px; position:relative; display:none; }
     .search-wrapper input { width:100%; padding:11px 42px 11px 40px; border-radius:50px; border:1px solid var(--glass-border); background:var(--input-bg); color:var(--text-primary); font-size:0.88em; font-family:'Inter',sans-serif; transition:all 0.3s; }
-    .search-wrapper input:focus { outline:none; border-color:var(--brand-navy); box-shadow:0 0 0 3px rgba(15,23,42,0.1); }
+    .search-wrapper input:focus { outline:none; border-color:var(--brand-blue); box-shadow:0 0 0 3px rgba(96,165,250,0.15); }
     .search-wrapper .search-icon-left { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-dim); pointer-events:none; font-size:0.9em; }
     .search-wrapper .search-clear { position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--text-dim); cursor:pointer; background:none; border:none; font-size:0.9em; display:none; padding:4px; }
     .search-wrapper .search-clear.show { display:block; }
@@ -187,8 +187,8 @@
     }
     .mobile-search-header input:focus {
       outline:none;
-      border-color:var(--brand-navy);
-      box-shadow:0 0 0 3px rgba(15,23,42,0.1);
+      border-color:var(--brand-blue);
+      box-shadow:0 0 0 3px rgba(96,165,250,0.15);
     }
     .mobile-search-header .close-search {
       background:var(--bg-secondary);
@@ -246,7 +246,7 @@
     }
     .search-suggestion-item .price {
       font-size:0.8em;
-      color:var(--brand-navy);
+      color:var(--brand-blue);
       font-weight:600;
     }
 
@@ -259,6 +259,8 @@
     .info-page h2 { font-family:'Playfair Display',serif; font-size:1.2em; color:var(--brand-navy); margin:20px 0 10px; }
     .info-page p,.info-page li { color:var(--text-secondary); font-size:0.92em; line-height:1.7; margin-bottom:10px; }
     .highlight-box { background:var(--bg-secondary); border:1px solid var(--glass-border); border-radius:12px; padding:16px; margin:16px 0; }
+    .highlight-box h2 { color: var(--text-primary); }
+    .highlight-box p { color: var(--text-secondary); }
 
     #shop-view { display:block; }
     #shop-view.hidden { display:none; }
@@ -279,11 +281,11 @@
     .hero p { color:var(--text-secondary); font-size:clamp(0.95em,2.5vw,1.15em); margin-bottom:28px; max-width:500px; margin-left:auto; margin-right:auto; font-weight:400; }
     .hero-buttons { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
     .hero-btn { padding:14px 26px; border-radius:12px; font-size:0.88em; font-weight:600; cursor:pointer; border:none; min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:8px; transition:all 0.3s; text-decoration:none; font-family:'Inter',sans-serif; }
-    .hero-btn-primary { background:var(--brand-navy); color:#fff; box-shadow: 0 4px 14px rgba(15,23,42,0.25); }
-    .hero-btn-primary:active { background:var(--brand-blue); transform:scale(0.97); }
-    .hero-btn-secondary { background:rgba(255,255,255,0.9); color:var(--brand-navy); border:1.5px solid var(--brand-navy); }
-    [data-theme="dark"] .hero-btn-secondary { background:rgba(255,255,255,0.08); color:#f8fafc; border-color:rgba(248,250,252,0.4); }
-    .hero-btn-secondary:active { background:var(--brand-navy); color:#fff; }
+    .hero-btn-primary { background:var(--brand-navy); color:var(--bg-primary); box-shadow: 0 4px 14px rgba(15,23,42,0.25); }
+    [data-theme="dark"] .hero-btn-primary { background: var(--brand-blue); color: #fff; }
+    .hero-btn-primary:active { transform:scale(0.97); }
+    .hero-btn-secondary { background:var(--bg-primary); color:var(--text-primary); border:1.5px solid var(--glass-border); }
+    .hero-btn-secondary:active { transform:scale(0.97); }
 
     /* ===== HERO SLIDER ===== */
     .hero-slider {
@@ -366,6 +368,7 @@
       font-weight: 700;
       line-height: 1.15;
       margin-bottom: 8px;
+      color: #fff;
       text-shadow: 0 2px 15px rgba(0,0,0,0.4);
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -377,7 +380,7 @@
       font-size: 0.85em;
       line-height: 1.5;
       margin-bottom: 12px;
-      opacity: 0.92;
+      color: rgba(255,255,255,0.95);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -388,6 +391,7 @@
       font-size: clamp(1.1em, 4vw, 1.6em);
       font-weight: 700;
       margin-bottom: 16px;
+      color: #fff;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -505,7 +509,6 @@
       color: var(--brand-blue);
       margin-bottom: 4px;
     }
-    [data-theme="dark"] .trust-item i { color: var(--green); }
 
     /* ===== SECTIONS ===== */
     .section-block { padding:30px 12px; max-width:1400px; margin:0 auto; }
@@ -516,8 +519,9 @@
     .search-results-header.show { display:block; }
     .search-results-bar { background:var(--bg-secondary); border:1px solid var(--glass-border); border-radius:10px; padding:12px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
     .search-results-bar .search-info { display:flex; align-items:center; gap:8px; font-size:0.82em; color:var(--text-secondary); }
-    .search-results-bar .search-info strong { color:var(--brand-navy); }
-    .search-results-bar .clear-search { background:var(--brand-navy); color:#fff; border:none; padding:6px 12px; border-radius:20px; font-size:0.75em; cursor:pointer; font-weight:600; display:inline-flex; align-items:center; gap:5px; min-height: 32px; }
+    .search-results-bar .search-info strong { color:var(--text-primary); }
+    .search-results-bar .clear-search { background:var(--brand-navy); color:var(--bg-primary); border:none; padding:6px 12px; border-radius:20px; font-size:0.75em; cursor:pointer; font-weight:600; display:inline-flex; align-items:center; gap:5px; min-height: 32px; }
+    [data-theme="dark"] .search-results-bar .clear-search { background: var(--brand-blue); color: #fff; }
 
     /* ===== CATEGORIES ===== */
     #categoriesGrid { 
@@ -650,7 +654,7 @@
       cursor:pointer;
       z-index:2;
       font-size:0.85em;
-      color:var(--text-secondary);
+      color:#64748b;
       transition:all 0.2s;
     }
     .card-wishlist:active { transform:scale(0.9); }
@@ -687,7 +691,7 @@
     .card-quick-actions .qa-cart {
       flex:0 0 40px;
       background:var(--bg-primary);
-      color:var(--brand-navy);
+      color:var(--text-primary);
       border:1px solid var(--glass-border);
     }
 
@@ -731,7 +735,7 @@
     .price-current { 
       font-size:1em; 
       font-weight:700; 
-      color:var(--brand-navy); 
+      color:var(--text-primary); 
     }
     .price-old {
       font-size:0.7em;
@@ -741,10 +745,11 @@
 
     /* ===== FOOTER ===== */
     footer { 
-      background:var(--brand-navy); 
+      background:#0f172a; 
       padding:40px 16px 90px; 
       margin-top:30px; 
     }
+    [data-theme="dark"] footer { background: #020617; }
     .footer-grid { 
       display:grid; 
       grid-template-columns:repeat(2,1fr); 
@@ -782,6 +787,7 @@
       border-radius:0; 
       position:relative; 
       animation:modalIn 0.3s; 
+      color: var(--text-primary);
     }
     @media(min-width:640px){ 
       .modal-content {
@@ -894,9 +900,9 @@
     .bottom-nav-item i {
       font-size:1.35em;
     }
-    .bottom-nav-item:active { color:var(--brand-navy); transform:scale(0.95); }
-    .bottom-nav-item.active { color:var(--brand-navy); }
-    [data-theme="dark"] .bottom-nav-item.active { color: var(--green); }
+    .bottom-nav-item:active { transform:scale(0.95); }
+    .bottom-nav-item.active { color:var(--brand-blue); }
+    .bottom-nav-item.active i { color: var(--brand-blue); }
     .bottom-nav-item .bn-badge {
       position:absolute;
       top:4px;
@@ -921,7 +927,7 @@
       left:50%;
       transform:translateX(-50%) translateY(100px);
       background:var(--brand-navy);
-      color:#fff;
+      color:var(--bg-primary);
       padding:12px 22px;
       border-radius:50px;
       font-weight:600;
@@ -935,6 +941,7 @@
       max-width:calc(100% - 40px);
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
+    [data-theme="dark"] #toast { background: #1e293b; color: #f8fafc; }
     #toast.show {
       transform:translateX(-50%) translateY(0);
       opacity:1;
@@ -960,7 +967,7 @@
     }
     .empty-state button {
       background:var(--brand-navy);
-      color:#fff;
+      color:var(--bg-primary);
       border:none;
       padding:12px 24px;
       border-radius:10px;
@@ -969,6 +976,7 @@
       cursor:pointer;
       font-family:'Inter',sans-serif;
     }
+    [data-theme="dark"] .empty-state button { background: var(--brand-blue); color: #fff; }
 
     /* ===== RESPONSIVE (Desktop) ===== */
     @media(min-width:768px){
@@ -982,7 +990,7 @@
         list-style:none; 
       }
       .nav-menu a { color:var(--text-secondary); text-decoration:none; font-size:0.85em; font-weight:500; cursor:pointer; transition:color 0.3s; }
-      .nav-menu a:hover { color:var(--brand-navy); }
+      .nav-menu a:hover { color:var(--text-primary); }
       .logo img { height:45px; }
       .logo-text .brand-name { font-size:1.3em; }
       .logo-text .brand-tag { display:block; }
@@ -1044,7 +1052,10 @@
         padding:8px;
         min-height: auto;
       }
-      /* Desktop: 3 cards per row */
+      .card-quick-actions .qa-cart {
+        background:#fff;
+        color: #0f172a;
+      }
       .grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
       #categoriesGrid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 16px; }
     }
@@ -1074,7 +1085,6 @@
       </div>
     </a>
     
-    <!-- Desktop Search -->
     <div class="search-wrapper">
       <i class="fas fa-search search-icon-left"></i>
       <input type="text" id="searchInput" placeholder="Search products..." oninput="handleSearch(this.value)">
@@ -1090,23 +1100,19 @@
     </ul>
 
     <div class="nav-icons">
-      <!-- Mobile Search -->
       <button class="icon-btn mobile-search-btn" onclick="openMobileSearch()" aria-label="Search">
         <i class="fas fa-search"></i>
       </button>
       
-      <!-- Theme Toggle -->
       <button class="icon-btn" onclick="toggleTheme()" aria-label="Theme">
         <i class="fas fa-moon" id="themeIcon"></i>
       </button>
       
-      <!-- Wishlist (Hidden on mobile - in bottom nav) -->
       <button class="icon-btn desktop-only" onclick="toggleWishlistPage()" aria-label="Wishlist">
         <i class="fas fa-heart"></i>
         <span class="wish-count" id="wishCount" style="display:none;">0</span>
       </button>
       
-      <!-- Cart (Hidden on mobile - in bottom nav) -->
       <button class="icon-btn desktop-only" onclick="toggleCart()" aria-label="Cart">
         <i class="fas fa-shopping-bag"></i>
         <span class="cart-count" id="cartCount" style="display:none;">0</span>
@@ -1140,7 +1146,7 @@
       <div class="slider-dots" id="sliderDots"></div>
     </section>
 
-    <!-- ===== DEFAULT HERO (Fallback) ===== -->
+    <!-- ===== DEFAULT HERO ===== -->
     <section class="hero" id="defaultHero">
       <div class="hero-bg"></div>
       <div class="hero-content">
@@ -1313,7 +1319,7 @@
   <div class="modal" id="wishlistSidebar">
     <div class="modal-content">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid var(--glass-border);">
-        <h2 style="font-family:'Playfair Display',serif;color:var(--brand-navy);font-size:1.3em;"><i class="fas fa-heart" style="color:var(--red);"></i> Wishlist</h2>
+        <h2 style="font-family:'Playfair Display',serif;color:var(--text-primary);font-size:1.3em;"><i class="fas fa-heart" style="color:var(--red);"></i> Wishlist</h2>
         <button class="close" onclick="toggleWishlistPage()" style="position:static;">&times;</button>
       </div>
       <div id="wishlistItems" style="flex:1;overflow-y:auto;"></div>
@@ -1324,13 +1330,13 @@
   <div class="modal" id="cartSidebar">
     <div class="modal-content">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid var(--glass-border);">
-        <h2 style="font-family:'Playfair Display',serif;color:var(--brand-navy);font-size:1.3em;"><i class="fas fa-shopping-bag"></i> Cart</h2>
+        <h2 style="font-family:'Playfair Display',serif;color:var(--text-primary);font-size:1.3em;"><i class="fas fa-shopping-bag"></i> Cart</h2>
         <button class="close" onclick="toggleCart()" style="position:static;">&times;</button>
       </div>
       <div id="cartItems" style="flex:1;overflow-y:auto;"></div>
       <div style="padding-top:15px;border-top:1px solid var(--glass-border);">
-        <div style="display:flex;justify-content:space-between;margin-bottom:15px;font-size:1.1em;font-weight:700;color:var(--brand-navy);"><span>Total:</span><span id="cartTotal">Rs. 0</span></div>
-        <button class="hero-btn hero-btn-primary" style="width:100%;justify-content:center;background:var(--green);" onclick="checkoutWhatsApp()"><i class="fab fa-whatsapp"></i> Checkout</button>
+        <div style="display:flex;justify-content:space-between;margin-bottom:15px;font-size:1.1em;font-weight:700;color:var(--text-primary);"><span>Total:</span><span id="cartTotal">Rs. 0</span></div>
+        <button class="hero-btn hero-btn-primary" style="width:100%;justify-content:center;background:var(--green);color:#fff;" onclick="checkoutWhatsApp()"><i class="fab fa-whatsapp"></i> Checkout</button>
       </div>
     </div>
   </div>
@@ -1339,17 +1345,17 @@
   <div id="orderModal" class="modal">
     <div class="modal-content">
       <button class="close" onclick="closeModal()">&times;</button>
-      <h2 style="font-family:'Playfair Display',serif;text-align:center;margin-bottom:20px;color:var(--brand-navy);">Complete <span style="color:var(--brand-blue);">Order</span></h2>
+      <h2 style="font-family:'Playfair Display',serif;text-align:center;margin-bottom:20px;color:var(--text-primary);">Complete <span style="color:var(--brand-blue);">Order</span></h2>
       <div id="orderSummaryBox" style="background:var(--bg-secondary);padding:14px;border-radius:8px;margin-bottom:18px;font-size:0.88em;color:var(--text-secondary);border:1px solid var(--glass-border);"></div>
-      <label style="font-size:0.78em;color:var(--brand-navy);font-weight:600;">Full Name *</label>
+      <label style="font-size:0.78em;color:var(--text-primary);font-weight:600;">Full Name *</label>
       <input type="text" id="custName" placeholder="Ahmed Khan" style="width:100%;padding:13px;margin:5px 0 14px;border-radius:10px;border:1px solid var(--glass-border);background:var(--input-bg);color:var(--text-primary);font-size:0.95em;">
-      <label style="font-size:0.78em;color:var(--brand-navy);font-weight:600;">Phone *</label>
+      <label style="font-size:0.78em;color:var(--text-primary);font-weight:600;">Phone *</label>
       <input type="tel" id="custPhone" placeholder="0300 1234567" style="width:100%;padding:13px;margin:5px 0 14px;border-radius:10px;border:1px solid var(--glass-border);background:var(--input-bg);color:var(--text-primary);font-size:0.95em;">
-      <label style="font-size:0.78em;color:var(--brand-navy);font-weight:600;">Address *</label>
+      <label style="font-size:0.78em;color:var(--text-primary);font-weight:600;">Address *</label>
       <textarea id="custAddress" placeholder="House #, Street, Area" style="width:100%;padding:13px;margin:5px 0 14px;border-radius:10px;border:1px solid var(--glass-border);background:var(--input-bg);color:var(--text-primary);min-height:80px;font-size:0.95em;font-family:'Inter',sans-serif;"></textarea>
-      <label style="font-size:0.78em;color:var(--brand-navy);font-weight:600;">City *</label>
+      <label style="font-size:0.78em;color:var(--text-primary);font-weight:600;">City *</label>
       <input type="text" id="custCity" placeholder="Karachi" style="width:100%;padding:13px;margin:5px 0 14px;border-radius:10px;border:1px solid var(--glass-border);background:var(--input-bg);color:var(--text-primary);font-size:0.95em;">
-      <button class="hero-btn hero-btn-primary" style="width:100%;justify-content:center;margin-top:8px;background:var(--green);" onclick="sendToWhatsApp()"><i class="fab fa-whatsapp"></i> Place Order</button>
+      <button class="hero-btn hero-btn-primary" style="width:100%;justify-content:center;margin-top:8px;background:var(--green);color:#fff;" onclick="sendToWhatsApp()"><i class="fab fa-whatsapp"></i> Place Order</button>
     </div>
   </div>
 
@@ -1359,12 +1365,12 @@
       <button class="close" onclick="closeProductModal()">&times;</button>
       <img id="pmImage" src="" style="width:100%;height:280px;object-fit:cover;border-radius:12px;margin-bottom:14px;background:var(--bg-tertiary);">
       <div id="pmCategory" style="color:var(--brand-blue);font-size:0.72em;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px;"></div>
-      <h2 id="pmName" style="font-family:'Playfair Display',serif;font-size:1.5em;color:var(--brand-navy);margin-bottom:8px;line-height:1.25;"></h2>
-      <div id="pmPriceBlock" style="font-size:1.35em;font-weight:700;color:var(--brand-navy);margin-bottom:12px;"></div>
+      <h2 id="pmName" style="font-family:'Playfair Display',serif;font-size:1.5em;color:var(--text-primary);margin-bottom:8px;line-height:1.25;"></h2>
+      <div id="pmPriceBlock" style="font-size:1.35em;font-weight:700;color:var(--text-primary);margin-bottom:12px;"></div>
       <p id="pmDescription" style="color:var(--text-secondary);font-size:0.9em;line-height:1.7;margin-bottom:18px;"></p>
       <div style="display:flex;gap:8px;">
         <button class="hero-btn hero-btn-secondary" style="flex:1;justify-content:center;padding:13px 16px;" onclick="addCurrentToCart()"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
-        <button class="hero-btn hero-btn-primary" style="flex:1;justify-content:center;background:var(--green);padding:13px 16px;" onclick="buyNowWhatsApp()"><i class="fab fa-whatsapp"></i> Buy Now</button>
+        <button class="hero-btn hero-btn-primary" style="flex:1;justify-content:center;background:var(--green);color:#fff;padding:13px 16px;" onclick="buyNowWhatsApp()"><i class="fab fa-whatsapp"></i> Buy Now</button>
       </div>
     </div>
   </div>
@@ -1412,7 +1418,6 @@
     let isSliderPaused=false;
     const SLIDE_INTERVAL=5000;
 
-    // Toast
     function showToast(msg,type){
       const t=document.getElementById('toast');
       const icon=t.querySelector('i');
@@ -1424,7 +1429,6 @@
       t._timeout=setTimeout(()=>t.classList.remove('show'),2500);
     }
 
-    // Mobile Search
     function openMobileSearch(){
       document.getElementById('mobileSearchOverlay').classList.add('show');
       setTimeout(()=>document.getElementById('mobileSearchInput').focus(),100);
@@ -1501,7 +1505,6 @@
       });
     }
 
-    // ===== SLIDER =====
     function loadSliderProducts(){
       db.collection("items")
         .where("showInSlider","==",true)
@@ -1668,12 +1671,11 @@
 
     function sliderOrderNow(product){quickOrder(product);}
 
-    // ===== PRODUCTS RENDER =====
     function renderProducts(products){
       const box=document.getElementById('itemsContainer');
       if(!products.length){
         if(currentSearchQuery){
-          box.innerHTML=`<div style="text-align:center;grid-column:1/-1;padding:50px 20px;color:var(--text-dim);"><i class="fas fa-search" style="font-size:2.5em;opacity:0.3;margin-bottom:12px;display:block;"></i><p style="font-size:1em;color:var(--text-secondary);margin-bottom:6px;">No products for "<strong style="color:var(--brand-navy);">${currentSearchQuery}</strong>"</p><p style="font-size:0.82em;">Try different keywords</p></div>`;
+          box.innerHTML=`<div style="text-align:center;grid-column:1/-1;padding:50px 20px;color:var(--text-dim);"><i class="fas fa-search" style="font-size:2.5em;opacity:0.3;margin-bottom:12px;display:block;"></i><p style="font-size:1em;color:var(--text-secondary);margin-bottom:6px;">No products for "<strong style="color:var(--text-primary);">${currentSearchQuery}</strong>"</p><p style="font-size:0.82em;">Try different keywords</p></div>`;
         } else {
           box.innerHTML='<div style="text-align:center;grid-column:1/-1;padding:40px;color:var(--text-dim);">No products.</div>';
         }
@@ -1715,7 +1717,6 @@
       }).join('');
     }
 
-    // ===== WISHLIST =====
     function toggleWishlist(id,el){
       const i=wishlist.indexOf(id);
       if(i>-1){
@@ -1774,8 +1775,8 @@
         return`<div style="display:flex;gap:12px;margin-bottom:12px;align-items:center;background:var(--bg-secondary);padding:10px;border-radius:10px;border:1px solid var(--glass-border);">
           <img src="${p.imageUrl}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;" onclick='toggleWishlistPage();openProductModal(${pj})'>
           <div style="flex:1;min-width:0;">
-            <div style="font-weight:600;font-size:0.88em;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div>
-            <div style="color:var(--brand-navy);font-weight:700;font-size:0.95em;margin-bottom:8px;">Rs. ${price.toLocaleString()}</div>
+            <div style="font-weight:600;font-size:0.88em;margin-bottom:4px;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div>
+            <div style="color:var(--text-primary);font-weight:700;font-size:0.95em;margin-bottom:8px;">Rs. ${price.toLocaleString()}</div>
             <div style="display:flex;gap:6px;">
               <button onclick="event.stopPropagation();moveWishToCart('${p.id}')" style="flex:1;background:var(--green);color:#fff;border:none;padding:7px;border-radius:6px;font-size:0.72em;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">
                 <i class="fas fa-cart-plus"></i> Add to Cart
@@ -1795,10 +1796,8 @@
       addToCart(p);
       toggleWishlist(id,null);
       renderWishlist();
-      showToast('Cart mein add ho gaya ✅');
     }
 
-    // ===== SEARCH =====
     let searchTimeout;
     function handleSearch(query){
       const clearBtn=document.getElementById('searchClear');
@@ -1864,7 +1863,6 @@
       },100);
     }
 
-    // ===== PRODUCT MODAL =====
     function openProductModal(p){
       currentProduct=p;
       const price=p.discountPrice&&p.discountPrice<p.price?p.discountPrice:p.price;
@@ -1917,7 +1915,7 @@
         return`<div style="display:flex;gap:12px;margin-bottom:12px;align-items:center;background:var(--bg-secondary);padding:10px;border-radius:10px;border:1px solid var(--glass-border);">
           <img src="${item.imageUrl}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
           <div style="flex:1;min-width:0;">
-            <div style="font-weight:600;font-size:0.88em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
+            <div style="font-weight:600;font-size:0.88em;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
             <div style="color:var(--text-secondary);font-size:0.82em;margin-top:2px;">Rs. ${Number(item.price).toLocaleString()} × ${item.quantity}</div>
           </div>
           <button onclick="cart.splice(${i},1);updateCart();" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:1.1em;padding:8px;">
@@ -2002,7 +2000,6 @@
       }
     });
 
-    // ===== INIT =====
     updateCart();
     updateWishlistCount();
     loadStoreSettings();
