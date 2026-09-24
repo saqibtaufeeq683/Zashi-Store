@@ -200,8 +200,8 @@
       align-items: center;
       justify-content: flex-start;
       gap: 8px;
-      min-height: 105px; /* Ensures uniform height and prevents text overflow */
-      overflow: hidden; /* Prevents any accidental bleed */
+      min-height: 105px;
+      overflow: hidden;
     }
     .category-card:hover {
       background: var(--card-bg);
@@ -233,7 +233,7 @@
       word-break: break-word;
       hyphens: auto;
       display: -webkit-box;
-      -webkit-line-clamp: 2; /* Limits text to maximum 2 lines */
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -378,13 +378,13 @@
     <h1>Contact Us</h1>
     <p>We'd love to hear from you! Reach out to us for any queries, order tracking, or feedback.</p>
     <div class="highlight-box">
-      <p><i class="fas fa-phone" style="color:var(--brand-blue); margin-right:10px;"></i> <strong>Phone:</strong> +92 333 3487086 / +92 326 3310288</p>
-      <p><i class="fab fa-whatsapp" style="color:var(--green); margin-right:10px;"></i> <strong>WhatsApp:</strong> +92 326 3310288</p>
+      <p><i class="fas fa-phone" style="color:var(--brand-blue); margin-right:10px;"></i> <strong>Phone:</strong> <span id="contactPhone">+92 326 3310288</span></p>
+      <p><i class="fab fa-whatsapp" style="color:var(--green); margin-right:10px;"></i> <strong>WhatsApp:</strong> <span id="contactWhatsApp">+92 326 3310288</span></p>
       <p><i class="fas fa-map-marker-alt" style="color:var(--brand-blue); margin-right:10px;"></i> <strong>Location:</strong> Sukkur, Sindh, Pakistan</p>
     </div>
     <h2>Send us a Message</h2>
     <p>For the fastest response, please click the button below to chat with our support team directly.</p>
-    <button class="hero-btn hero-btn-primary" style="margin-top:15px;" onclick="window.open('https://wa.me/923263310288', '_blank')">
+    <button class="hero-btn hero-btn-primary" style="margin-top:15px;" onclick="window.open('https://wa.me/923263310288', '_blank')" id="contactWaBtn">
       <i class="fab fa-whatsapp"></i> Chat on WhatsApp
     </button>
   </section>
@@ -465,9 +465,9 @@
         <h4>Zashi Super Store</h4>
         <p style="margin-bottom:20px; line-height:1.7;">Pakistan's Most Trusted Shopping Destination for Jewelry, Makeup & Electronics.</p>
         <div style="display:flex; gap:12px;">
-          <a href="https://instagram.com/zashisuperstore" target="_blank" style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1em;"><i class="fab fa-instagram"></i></a>
-          <a href="https://facebook.com/zashisuperstore" target="_blank" style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1em;"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://wa.me/923263310288" target="_blank" style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1em;"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://instagram.com/zashisuperstore" target="_blank" class="social-ig" style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1em;"><i class="fab fa-instagram"></i></a>
+          <a href="https://facebook.com/zashisuperstore" target="_blank" class="social-fb" style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1em;"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://wa.me/923263310288" target="_blank" class="social-wa" style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1em;"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer-col">
@@ -576,18 +576,18 @@
       const name = categoryName.toLowerCase();
       if (name.includes('anniversary')) return 'https://i.postimg.cc/zB4J8Y8B/anniversary.png';
       if (name.includes('jewel') || name.includes('artificial')) return 'https://i.postimg.cc/nzXHyhbr/Artificial-Jewellery.png';
-      if (name.includes('baloon') || name.includes('balloons')) return 'https://i.postimg.cc/xCB0nVnz/Baloons.png';
+      if (name.includes('balloon') || name.includes('balloons') || name.includes('baloon') || name.includes('baloons')) return 'https://i.postimg.cc/xCB0nVnz/Baloons.png';
       if (name.includes('birthday')) return 'https://i.postimg.cc/vBCQbwbZ/Birthday.png';
       if (name.includes('cosmetic') || name.includes('cosmatics')) return 'https://i.postimg.cc/HxFpd1dS/cosmatics.png';
       if (name.includes('decoration')) return 'https://i.postimg.cc/nzNHpfpP/Decoration.png';
       if (name.includes('gajra')) return 'https://i.postimg.cc/LXGH2F2W/Gajra-Sets.png';
-      if (name.includes('gift-box') || name.includes('gift boxes')) return 'https://i.postimg.cc/J0JRhYzP/Gift-Boxes.png';
-      if (name.includes('gift-pack') || name.includes('gift packing')) return 'https://i.postimg.cc/GtYbpgmg/Gift-Packing.png';
+      if (name.includes('gift-box') || name.includes('gift boxes') || name.includes('giftbox')) return 'https://i.postimg.cc/J0JRhYzP/Gift-Boxes.png';
+      if (name.includes('gift-pack') || name.includes('gift packing') || name.includes('giftpacking')) return 'https://i.postimg.cc/GtYbpgmg/Gift-Packing.png';
       if (name.includes('makeup')) return 'https://i.postimg.cc/mkMTrprf/Makeup.png';
       if (name.includes('mehndi')) return 'https://i.postimg.cc/D0s7zpzT/mehndi.png';
-      if (name.includes('purse') || name.includes('bag')) return 'https://i.postimg.cc/90TcfgfV/Purses-Bags.png';
-      if (name.includes('undergarment')) return 'https://i.postimg.cc/wMJ9B4B6/Undergarments.png';
-      if (name.includes('watch')) return 'https://i.postimg.cc/BZ1SNbBD/Watches.png';
+      if (name.includes('purse') || name.includes('bag') || name.includes('bags')) return 'https://i.postimg.cc/90TcfgfV/Purses-Bags.png';
+      if (name.includes('undergarment') || name.includes('undergarments')) return 'https://i.postimg.cc/wMJ9B4B6/Undergarments.png';
+      if (name.includes('watch') || name.includes('watches')) return 'https://i.postimg.cc/BZ1SNbBD/Watches.png';
       if (name.includes('wedding-ceremony') || name.includes('wedding ceremony')) return 'https://i.postimg.cc/gc6z4jHv/Wedding-Ceremony.png';
       if (name.includes('wedding-decor') || name.includes('wedding decoration')) return 'https://i.postimg.cc/sfZjKx4c/Wedding-Decoration.png';
       return 'https://cdn-icons-png.flaticon.com/512/3524/3524636.png';
@@ -626,7 +626,53 @@
     let allProducts = [];
     let currentProduct = null;
     let orderContext = null;
-    const whatsappNumber = "923263310288";
+    let storeWhatsApp = "923263310288"; // Default, will be updated from settings
+
+    // ===== DYNAMIC SETTINGS SYNC (Admin Panel se data pull karna) =====
+    function loadStoreSettings() {
+      db.collection("settings").doc("store").get().then((doc) => {
+        if (doc.exists) {
+          const d = doc.data();
+          
+          // 1. Announcement Bar
+          if (d.announcementText) {
+            const annEl = document.getElementById('announcementText');
+            if (annEl) annEl.textContent = d.announcementText;
+          }
+          
+          // 2. Footer & Contact Info
+          if (d.phoneNumber) {
+            const phoneEl = document.getElementById('contactPhone');
+            if (phoneEl) phoneEl.textContent = d.phoneNumber;
+            const footPhone = document.getElementById('footerPhone'); // Agar footer mein add kiya ho
+          }
+          if (d.emailAddress) {
+            const emailEl = document.getElementById('footerEmail');
+            if (emailEl) emailEl.textContent = d.emailAddress;
+          }
+          
+          // 3. WhatsApp Number Sync (Sabhi links update honge)
+          if (d.whatsappNumber) {
+            storeWhatsApp = d.whatsappNumber;
+            document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+              link.href = `https://wa.me/${storeWhatsApp}`;
+            });
+            const waText = document.getElementById('contactWhatsApp');
+            if (waText) waText.textContent = '+' + storeWhatsApp;
+          }
+
+          // 4. Social Media Links Sync
+          if (d.facebookUrl) {
+            const fbLink = document.querySelector('.social-fb');
+            if (fbLink) fbLink.href = d.facebookUrl;
+          }
+          if (d.instagramUrl) {
+            const igLink = document.querySelector('.social-ig');
+            if (igLink) igLink.href = d.instagramUrl;
+          }
+        }
+      }).catch(err => console.error("Settings load error:", err));
+    }
 
     function loadCategories() {
       db.collection("categories").orderBy("name").get().then((snap) => {
@@ -827,7 +873,7 @@
       }
       msg += `\n👤 *Customer:* ${name}\n📱 *Phone:* ${phone}\n📍 *Address:* ${address}, ${city}\n━━━━━━━━━━━━━━━━\n💳 *Payment:* Cash on Delivery 🇵🇰\n\nPlease confirm my order.`;
       
-      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+      window.open(`https://wa.me/${storeWhatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
       closeModal();
       if (orderContext.type === 'cart') { cart = []; updateCart(); }
     }
@@ -838,7 +884,9 @@
       }
     };
 
+    // ===== INITIALIZATION =====
     updateCart();
+    loadStoreSettings(); // Admin panel se settings load karega
     loadCategories();
     loadProducts();
   </script>
