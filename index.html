@@ -278,7 +278,6 @@
       color: var(--brand-navy);
     }
 
-    /* Slider Arrows */
     .slider-arrow {
       position: absolute;
       top: 50%;
@@ -308,7 +307,6 @@
     .slider-arrow.prev { left: 24px; }
     .slider-arrow.next { right: 24px; }
 
-    /* Slider Dots */
     .slider-dots {
       position: absolute;
       bottom: 28px;
@@ -337,7 +335,6 @@
       border-radius: 6px;
     }
 
-    /* Out of Stock Badge on Slide */
     .slide-stock-badge {
       position: absolute;
       top: 24px;
@@ -358,7 +355,6 @@
     .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.8em,5vw,2.8em); text-align:center; color:var(--brand-navy); margin-bottom:30px; }
     .section-title span { color:var(--brand-blue); }
 
-    /* Search Results Header */
     .search-results-header { display:none; max-width:1400px; margin:0 auto 20px; padding:0 20px; }
     .search-results-header.show { display:block; }
     .search-results-bar { background:var(--bg-secondary); border:1px solid var(--glass-border); border-radius:12px; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
@@ -377,22 +373,172 @@
     .category-card:hover .category-icon-img { transform:scale(1.1); }
     .category-name { font-weight:600; color:var(--text-primary); font-size:0.75em; line-height:1.2; text-align:center; word-break:break-word; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 
-    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px; }
-    .card { background:var(--card-bg); border-radius:12px; overflow:hidden; border:1px solid var(--glass-border); transition:all 0.3s; cursor:pointer; box-shadow:var(--shadow); }
-    .card:hover { transform:translateY(-6px); box-shadow:var(--shadow-hover); }
-    .card-image-wrapper { position:relative; overflow:hidden; aspect-ratio:1; background:var(--bg-tertiary); }
-    .card img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
-    .card:hover img { transform:scale(1.05); }
-    .card-body { padding:16px; }
-    .card-category { color:var(--brand-blue); font-size:0.65em; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
-    .card-title { font-size:1em; font-weight:600; color:var(--text-primary); margin-bottom:10px; line-height:1.4; min-height:2.8em; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .price-current { font-size:1.15em; font-weight:700; color:var(--brand-navy); }
-    .card-actions { display:flex; gap:8px; margin-top:12px; }
-    .btn-order-sm,.btn-cart-sm { border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:600; font-size:0.75em; display:flex; align-items:center; justify-content:center; gap:6px; font-family:'Inter',sans-serif; min-height:42px; transition:all 0.3s; }
-    .btn-order-sm { flex:1; background:var(--green); color:#fff; }
-    .btn-order-sm:hover { background:var(--green-dark); }
-    .btn-cart-sm { flex:0 0 42px; background:var(--bg-secondary); color:var(--brand-navy); border:1px solid var(--glass-border); }
-    .btn-cart-sm:hover { background:var(--brand-navy); color:#fff; }
+    /* ===== DARAZ-STYLE COMPACT CARDS ===== */
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
+    @media(min-width:768px){ .grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;} }
+    @media(min-width:1200px){ .grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;} }
+
+    .card { 
+      background:var(--card-bg); 
+      border-radius:10px; 
+      overflow:hidden; 
+      border:1px solid var(--glass-border); 
+      transition:all 0.25s; 
+      cursor:pointer; 
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+    }
+    .card:hover { 
+      transform:translateY(-3px); 
+      box-shadow:var(--shadow-hover);
+      border-color:var(--brand-blue);
+    }
+    .card-image-wrapper { 
+      position:relative; 
+      overflow:hidden; 
+      aspect-ratio:1; 
+      background:var(--bg-tertiary);
+    }
+    .card img { 
+      width:100%; 
+      height:100%; 
+      object-fit:cover; 
+      transition:transform 0.4s; 
+    }
+    .card:hover img { transform:scale(1.08); }
+
+    .card-discount-badge {
+      position:absolute;
+      top:6px;
+      right:6px;
+      background:var(--red);
+      color:#fff;
+      font-size:0.6em;
+      font-weight:700;
+      padding:3px 7px;
+      border-radius:4px;
+      letter-spacing:0.3px;
+      z-index:2;
+    }
+
+    .card-oos-badge {
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.55);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:0.75em;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      z-index:3;
+    }
+
+    .card-quick-actions {
+      position:absolute;
+      bottom:0;
+      left:0;
+      right:0;
+      display:flex;
+      gap:6px;
+      padding:8px;
+      background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      transform:translateY(100%);
+      transition:transform 0.3s;
+      z-index:2;
+    }
+    .card:hover .card-quick-actions {
+      transform:translateY(0);
+    }
+    .card-quick-actions button {
+      flex:1;
+      padding:8px;
+      border-radius:6px;
+      border:none;
+      font-size:0.7em;
+      font-weight:600;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+      font-family:'Inter',sans-serif;
+      transition:all 0.2s;
+    }
+    .card-quick-actions .qa-order {
+      background:var(--green);
+      color:#fff;
+    }
+    .card-quick-actions .qa-order:hover {
+      background:var(--green-dark);
+    }
+    .card-quick-actions .qa-cart {
+      flex:0 0 36px;
+      background:#fff;
+      color:var(--brand-navy);
+    }
+    .card-quick-actions .qa-cart:hover {
+      background:var(--brand-navy);
+      color:#fff;
+    }
+
+    .card-body { 
+      padding:10px 12px 12px; 
+      display:flex;
+      flex-direction:column;
+      flex:1;
+    }
+    .card-category { 
+      color:var(--text-dim); 
+      font-size:0.6em; 
+      font-weight:500; 
+      text-transform:uppercase; 
+      letter-spacing:0.8px; 
+      margin-bottom:4px;
+      display:-webkit-box;
+      -webkit-line-clamp:1;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+    .card-title { 
+      font-size:0.82em; 
+      font-weight:500; 
+      color:var(--text-primary); 
+      margin-bottom:6px; 
+      line-height:1.35; 
+      min-height:2.7em;
+      display:-webkit-box; 
+      -webkit-line-clamp:2; 
+      -webkit-box-orient:vertical; 
+      overflow:hidden; 
+    }
+    .price-row {
+      display:flex;
+      align-items:baseline;
+      gap:6px;
+      margin-top:auto;
+      flex-wrap:wrap;
+    }
+    .price-current { 
+      font-size:1em; 
+      font-weight:700; 
+      color:var(--brand-navy); 
+    }
+    .price-old {
+      font-size:0.75em;
+      color:var(--text-dim);
+      text-decoration:line-through;
+    }
+
+    @media(max-width:480px){
+      .card-body { padding:8px 10px 10px; }
+      .card-title { font-size:0.78em; }
+      .price-current { font-size:0.95em; }
+      .card-category { font-size:0.55em; }
+    }
 
     footer { background:var(--brand-navy); padding:60px 20px 30px; margin-top:60px; }
     .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:40px; max-width:1200px; margin:0 auto 40px; text-align:left; }
@@ -416,12 +562,10 @@
       .logo-text .brand-tag { font-size:0.55em; letter-spacing:1.5px; }
     }
     @media(max-width:768px){
-      .grid { grid-template-columns:repeat(2,1fr); gap:12px; }
       .hero { min-height:75vh; padding:60px 15px 40px; }
       .navbar { padding:10px 14px; gap:10px; flex-wrap:wrap; }
       .search-wrapper { order:3; flex-basis:100%; max-width:100%; margin-top:4px; }
       
-      /* Slider Mobile */
       .hero-slider { height: 75vh; min-height: 480px; }
       .slide-content {
         padding: 0 24px;
@@ -493,7 +637,7 @@
       <div class="slider-dots" id="sliderDots"></div>
     </section>
 
-    <!-- ===== DEFAULT HERO (Fallback - if no slider products) ===== -->
+    <!-- ===== DEFAULT HERO (Fallback) ===== -->
     <section class="hero" id="defaultHero">
       <div class="hero-bg"></div>
       <div class="hero-content">
@@ -651,7 +795,6 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script>
-    // Theme toggle
     function toggleTheme(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('themeIcon').className=n==='dark'?'fas fa-sun':'fas fa-moon';}
     (function(){const s=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',s);document.getElementById('themeIcon').className=s==='dark'?'fas fa-sun':'fas fa-moon';})();
 
@@ -669,7 +812,7 @@
     let storeWhatsApp="923263310288";
     let currentSearchQuery='';
 
-    // ===== SLIDER STATE =====
+    // Slider state
     let sliderProducts=[];
     let currentSlide=0;
     let autoPlayTimer=null;
@@ -711,7 +854,7 @@
       });
     }
 
-    // ===== LOAD SLIDER PRODUCTS =====
+    // ===== SLIDER =====
     function loadSliderProducts(){
       db.collection("items")
         .where("showInSlider","==",true)
@@ -721,16 +864,13 @@
           sliderProducts=[];
           snap.forEach(doc=>{
             const p={id:doc.id,...doc.data()};
-            // Sirf woh products jinke paas image, name, price ho
             if(p.imageUrl && p.name && p.price){
               sliderProducts.push(p);
             }
           });
-          
           if(sliderProducts.length>0){
             renderSlider();
           } else {
-            // Fallback: default hero dikhao
             showDefaultHero();
           }
         })
@@ -746,24 +886,21 @@
       document.getElementById('defaultHero').style.display='flex';
     }
 
-    // ===== RENDER SLIDER =====
     function renderSlider(){
       const slider=document.getElementById('heroSlider');
       const track=document.getElementById('sliderTrack');
       const dotsBox=document.getElementById('sliderDots');
       
-      // Show slider, hide default hero
       document.getElementById('defaultHero').style.display='none';
       slider.style.display='block';
       slider.classList.add('active');
       
-      // Build slides
       let slidesHTML='';
       let dotsHTML='';
       
       sliderProducts.forEach((p,index)=>{
-        const price=p.discountPrice&&Number(p.discountPrice)<Number(p.price)?Number(p.discountPrice):Number(p.price);
         const hasDiscount=p.discountPrice&&Number(p.discountPrice)<Number(p.price);
+        const price=hasDiscount?Number(p.discountPrice):Number(p.price);
         const discountPercent=hasDiscount?Math.round(((Number(p.price)-Number(p.discountPrice))/Number(p.price))*100):0;
         const productJSON=JSON.stringify(p).replace(/'/g,"&#39;");
         
@@ -799,7 +936,6 @@
       dotsBox.innerHTML=dotsHTML;
       currentSlide=0;
       
-      // Hide arrows if only 1 slide
       const arrows=slider.querySelectorAll('.slider-arrow');
       if(sliderProducts.length<=1){
         arrows.forEach(a=>a.style.display='none');
@@ -809,7 +945,6 @@
         dotsBox.style.display='flex';
       }
       
-      // Setup auto-play + swipe
       setupSliderEvents();
       startAutoPlay();
     }
@@ -822,26 +957,17 @@
       const track=document.getElementById('sliderTrack');
       track.style.transform=`translateX(-${index*100}%)`;
       
-      // Update active slide
       document.querySelectorAll('.slide').forEach((s,i)=>{
         s.classList.toggle('active',i===index);
       });
       
-      // Update dots
       document.querySelectorAll('.slider-dots .dot').forEach((d,i)=>{
         d.classList.toggle('active',i===index);
       });
     }
 
-    function nextSlide(){
-      goToSlide(currentSlide+1);
-      restartAutoPlay();
-    }
-
-    function prevSlide(){
-      goToSlide(currentSlide-1);
-      restartAutoPlay();
-    }
+    function nextSlide(){goToSlide(currentSlide+1);restartAutoPlay();}
+    function prevSlide(){goToSlide(currentSlide-1);restartAutoPlay();}
 
     function startAutoPlay(){
       stopAutoPlay();
@@ -862,19 +988,20 @@
       startAutoPlay();
     }
 
+    let sliderEventsSetup=false;
     function setupSliderEvents(){
+      if(sliderEventsSetup) return;
+      sliderEventsSetup=true;
+      
       const slider=document.getElementById('heroSlider');
       
-      // Pause on hover (desktop)
       slider.addEventListener('mouseenter',()=>{isSliderPaused=true;});
       slider.addEventListener('mouseleave',()=>{isSliderPaused=false;});
       
-      // Pause when tab hidden
       document.addEventListener('visibilitychange',()=>{
         isSliderPaused=document.hidden;
       });
       
-      // Touch swipe (mobile)
       let touchStartX=0;
       let touchEndX=0;
       
@@ -891,24 +1018,18 @@
         }
       },{passive:true});
       
-      // Keyboard arrows (accessibility)
       document.addEventListener('keydown',e=>{
-        // Sirf tab jab slider visible ho
         const sliderVisible=document.getElementById('heroSlider').classList.contains('active');
         if(!sliderVisible) return;
-        // Sirf tab jab koi input focus mein na ho
         if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
         if(e.key==='ArrowLeft') prevSlide();
         if(e.key==='ArrowRight') nextSlide();
       });
     }
 
-    // Slider Order Now → WhatsApp
-    function sliderOrderNow(product){
-      quickOrder(product);
-    }
+    function sliderOrderNow(product){quickOrder(product);}
 
-    // ===== PRODUCTS RENDERING =====
+    // ===== PRODUCTS RENDER (Daraz Style) =====
     function renderProducts(products){
       const box=document.getElementById('itemsContainer');
       if(!products.length){
@@ -920,8 +1041,34 @@
         return;
       }
       box.innerHTML=products.map(p=>{
-        const price=p.discountPrice&&p.discountPrice<p.price?p.discountPrice:p.price;
-        return`<div class="card" onclick='openProductModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><div class="card-image-wrapper"><img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/400'"></div><div class="card-body"><div class="card-category">${p.categoryName||'Product'}</div><div class="card-title">${p.name}</div><div class="price-current">Rs. ${Number(price).toLocaleString()}</div><div class="card-actions"><button class="btn-order-sm" onclick="event.stopPropagation();quickOrder(${JSON.stringify(p).replace(/'/g,"&#39;")})"><i class="fab fa-whatsapp"></i> Order</button><button class="btn-cart-sm" onclick="event.stopPropagation();addToCart(${JSON.stringify(p).replace(/'/g,"&#39;")})"><i class="fas fa-cart-plus"></i></button></div></div></div>`;
+        const hasDiscount=p.discountPrice&&Number(p.discountPrice)<Number(p.price);
+        const price=hasDiscount?Number(p.discountPrice):Number(p.price);
+        const discountPercent=hasDiscount?Math.round(((Number(p.price)-Number(p.discountPrice))/Number(p.price))*100):0;
+        const pj=JSON.stringify(p).replace(/'/g,"&#39;");
+        
+        return`<div class="card" onclick='openProductModal(${pj})'>
+          <div class="card-image-wrapper">
+            <img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/400'" loading="lazy" alt="${p.name||''}">
+            ${hasDiscount?`<span class="card-discount-badge">-${discountPercent}%</span>`:''}
+            ${p.outOfStock?`<div class="card-oos-badge">Out of Stock</div>`:''}
+            <div class="card-quick-actions">
+              <button class="qa-order" onclick="event.stopPropagation();quickOrder(${pj})">
+                <i class="fab fa-whatsapp"></i> Order
+              </button>
+              <button class="qa-cart" onclick="event.stopPropagation();addToCart(${pj})">
+                <i class="fas fa-cart-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-category">${p.categoryName||'Product'}</div>
+            <div class="card-title">${p.name}</div>
+            <div class="price-row">
+              <span class="price-current">Rs. ${price.toLocaleString()}</span>
+              ${hasDiscount?`<span class="price-old">Rs. ${Number(p.price).toLocaleString()}</span>`:''}
+            </div>
+          </div>
+        </div>`;
       }).join('');
     }
 
