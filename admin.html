@@ -4,886 +4,563 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta name="theme-color" content="#0f172a">
-  <title>Admin Panel — Zashi Super Store</title>
+  <title>Admin Dashboard — Zashi Super Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg-primary: #ffffff;
-      --bg-secondary: #f8fafc;
-      --bg-tertiary: #f1f5f9;
+      --bg-primary: #f8fafc;
+      --bg-sidebar: #ffffff;
+      --bg-card: #ffffff;
       --text-primary: #0f172a;
       --text-secondary: #475569;
       --text-dim: #94a3b8;
-      --glass: rgba(15, 23, 42, 0.03);
-      --glass-border: rgba(148, 163, 184, 0.4);
-      --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
-      --shadow-hover: 0 12px 35px rgba(15, 23, 42, 0.12);
-      --card-bg: #ffffff;
-      --input-bg: #f8fafc;
+      --border-color: #e2e8f0;
       --brand-navy: #0f172a;
       --brand-blue: #1e40af;
-      --brand-silver: #cbd5e1;
       --green: #25D366;
       --green-dark: #128C7E;
       --red: #ef4444;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
     }
 
     [data-theme="dark"] {
       --bg-primary: #020617;
-      --bg-secondary: #0f172a;
-      --bg-tertiary: #1e293b;
+      --bg-sidebar: #0f172a;
+      --bg-card: #1e293b;
       --text-primary: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-dim: #64748b;
-      --glass: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(148, 163, 184, 0.2);
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-      --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.6);
-      --card-bg: #0f172a;
-      --input-bg: #1e293b;
+      --border-color: #334155;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { -webkit-text-size-adjust: 100%; }
     
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', sans-serif;
       background: var(--bg-primary);
+      color: var(--text-primary);
       min-height: 100vh;
-      padding: 15px 12px;
-      color: var(--text-primary);
-      -webkit-tap-highlight-color: transparent;
-      line-height: 1.6;
-      position: relative;
-      transition: background 0.4s ease, color 0.4s ease;
+      display: flex;
+      transition: background 0.3s, color 0.3s;
     }
-    
-    body::before {
-      content: '';
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 260px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
       position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(15, 23, 42, 0.03) 0%, transparent 45%),
-        radial-gradient(circle at 80% 80%, rgba(15, 23, 42, 0.02) 0%, transparent 45%);
-      pointer-events: none;
-      z-index: 0;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+      transition: transform 0.3s;
     }
-
-    .container {
-      max-width: 820px;
-      margin: 20px auto;
-      background: var(--card-bg);
-      border-radius: 24px;
-      padding: 32px 22px;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      position: relative;
-      z-index: 1;
-      transition: background 0.4s ease, border-color 0.4s ease;
-    }
-
-    h2 {
-      font-family: 'Playfair Display', serif;
-      text-align: center;
-      color: var(--brand-navy);
-      margin-bottom: 22px;
-      font-size: clamp(1.5em, 5vw, 2em);
-      font-weight: 600;
-    }
-    h2 i { color: var(--brand-blue); margin-right: 8px; }
-    
-    h3, h4 {
-      font-family: 'Playfair Display', serif;
-      color: var(--brand-navy);
-      margin: 22px 0 14px;
-      font-size: 1.2em;
-      font-weight: 600;
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--glass-border);
-    }
-    h4 { font-size: 1.1em; margin-bottom: 12px; border-bottom: none; }
-
-    label {
-      display: block;
-      font-size: 0.75em;
-      color: var(--brand-navy);
-      margin: 12px 0 5px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
-    }
-    .field-hint {
-      font-size: 0.7em;
-      color: var(--text-dim);
-      margin-top: 4px;
-      font-style: italic;
-    }
-
-    input, select, textarea, button {
-      width: 100%;
-      padding: 12px 15px;
-      border-radius: 8px;
-      border: 1px solid var(--glass-border);
-      font-size: 16px;
-      background: var(--input-bg);
-      color: var(--text-primary);
-      transition: all 0.3s;
-      font-family: 'Inter', sans-serif;
-    }
-    textarea { min-height: 80px; resize: vertical; }
-    
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--brand-navy);
-      background: var(--card-bg);
-      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
-    }
-    input::placeholder, textarea::placeholder { color: var(--text-dim); }
-    select option { background: var(--bg-secondary); color: var(--text-primary); padding: 10px; }
-
-    .btn-primary {
-      background: var(--brand-navy);
-      color: #fff;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.85em;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.2);
-      margin-top: 14px;
-      min-height: 48px;
-    }
-    .btn-primary:hover { 
-      background: var(--brand-blue); 
-      transform: translateY(-2px); 
-      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.3); 
-    }
-    .btn-update {
-      background: var(--brand-blue);
-      color: #fff;
-      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
-    }
-    .btn-update:hover { background: #1e3a8a; }
-    .btn-reset {
-      background: var(--red);
-      color: #fff;
-      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
-    }
-    .btn-reset:hover { background: #dc2626; }
-    .btn-social {
-      background: #6c3483;
-      color: #fff;
-      box-shadow: 0 4px 15px rgba(108, 52, 131, 0.2);
-    }
-    .btn-social:hover { background: #5b2c6f; }
-    button:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
-
-    #loginScreen { text-align: center; padding: 20px 0; }
-    #adminPanel { display: none; }
-    
-    .login-icon {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--brand-navy), var(--brand-blue));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8em;
-      color: #fff;
-      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.3);
-    }
-
-    .info {
-      background: var(--bg-secondary);
-      padding: 14px;
-      border-radius: 8px;
-      margin: 14px 0;
-      font-size: 0.8em;
-      line-height: 1.8;
-      border: 1px solid var(--glass-border);
-      color: var(--text-secondary);
-    }
-    .info strong { color: var(--brand-navy); font-weight: 600; }
-    .info a { color: var(--brand-blue); text-decoration: none; border-bottom: 1px dashed var(--brand-blue); }
-
-    .view-btn {
-      background: var(--green);
-      color: white;
-      border: none;
-      margin-top: 20px;
-      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25);
-      min-height: 48px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      font-size: 0.85em;
-      border-radius: 8px;
-    }
-    .view-btn:hover { background: var(--green-dark); transform: translateY(-2px); }
-    
-    .logout-btn {
-      background: transparent;
-      color: var(--red);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      margin-top: 10px;
-      min-height: 44px;
-      cursor: pointer;
-      font-size: 0.85em;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border-radius: 8px;
-    }
-    .logout-btn:hover { background: rgba(239, 68, 68, 0.1); }
-    
-    .cancel-btn {
-      background: transparent;
-      color: var(--text-dim);
-      border: 1px solid var(--glass-border);
-      margin-top: 8px;
-      display: none;
-      min-height: 44px;
-      cursor: pointer;
-      font-size: 0.85em;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border-radius: 8px;
-    }
-    .cancel-btn:hover { background: var(--bg-tertiary); color: var(--text-primary); }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 12px 16px;
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      margin-bottom: 20px;
-      border: 1px solid var(--glass-border);
-      font-size: 0.82em;
-      flex-wrap: wrap;
-      word-break: break-all;
-    }
-    .user-info i { color: var(--green); font-size: 1.15em; }
-    .user-info strong { color: var(--green); font-weight: 600; }
-
-    .loading { text-align: center; padding: 50px 20px; color: var(--brand-navy); font-size: 1em; }
-
-    .tab-buttons {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 22px;
-      padding: 5px;
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      border: 1px solid var(--glass-border);
-      flex-wrap: wrap;
-    }
-    .tab-btn {
-      flex: 1;
-      min-width: 80px;
-      background: transparent;
-      color: var(--text-secondary);
-      border: none;
-      font-size: 0.72em;
-      padding: 10px 6px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-transform: uppercase;
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-    }
-    .tab-btn:hover { color: var(--brand-navy); background: var(--glass); }
-    .tab-btn.active {
-      background: var(--brand-navy);
-      color: #fff;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
-    }
-
-    .tab-content { display: none; animation: tabIn 0.4s ease; }
-    .tab-content.active { display: block; }
-    @keyframes tabIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-    .toggle-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 15px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--glass-border);
-      border-radius: 8px;
-      margin-top: 10px;
       gap: 12px;
     }
-    .toggle-label {
+    .sidebar-header i { font-size: 1.5em; color: var(--brand-blue); }
+    .sidebar-header h3 { font-family: 'Playfair Display', serif; font-size: 1.2em; color: var(--text-primary); }
+    
+    .nav-links { flex: 1; padding: 16px 12px; overflow-y: auto; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 4px;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+    }
+    .nav-item:hover { background: var(--bg-primary); color: var(--text-primary); }
+    .nav-item.active { background: var(--brand-navy); color: #fff; }
+    .nav-item i { width: 20px; text-align: center; }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-color);
+    }
+    .user-badge {
       display: flex;
       align-items: center;
       gap: 10px;
+      font-size: 0.85em;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    .user-badge i { color: var(--green); }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
       flex: 1;
-      cursor: pointer;
-      user-select: none;
+      margin-left: 260px;
+      padding: 32px;
+      max-width: 1200px;
     }
-    .toggle-label > i {
-      color: var(--brand-blue);
-      font-size: 1.15em;
-      width: 22px;
-      flex-shrink: 0;
-    }
-    .toggle-label-text strong { display: block; color: var(--text-primary); font-size: 0.88em; font-weight: 600; }
-    .toggle-label-text span { display: block; color: var(--text-dim); font-size: 0.72em; margin-top: 2px; }
-
-    .toggle-switch { position: relative; width: 48px; height: 26px; flex-shrink: 0; }
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      inset: 0;
-      background: var(--bg-tertiary);
-      border-radius: 28px;
-      transition: 0.4s;
-      border: 1px solid var(--glass-border);
-    }
-    .toggle-slider::before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background: #fff;
-      border-radius: 50%;
-      transition: 0.4s;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .toggle-switch input:checked + .toggle-slider {
-      background: var(--green);
-      border-color: transparent;
-    }
-    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
-
-    .category-list, .product-list {
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 14px;
-      max-height: 500px;
-      overflow-y: auto;
-      border: 1px solid var(--glass-border);
-    }
-    .category-item, .product-item {
-      background: var(--card-bg);
-      padding: 11px;
-      margin-bottom: 9px;
-      border-radius: 8px;
+    .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: 1px solid var(--glass-border);
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .page-title { font-family: 'Playfair Display', serif; font-size: 1.8em; color: var(--text-primary); }
+    .top-actions { display: flex; gap: 12px; }
+    
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.85em;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--brand-navy); color: #fff; }
+    .btn-primary:hover { background: var(--brand-blue); }
+    .btn-success { background: var(--green); color: #fff; }
+    .btn-success:hover { background: var(--green-dark); }
+    .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-primary); }
+    .btn-outline:hover { background: var(--bg-primary); }
+    .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--red); }
+    .btn-danger:hover { background: var(--red); color: #fff; }
+
+    /* ===== CARDS & FORMS ===== */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .card-title {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
       gap: 8px;
     }
-    .category-item:last-child, .product-item:last-child { margin-bottom: 0; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group.full { grid-column: 1 / -1; }
     
-    .category-name { font-weight: 600; color: var(--text-primary); font-size: 0.88em; }
-    .category-icon {
-      margin-right: 10px;
-      font-size: 1em;
-      color: var(--brand-blue);
-      width: 30px;
-      height: 30px;
+    label {
+      display: block;
+      font-size: 0.8em;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 0.9em;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+    }
+    textarea { min-height: 100px; resize: vertical; }
+
+    /* ===== CATEGORY SPECIFIC ===== */
+    .icon-preview-box {
+      width: 60px;
+      height: 60px;
+      border: 2px dashed var(--border-color);
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--bg-tertiary);
-      border-radius: 6px;
+      font-size: 1.5em;
+      color: var(--text-dim);
+      background: var(--bg-primary);
       flex-shrink: 0;
+    }
+    .icon-preview-box img { width: 40px; height: 40px; object-fit: contain; }
+    
+    .category-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .cat-info { display: flex; align-items: center; gap: 12px; }
+    .cat-icon-display {
+      width: 36px; height: 36px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand-blue);
       overflow: hidden;
     }
-    .category-icon img { width: 22px; height: 22px; object-fit: contain; }
+    .cat-icon-display img { width: 24px; height: 24px; object-fit: contain; }
 
-    .product-item img {
-      width: 52px;
-      height: 52px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid var(--glass-border);
-      flex-shrink: 0;
-    }
-    .product-details { flex: 1; min-width: 0; }
-    .product-details .p-name { font-weight: 600; font-size: 0.85em; color: var(--text-primary); }
-    .product-details .p-price { color: var(--brand-navy); font-size: 0.82em; font-weight: 700; margin-top: 2px; }
-    .product-details .p-price .old { color: var(--text-dim); text-decoration: line-through; font-weight: 400; font-size: 0.85em; margin-right: 4px; }
-    .product-details .p-cat { color: var(--text-dim); font-size: 0.68em; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
-    
-    .product-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
-    .mini-tag {
-      font-size: 0.6em;
-      padding: 2px 6px;
-      border-radius: 10px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    .mini-tag.featured { background: rgba(30, 64, 175, 0.1); color: var(--brand-blue); }
-    .mini-tag.sale { background: rgba(239, 68, 68, 0.1); color: var(--red); }
-    .mini-tag.new { background: rgba(37, 211, 102, 0.1); color: var(--green); }
-    .mini-tag.out { background: var(--bg-tertiary); color: var(--text-dim); }
-
-    .action-btns { display: flex; gap: 5px; flex-direction: column; }
-    .btn-edit, .btn-delete {
-      padding: 7px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.7em;
-      font-weight: 600;
-      transition: all 0.25s;
+    /* ===== PRODUCT LIST ===== */
+    .product-list-item {
       display: flex;
       align-items: center;
-      gap: 4px;
-      justify-content: center;
-      font-family: 'Inter', sans-serif;
-    }
-    .btn-edit {
-      background: rgba(30, 64, 175, 0.1);
-      color: var(--brand-blue);
-      border: 1px solid rgba(30, 64, 175, 0.2);
-    }
-    .btn-edit:hover { background: var(--brand-blue); color: #fff; }
-    .btn-delete {
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--red);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-    }
-    .btn-delete:hover { background: var(--red); color: #fff; }
-
-    .empty-state { text-align: center; padding: 35px 20px; color: var(--text-dim); }
-    .empty-state i { font-size: 2.2em; color: var(--brand-navy); opacity: 0.2; margin-bottom: 10px; display: block; }
-    
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    
-    .settings-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--glass-border);
+      gap: 16px;
+      padding: 12px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 18px;
-      margin-top: 14px;
+      margin-bottom: 8px;
     }
-    .settings-card h4 { color: var(--brand-navy); }
-    .settings-card.social h4 { color: #6c3483; }
+    .product-list-item img { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; }
+    .product-info { flex: 1; }
+    .product-info h4 { font-size: 0.9em; font-weight: 600; color: var(--text-primary); }
+    .product-info p { font-size: 0.8em; color: var(--text-secondary); }
 
-    .upload-zone {
-      border: 2px dashed var(--glass-border);
-      border-radius: 8px;
-      padding: 24px 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      background: var(--bg-secondary);
-      margin-top: 6px;
-    }
-    .upload-zone:hover { border-color: var(--brand-navy); background: var(--glass); }
-    .upload-zone i { font-size: 2em; color: var(--brand-navy); opacity: 0.6; display: block; margin-bottom: 10px; }
-    .upload-zone p { color: var(--text-secondary); font-size: 0.82em; margin-bottom: 4px; }
-    .upload-zone .small { font-size: 0.7em; color: var(--text-dim); }
-
-    .image-preview { display: none; margin-top: 12px; text-align: center; }
-    .image-preview img { max-width: 100%; max-height: 180px; border-radius: 8px; border: 1px solid var(--glass-border); }
-    .image-preview .remove-img {
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--red);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 0.72em;
-      cursor: pointer;
-      margin-top: 8px;
-      font-family: 'Inter', sans-serif;
-    }
-    .image-preview .remove-img:hover { background: var(--red); color: #fff; }
-
-    .social-field {
+    /* ===== TOGGLE SWITCH ===== */
+    .toggle-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 4px;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
     }
-    .social-field input { margin: 0; }
-    .social-field .si {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      flex-shrink: 0;
-      font-size: 0.95em;
+    .toggle-row:last-child { border-bottom: none; }
+    .toggle-label-text strong { display: block; font-size: 0.9em; color: var(--text-primary); }
+    .toggle-label-text span { font-size: 0.8em; color: var(--text-dim); }
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; inset: 0; background-color: var(--border-color);
+      transition: .4s; border-radius: 24px;
     }
-    .si-facebook { background: linear-gradient(135deg, #1877f2, #0a5ac7); }
-    .si-instagram { background: linear-gradient(135deg, #e1306c, #833ab4, #fd1d1d); }
-    .si-tiktok { background: linear-gradient(135deg, #000, #25f4ee, #fe2c55); }
-    .si-whatsapp { background: linear-gradient(135deg, var(--green), var(--green-dark)); }
+    .slider:before {
+      position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+      background-color: white; transition: .4s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--green); }
+    input:checked + .slider:before { transform: translateX(20px); }
 
+    /* ===== UTILS ===== */
+    .hidden { display: none !important; }
+    .text-center { text-align: center; }
+    .mt-4 { margin-top: 16px; }
+    
+    /* Mobile Responsive */
     @media (max-width: 768px) {
-      .container { padding: 24px 16px; margin: 12px auto; border-radius: 20px; }
-      h2 { font-size: 1.4em; }
-      .tab-btn { font-size: 0.68em; min-width: 65px; }
+      .sidebar { transform: translateX(-100%); width: 280px; }
+      .sidebar.open { transform: translateX(0); box-shadow: 10px 0 30px rgba(0,0,0,0.2); }
+      .main-content { margin-left: 0; padding: 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .mobile-menu-btn { display: block !important; }
     }
-    @media (max-width: 480px) {
-      body { padding: 8px; }
-      .container { padding: 20px 14px; }
-      .tab-buttons { flex-direction: column; }
-      .form-row { grid-template-columns: 1fr; }
-      .category-item, .product-item { flex-direction: column; align-items: stretch; }
-      .action-btns { flex-direction: row; justify-content: flex-end; margin-top: 6px; }
+    .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5em; color: var(--text-primary); cursor: pointer; }
+    
+    /* Login Screen */
+    #loginScreen {
+      position: fixed; inset: 0; background: var(--bg-primary); z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
     }
-    @media screen and (-webkit-min-device-pixel-ratio: 0) {
-      input, textarea, select { font-size: 16px; }
+    .login-card {
+      background: var(--bg-card); padding: 40px; border-radius: 16px;
+      border: 1px solid var(--border-color); width: 100%; max-width: 400px;
+      text-align: center; box-shadow: var(--shadow-md);
     }
   </style>
 </head>
 <body>
-  <div class="container">
 
-    <div id="loadingScreen" class="loading">
-      <i class="fas fa-spinner fa-spin"></i> Checking authentication...
-    </div>
-
-    <div id="loginScreen" style="display: none;">
-      <div class="login-icon"><i class="fas fa-lock"></i></div>
-      <h2>Admin Access</h2>
-      <input type="email" id="adminEmail" placeholder="Admin Email">
-      <input type="password" id="adminPass" placeholder="Password">
-      <button class="btn-primary" onclick="loginAdmin()" id="loginBtn">
-        <i class="fas fa-sign-in-alt"></i> Login
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <i class="fas fa-shield-halved" style="font-size: 3em; color: var(--brand-blue); margin-bottom: 20px;"></i>
+      <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 8px;">Admin Access</h2>
+      <p style="color: var(--text-dim); margin-bottom: 24px; font-size: 0.9em;">Zashi Super Store Dashboard</p>
+      <div class="form-group">
+        <input type="email" id="adminEmail" placeholder="Admin Email">
+      </div>
+      <div class="form-group">
+        <input type="password" id="adminPass" placeholder="Password">
+      </div>
+      <p id="errorMsg" style="color: var(--red); font-size: 0.85em; margin-bottom: 12px; display: none;"></p>
+      <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="loginAdmin()" id="loginBtn">
+        <i class="fas fa-sign-in-alt"></i> Login to Dashboard
       </button>
-      <p id="errorMsg" style="display:none;color:var(--red);text-align:center;margin-top:12px;font-size:0.85em;"></p>
+    </div
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-crown"></i>
+      <h3>Zashi Admin</h3>
     </div>
-
-    <div id="adminPanel">
-      <div class="user-info">
-        <i class="fas fa-user-shield"></i>
-        <span>Logged in as <strong id="userEmail"></strong></span>
+    <nav class="nav-links">
+      <button class="nav-item active" onclick="switchTab('products', this)"><i class="fas fa-box"></i> Products</button>
+      <button class="nav-item" onclick="switchTab('categories', this)"><i class="fas fa-tags"></i> Categories</button>
+      <button class="nav-item" onclick="switchTab('settings', this)"><i class="fas fa-cog"></i> Store Settings</button>
+      <button class="nav-item" onclick="switchTab('social', this)"><i class="fas fa-share-alt"></i> Social Media</button>
+      <button class="nav-item" onclick="switchTab('manage', this)"><i class="fas fa-list"></i> Manage Items</button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-badge">
+        <i class="fas fa-user-circle"></i>
+        <span id="userEmailDisplay">admin@zashi.com</span>
       </div>
-
-      <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchTab('products', this)">
-          <i class="fas fa-box"></i> Products
-        </button>
-        <button class="tab-btn" onclick="switchTab('categories', this)">
-          <i class="fas fa-tags"></i> Categories
-        </button>
-        <button class="tab-btn" onclick="switchTab('settings', this)">
-          <i class="fas fa-cog"></i> Settings
-        </button>
-        <button class="tab-btn" onclick="switchTab('social', this)">
-          <i class="fas fa-share-alt"></i> Social
-        </button>
-        <button class="tab-btn" onclick="switchTab('manage', this)">
-          <i class="fas fa-list"></i> Manage
-        </button>
-      </div>
-
-      <!-- ===== PRODUCTS TAB ===== -->
-      <div id="productsTab" class="tab-content active">
-        <h2 id="productFormTitle"><i class="fas fa-plus-circle"></i> Add Product</h2>
-        <div class="info">
-          <strong><i class="fas fa-lightbulb"></i> Mobile Se Product Upload:</strong><br>
-          1. Image upload zone par tap karein<br>
-          2. Phone se photo select karein<br>
-          3. Product name, price & details bharein<br>
-          4. "Add Product" button dabayen<br>
-          <br>
-          <strong><i class="fas fa-info-circle"></i> Ya Image URL use karein</strong> — <a href="https://postimages.org/" target="_blank">Postimages.org</a> par upload kar ke Direct Link copy karein
-        </div>
-
-        <label>Product Name *</label>
-        <input type="text" id="itemName" placeholder="e.g., Premium Silk Scarf">
-
-        <div class="form-row">
-          <div>
-            <label>Original Price (Rs.) *</label>
-            <input type="text" id="itemPrice" placeholder="e.g., 1200">
-          </div>
-          <div>
-            <label>Discount Price (Rs.)</label>
-            <input type="text" id="itemDiscountPrice" placeholder="e.g., 600">
-            <div class="field-hint">Khali chhoren agar discount nahi</div>
-          </div>
-        </div>
-
-        <label>Category *</label>
-        <select id="itemCategory">
-          <option value="">Select Category</option>
-        </select>
-
-        <label>Product Description</label>
-        <textarea id="itemDescription" placeholder="Write a detailed product description..."></textarea>
-
-        <div class="form-row">
-          <div>
-            <label>Available Colors</label>
-            <input type="text" id="itemColors" placeholder="Red, Blue, Green">
-          </div>
-          <div>
-            <label>Available Sizes</label>
-            <input type="text" id="itemSizes" placeholder="S, M, L, XL">
-          </div>
-        </div>
-
-        <label>Product Image *</label>
-        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('imageFileInput').click()">
-          <i class="fas fa-cloud-upload-alt"></i>
-          <p><strong>Tap to upload from phone</strong></p>
-          <p class="small">JPG, PNG — max 5MB recommended</p>
-        </div>
-        <input type="file" id="imageFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
-
-        <div class="image-preview" id="imagePreview">
-          <img id="previewImg" src="" alt="Preview">
-          <button class="remove-img" onclick="removeImage()">
-            <i class="fas fa-times"></i> Remove Image
-          </button>
-        </div>
-
-        <label style="margin-top:14px;">OR Image URL</label>
-        <input type="text" id="itemImage" placeholder="https://..." oninput="handleUrlInput(this.value)">
-
-        <label style="margin-top:14px;">Product Tags</label>
-
-        <div class="toggle-wrapper">
-          <label class="toggle-label">
-            <i class="fas fa-star"></i>
-            <div class="toggle-label-text">
-              <strong>Featured Product</strong>
-              <span>Home page "Featured" section</span>
-            </div>
-          </label>
-          <div class="toggle-switch">
-            <input type="checkbox" id="itemIsFeatured">
-            <span class="toggle-slider"></span>
-          </div>
-        </div>
-
-        <div class="toggle-wrapper">
-          <label class="toggle-label">
-            <i class="fas fa-sparkles"></i>
-            <div class="toggle-label-text">
-              <strong>New Arrival</strong>
-              <span>"New Arrivals" section mein dikhayein</span>
-            </div>
-          </label>
-          <div class="toggle-switch">
-            <input type="checkbox" id="itemIsNew">
-            <span class="toggle-slider"></span>
-          </div>
-        </div>
-
-        <div class="toggle-wrapper">
-          <label class="toggle-label">
-            <i class="fas fa-ban"></i>
-            <div class="toggle-label-text">
-              <strong>Out of Stock</strong>
-              <span>Product ko "Out of Stock" mark karein</span>
-            </div>
-          </label>
-          <div class="toggle-switch">
-            <input type="checkbox" id="itemOutOfStock">
-            <span class="toggle-slider"></span>
-          </div>
-        </div>
-
-        <button class="btn-primary" onclick="saveProduct()" id="saveProductBtn">
-          <i class="fas fa-plus"></i> Add Product
-        </button>
-        <button class="cancel-btn" onclick="cancelEditProduct()" id="cancelProductBtn">
-          <i class="fas fa-times"></i> Cancel Edit
-        </button>
-      </div>
-
-      <!-- ===== CATEGORIES TAB (UPDATED WITH URL OPTION) ===== -->
-      <div id="categoriesTab" class="tab-content">
-        <h2 id="categoryFormTitle"><i class="fas fa-tags"></i> Add Category</h2>
-        <div class="info">
-          <strong><i class="fas fa-lightbulb"></i> Quick Tip:</strong><br>
-          Category ka naam likhein. Aap neeche dropdown se icon select kar sakte hain, <strong>YA</strong> apna custom PNG Image URL paste kar sakte hain. URL zyada priority payega!
-        </div>
-
-        <label>Category Name *</label>
-        <input type="text" id="categoryName" placeholder="e.g., Cosmetics">
-
-        <label>Icon Select Karein (Font Awesome)</label>
-        <select id="categoryIcon">
-          <option value="fa-tag">🏷️ Tag</option>
-          <option value="fa-gem">💎 Gem / Jewellery</option>
-          <option value="fa-wand-magic-sparkles">✨ Cosmetics / Makeup</option>
-          <option value="fa-plug">🔌 Electronics</option>
-          <option value="fa-bag-shopping">👜 Bags / Purses</option>
-          <option value="fa-shoe-prints">👟 Shoes</option>
-          <option value="fa-shirt">👕 Clothing</option>
-          <option value="fa-watch">⌚ Watches</option>
-          <option value="fa-glasses">👓 Glasses</option>
-          <option value="fa-ring">💍 Rings / Wedding</option>
-          <option value="fa-mobile-screen">📱 Mobile</option>
-          <option value="fa-laptop">💻 Laptop</option>
-          <option value="fa-camera">📷 Camera</option>
-          <option value="fa-headphones">🎧 Audio</option>
-          <option value="fa-star">⭐ Star</option>
-          <option value="fa-heart">❤️ Heart</option>
-          <option value="fa-gift">🎁 Gift</option>
-          <option value="fa-cake-candles">🎂 Birthday</option>
-          <option value="fa-champagne-glasses">🥂 Anniversary</option>
-          <option value="fa-hand-sparkles">🖐️ Mehndi</option>
-          <option value="fa-fan">🌸 Gajra</option>
-          <option value="fa-envelope-open-text">✉️ Imam Zamin</option>
-          <option value="fa-box-open">📦 Gift Box</option>
-          <option value="fa-ribbon">🎀 Gift Packing</option>
-        </select>
-
-        <label style="margin-top: 14px;">Ya Custom Icon Image URL (PNG) Dalein</label>
-        <input type="text" id="categoryIconUrl" placeholder="https://i.postimg.cc/.../icon.png">
-        <div class="field-hint">Agar URL dalein ge to ye Font Awesome icon par priority payega aur website par wahi show hoga.</div>
-
-        <button class="btn-primary" onclick="saveCategory()" id="saveCategoryBtn">
-          <i class="fas fa-plus"></i> Add Category
-        </button>
-        <button class="cancel-btn" onclick="cancelEditCategory()" id="cancelCategoryBtn">
-          <i class="fas fa-times"></i> Cancel Edit
-        </button>
-        <button class="btn-primary btn-reset" onclick="setupDefaultCategories()">
-          <i class="fas fa-sync-alt"></i> Reset All Categories (With Your PNG Links)
-        </button>
-
-        <h3><i class="fas fa-list"></i> All Categories</h3>
-        <div class="category-list" id="categoryList">
-          <p style="text-align:center; color:#888;">Loading...</p>
-        </div>
-      </div>
-
-      <!-- ===== SETTINGS TAB ===== -->
-      <div id="settingsTab" class="tab-content">
-        <h2><i class="fas fa-cog"></i> Store Settings</h2>
-        <div class="info">
-          <strong><i class="fas fa-info-circle"></i> Ye Settings Website Par Live Update Hongi</strong><br>
-          Free delivery, delivery charges, WhatsApp number, aur announcement yahan se control karein.
-        </div>
-
-        <div class="settings-card">
-          <h4><i class="fas fa-truck-fast"></i> Delivery Settings</h4>
-          <div class="toggle-wrapper" style="background:transparent;border:none;padding:0;margin-bottom:10px;">
-            <label class="toggle-label">
-              <i class="fas fa-gift"></i>
-              <div class="toggle-label-text">
-                <strong>Free Delivery Mode</strong>
-                <span>ON karne se saare orders free delivery</span>
-              </div>
-            </label>
-            <div class="toggle-switch">
-              <input type="checkbox" id="settingFreeDelivery">
-              <span class="toggle-slider"></span>
-            </div>
-          </div>
-          <label>Delivery Charges (Rs.)</label>
-          <input type="number" id="settingDeliveryCharges" placeholder="200">
-          <div class="field-hint">Jab free delivery OFF ho tab ye charges lagenge</div>
-          <label>Free Delivery Threshold (Rs.)</label>
-          <input type="number" id="settingFreeThreshold" placeholder="2000">
-          <div class="field-hint">Is amount se upar free delivery hogi</div>
-          <label>Announcement Bar Text</label>
-          <input type="text" id="settingAnnouncement" placeholder="FREE DELIVERY on orders above Rs. 2000 — COD Available 🇵🇰">
-          <div class="field-hint">Top announcement bar mein dikhega</div>
-          <button class="btn-primary" onclick="saveSettings()" id="saveSettingsBtn">
-            <i class="fas fa-save"></i> Save Delivery Settings
-          </button>
-        </div>
-
-        <div class="settings-card">
-          <h4><i class="fas fa-store"></i> Store Contact Info</h4>
-          <label>WhatsApp Number *</label>
-          <input type="text" id="settingWhatsApp" placeholder="923001234567">
-          <div class="field-hint">Format: 923001234567 (no + or spaces) — yahan apna actual business number daalein</div>
-          <label>Phone Number (Footer)</label>
-          <input type="text" id="settingPhone" placeholder="+92 300 1234567">
-          <label>Email Address</label>
-          <input type="text" id="settingEmail" placeholder="info@zashisuperstore.com">
-          <button class="btn-primary" onclick="saveContactSettings()" id="saveContactBtn">
-            <i class="fas fa-save"></i> Save Contact Info
-          </button>
-        </div>
-      </div>
-
-      <!-- ===== SOCIAL MEDIA TAB ===== -->
-      <div id="socialTab" class="tab-content">
-        <h2><i class="fas fa-share-alt"></i> Social Media Links</h2>
-        <div class="info">
-          <strong><i class="fas fa-info-circle"></i> Ye Links Website Par Update Hongi</strong><br>
-          Apne social media page URLs daalein. Ye website ke footer mein automatically show honge.
-        </div>
-
-        <div class="settings-card social">
-          <h4><i class="fas fa-share-alt"></i> Update Social Links</h4>
-          
-          <label>Facebook Page URL</label>
-          <div class="social-field">
-            <span class="si si-facebook"><i class="fab fa-facebook-f"></i></span>
-            <input type="url" id="socialFacebook" placeholder="https://facebook.com/yourpage">
-          </div>
-          <div class="field-hint">Example: https://facebook.com/zashisuperstore</div>
-
-          <label>Instagram Profile URL</label>
-          <div class="social-field">
-            <span class="si si-instagram"><i class="fab fa-instagram"></i></span>
-            <input type="url" id="socialInstagram" placeholder="https://instagram.com/yourhandle">
-          </div>
-          <div class="field-hint">Example: https://instagram.com/zashisuperstore</div>
-
-          <label>TikTok Profile URL</label>
-          <div class="social-field">
-            <span class="si si-tiktok"><i class="fab fa-tiktok"></i></span>
-            <input type="url" id="socialTikTok" placeholder="https://tiktok.com/@yourhandle">
-          </div>
-          <div class="field-hint">Example: https://tiktok.com/@zashisuperstore</div>
-
-          <label>WhatsApp Number (for links)</label>
-          <div class="social-field">
-            <span class="si si-whatsapp"><i class="fab fa-whatsapp"></i></span>
-            <input type="text" id="socialWhatsApp" placeholder="923001234567">
-          </div>
-          <div class="field-hint">Format: 923001234567 (country code + number, no spaces)</div>
-
-          <button class="btn-primary btn-social" onclick="saveSocialSettings()" id="saveSocialBtn">
-            <i class="fas fa-save"></i> Save Social Links
-          </button>
-        </div>
-      </div>
-
-      <!-- ===== MANAGE TAB ===== -->
-      <div id="manageTab" class="tab-content">
-        <h2><i class="fas fa-list"></i> Manage Products</h2>
-        <div class="product-list" id="productList">
-          <p style="text-align:center; color:#888;">Loading...</p>
-        </div>
-      </div>
-
-      <button class="view-btn" onclick="window.open('index.html', '_blank')">
-        <i class="fas fa-eye"></i> View Live Store
-      </button>
-      <button class="logout-btn" onclick="logoutAdmin()">
+      <button class="btn btn-outline" style="width: 100%; justify-content: center;" onclick="logoutAdmin()">
         <i class="fas fa-sign-out-alt"></i> Logout
       </button>
     </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="top-bar">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')"><i class="fas fa-bars"></i></button>
+        <h1 class="page-title" id="pageTitle">Add New Product</h1>
+      </div>
+      <div class="top-actions">
+        <a href="index.html" target="_blank" class="btn btn-success"><i class="fas fa-external-link-alt"></i> View Live Store</a>
+      </div>
+    </div>
+
+    <!-- ===== PRODUCTS TAB ===== -->
+    <div id="productsTab" class="tab-content">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-plus-circle" style="color: var(--brand-blue);"></i> Product Details</div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Product Name *</label>
+            <input type="text" id="itemName" placeholder="e.g., Premium Silk Scarf">
+          </div>
+          <div class="form-group">
+            <label>Original Price (Rs.) *</label>
+            <input type="text" id="itemPrice" placeholder="e.g., 1200">
+          </div>
+          <div class="form-group">
+            <label>Discount Price (Rs.)</label>
+            <input type="text" id="itemDiscountPrice" placeholder="Leave empty if no discount">
+          </div>
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="itemCategory"><option value="">Select Category</option></select>
+          </div>
+          <div class="form-group">
+            <label>Available Colors</label>
+            <input type="text" id="itemColors" placeholder="Red, Blue, Green">
+          </div>
+          <div class="form-group full">
+            <label>Product Description</label>
+            <textarea id="itemDescription" placeholder="Write a detailed product description..."></textarea>
+          </div>
+          
+          <div class="form-group full">
+            <label>Product Image *</label>
+            <div style="display: flex; gap: 16px; align-items: flex-start;">
+              <div class="icon-preview-box" id="productImagePreview" style="width: 80px; height: 80px;">
+                <i class="fas fa-image"></i>
+              </div>
+              <div style="flex: 1;">
+                <input type="file" id="imageFileInput" accept="image/*" style="margin-bottom: 8px;" onchange="handleImageUpload(event)">
+                <input type="text" id="itemImage" placeholder="Or paste Image URL here (https://...)" oninput="handleUrlInput(this.value)">
+             
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group full">
+            <label>Product Tags</label>
+            <div class="toggle-row">
+              <div class="toggle-label-text"><strong>Featured Product</strong><span>Show on Home page "Featured" section</span></div>
+              <label class="switch"><input type="checkbox" id="itemIsFeatured"><span class="slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-label-text"><strong>New Arrival</strong><span>Show in "New Arrivals" section</span></div>
+              <label class="switch"><input type="checkbox" id="itemIsNew"><span class="slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-label-text"><strong>Out of Stock</strong><span>Mark product as unavailable</span></div>
+              <label class="switch"><input type="checkbox" id="itemOutOfStock"><span class="slider"></span></label>
+            </div
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 24px;">
+          <button class="btn btn-primary" onclick="saveProduct()" id="saveProductBtn"><i class="fas fa-save"></i> Save Product</button>
+          <button class="btn btn-outline hidden" onclick="cancelEditProduct()" id="cancelProductBtn">Cancel Edit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CATEGORIES TAB ===== -->
+    <div id="categoriesTab" class="tab-content hidden">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-tag" style="color: var(--brand-blue);"></i> Add / Edit Category</div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Category Name *</label>
+            <input type="text" id="categoryName" placeholder="e.g., Cosmetics, Artificial Jewellery">
+          </div>
+          
+          <div class="form-group">
+            <label>Font Awesome Icon (Fallback)</label>
+            <select id="categoryIcon">
+              <option value="fa-tag">🏷️ Default Tag</option>
+              <option value="fa-gem">💎 Gem / Jewellery</option>
+              <option value="fa-wand-magic-sparkles">✨ Cosmetics / Makeup</option>
+              <option value="fa-bag-shopping">👜 Bags / Purses</option>
+              <option value="fa-shirt">👕 Clothing</option>
+              <option value="fa-star">⭐ Decoration / Items</option>
+              <option value="fa-cake-candles">🎂 Birthday</option>
+              <option value="fa-champagne-glasses">🥂 Anniversary</option>
+              <option value="fa-hand-sparkles">🖐️ Mehndi</option>
+              <option value="fa-fan">🌸 Gajra</option>
+              <option value="fa-box-open">📦 Gift Box</option>
+              <option value="fa-ribbon">🎀 Gift Packing</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Custom Icon Image URL (PNG) *</label>
+            <input type="text" id="categoryIconUrl" placeholder="https://i.postimg.cc/.../icon.png" oninput="updateIconPreview(this.value)">
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
+              <div class="icon-preview-box" id="catIconPreviewBox"><i class="fas fa-image"></i></div>
+              <span style="font-size: 0.8em; color: var(--text-dim);">Paste URL above to see live preview. This will override the Font Awesome icon.</span>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 24px;">
+          <button class="btn btn-primary" onclick="saveCategory()" id="saveCategoryBtn"><i class="fas fa-save"></i> Save Category</button>
+          <button class="btn btn-outline hidden" onclick="cancelEditCategory()" id="cancelCategoryBtn">Cancel</button>
+          <button class="btn btn-danger" onclick="setupDefaultCategories()" style="margin-left: auto;"><i class="fas fa-sync-alt"></i> Reset to Default 17 Categories</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-list" style="color: var(--brand-blue);"></i> Existing Categories</div>
+        <div id="categoryListContainer">
+          <p class="text-center" style="color: var(--text-dim); padding: 20px;">Loading categories...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SETTINGS TAB ===== -->
+    <div id="settingsTab" class="tab-content hidden">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-truck-fast" style="color: var(--brand-blue);"></i> Delivery Settings</div>
+        <div class="toggle-row">
+          <div class="toggle-label-text"><strong>Free Delivery Mode</strong><span>Turn ON to make all orders free delivery</span></div>
+          <label class="switch"><input type="checkbox" id="settingFreeDelivery"><span class="slider"></span></label>
+        </div>
+        <div class="form-grid" style="margin-top: 16px;">
+          <div class="form-group">
+            <label>Standard Delivery Charges (Rs.)</label>
+            <input type="number" id="settingDeliveryCharges" placeholder="200">
+          </div>
+          <div class="form-group">
+            <label>Free Delivery Threshold (Rs.)</label>
+            <input type="number" id="settingFreeThreshold" placeholder="2000">
+          </div>
+          <div class="form-group full">
+            <label>Announcement Bar Text</label>
+            <input type="text" id="settingAnnouncement" placeholder="FREE DELIVERY on orders above Rs. 2000 — COD Available 🇵🇰">
+          </div>
+        </div>
+        <button class="btn btn-primary mt-4" onclick="saveSettings()" id="saveSettingsBtn"><i class="fas fa-save"></i> Save Delivery Settings</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-store" style="color: var(--brand-blue);"></i> Store Contact Info</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>WhatsApp Number *</label>
+            <input type="text" id="settingWhatsApp" placeholder="923263310288">
+          </div>
+          <div class="form-group">
+            <label>Phone Number (Display)</label>
+            <input type="text" id="settingPhone" placeholder="+92 326 3310288">
+          </div>
+          <div class="form-group full">
+            <label>Email Address</label>
+            <input type="text" id="settingEmail" placeholder="info@zashisuperstore.com">
+          </div>
+        </div>
+        <button class="btn btn-primary mt-4" onclick="saveContactSettings()" id="saveContactBtn"><i class="fas fa-save"></i> Save Contact Info</button>
+      </div>
+    </div>
+
+    <!-- ===== SOCIAL TAB ===== -->
+    <div id="socialTab" class="tab-content hidden">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-share-alt" style="color: var(--brand-blue);"></i> Social Media Links</div>
+        <p style="color: var(--text-dim); font-size: 0.9em; margin-bottom: 20px;">These links will automatically update in the website footer.</p>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label><i class="fab fa-facebook" style="color: #1877f2;"></i> Facebook Page URL</label>
+            <input type="url" id="socialFacebook" placeholder="https://facebook.com/zashisuperstore">
+          </div>
+          <div class="form-group full">
+            <label><i class="fab fa-instagram" style="color: #e1306c;"></i> Instagram Profile URL</label>
+            <input type="url" id="socialInstagram" placeholder="https://instagram.com/zashisuperstore">
+          </div>
+          <div class="form-group full">
+            <label><i class="fab fa-tiktok" style="color: #000;"></i> TikTok Profile URL</label>
+            <input type="url" id="socialTikTok" placeholder="https://tiktok.com/@zashisuperstore">
+          </div>
+        </div>
+        <button class="btn btn-primary mt-4" onclick="saveSocialSettings()" id="saveSocialBtn"><i class="fas fa-save"></i> Save Social Links</button>
+      </div>
+    </div>
+
+    <!-- ===== MANAGE TAB ===== -->
+    <div id="manageTab" class="tab-content hidden">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-list" style="color: var(--brand-blue);"></i> Manage Products</div>
+        <div id="productListContainer">
+          <p class="text-center" style="color: var(--text-dim); padding: 20px;">Loading products...</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" style="position: fixed; bottom: 30px; right: 30px; background: var(--green); color: #fff; padding: 14px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(100px); opacity: 0; transition: all 0.4s; z-index: 99999; display: flex; align-items: center; gap: 10px;">
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Success!</span>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -900,7 +577,6 @@
       appId: "1:1073727653000:web:57c717b6dd882541e9cb3d",
       measurementId: "G-9953FW8MTP"
     };
-
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -908,256 +584,194 @@
     let editingCategoryId = null;
     let editingProductId = null;
     let uploadedImageUrl = '';
-    const CLOUDINARY_CLOUD_NAME = 'YOUR_CLOUD_NAME';
-    const CLOUDINARY_UPLOAD_PRESET = 'YOUR_UPLOAD_PRESET';
 
+    // Auth State
     auth.onAuthStateChanged((user) => {
-      document.getElementById('loadingScreen').style.display = 'none';
       if (user) {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('adminPanel').style.display = 'block';
-        document.getElementById('userEmail').textContent = user.email;
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('userEmailDisplay').textContent = user.email;
         loadCategories();
         loadCategoryDropdown();
         loadProductsList();
         loadSettings();
         loadSocialSettings();
       } else {
-        document.getElementById('loginScreen').style.display = 'block';
-        document.getElementById('adminPanel').style.display = 'none';
+        document.getElementById('loginScreen').classList.remove('hidden');
       }
     });
 
-    function switchTab(tab, btn) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(tab + 'Tab').classList.add('active');
-      if (tab === 'manage') loadProductsList();
-      if (tab === 'settings') loadSettings();
-      if (tab === 'social') loadSocialSettings();
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+      document.getElementById(tabId + 'Tab').classList.remove('hidden');
+      
+      const titles = { products: 'Add New Product', categories: 'Manage Categories', settings: 'Store Settings', social: 'Social Media Links', manage: 'Manage Products' };
+      document.getElementById('pageTitle').textContent = titles[tabId] || 'Dashboard';
+      
+      if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+      if (tabId === 'manage') loadProductsList();
     }
 
-    function showToast(msg, type = 'success') {
-      const t = document.createElement('div');
-      const bg = type === 'success' ? 'var(--green)' : 'var(--red)';
-      t.textContent = msg;
-      t.style.cssText = `position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:${bg};color:#fff;padding:13px 26px;border-radius:50px;font-weight:600;z-index:99999;box-shadow:0 15px 40px rgba(0,0,0,0.2);transition:all 0.4s;font-size:0.85em;max-width:90%;text-align:center;`;
-      document.body.appendChild(t);
-      setTimeout(() => t.style.transform = 'translateX(-50%) translateY(0)', 50);
-      setTimeout(() => {
-        t.style.transform = 'translateX(-50%) translateY(100px)';
-        t.style.opacity = '0';
-        setTimeout(() => t.remove(), 400);
-      }, 2400);
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toast.style.background = isError ? 'var(--red)' : 'var(--green)';
+      toastMsg.textContent = msg;
+      toast.style.transform = 'translateY(0)';
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.transform = 'translateY(100px)'; toast.style.opacity = '0'; }, 3000);
     }
 
     function loginAdmin() {
       const email = document.getElementById('adminEmail').value;
       const password = document.getElementById('adminPass').value;
-      const errorMsg = document.getElementById('errorMsg');
-      const loginBtn = document.getElementById('loginBtn');
-      if (!email || !password) {
-        errorMsg.textContent = 'Please enter email and password';
-        errorMsg.style.display = 'block';
-        return;
-      }
-      loginBtn.disabled = true;
-      loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-      errorMsg.style.display = 'none';
-      auth.signInWithEmailAndPassword(email, password)
-        .catch((error) => {
-          let msg = 'Login failed';
-          if (error.code === 'auth/user-not-found') msg = 'User not found';
-          else if (error.code === 'auth/wrong-password') msg = 'Incorrect password';
-          else if (error.code === 'auth/invalid-email') msg = 'Invalid email';
-          else if (error.code === 'auth/too-many-requests') msg = 'Too many attempts';
-          errorMsg.textContent = msg;
-          errorMsg.style.display = 'block';
-          loginBtn.disabled = false;
-          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-        });
+      const btn = document.getElementById('loginBtn');
+      const err = document.getElementById('errorMsg');
+      
+      if (!email || !password) { err.textContent = 'Please enter email and password'; err.style.display = 'block'; return; }
+      
+      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+      err.style.display = 'none';
+      
+      auth.signInWithEmailAndPassword(email, password).catch((error) => {
+        let msg = 'Login failed';
+        if (error.code === 'auth/user-not-found') msg = 'User not found';
+        else if (error.code === 'auth/wrong-password') msg = 'Incorrect password';
+        err.textContent = msg; err.style.display = 'block';
+        btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
+      });
     }
 
     function logoutAdmin() {
-      if (confirm('Logout karna hai?')) auth.signOut().then(() => location.reload());
+      if (confirm('Are you sure you want to logout?')) auth.signOut();
     }
 
-    async function handleImageUpload(event) {
+    // ===== IMAGE HANDLING =====
+    function handleImageUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
-      if (file.size > 5 * 1024 * 1024) {
-        showToast('⚠️ Image 5MB se choti honi chahiye', 'error');
-        return;
-      }
-      showToast('📤 Uploading image...');
-      if (CLOUDINARY_CLOUD_NAME !== 'YOUR_CLOUD_NAME') {
-        try {
-          const formData = new FormData();
-          formData.append('file', file);
-          formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-          const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
-          const data = await res.json();
-          if (data.secure_url) {
-            uploadedImageUrl = data.secure_url;
-            document.getElementById('itemImage').value = uploadedImageUrl;
-            showPreview(uploadedImageUrl);
-            showToast('✅ Image uploaded!');
-            return;
-          }
-        } catch (err) { console.error(err); }
-      }
       const reader = new FileReader();
       reader.onload = (e) => {
         uploadedImageUrl = e.target.result;
-        showPreview(uploadedImageUrl);
-        showToast('⚠️ Local preview only — setup Cloudinary for real upload', 'error');
+        document.getElementById('itemImage').value = uploadedImageUrl;
+        document.getElementById('productImagePreview').innerHTML = `<img src="${uploadedImageUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+        showToast('Image loaded (Note: For permanent hosting, use Postimages.org URL)');
       };
       reader.readAsDataURL(file);
-    }
-
-    function showPreview(src) {
-      document.getElementById('previewImg').src = src;
-      document.getElementById('imagePreview').style.display = 'block';
-    }
-
-    function removeImage() {
-      uploadedImageUrl = '';
-      document.getElementById('imageFileInput').value = '';
-      document.getElementById('itemImage').value = '';
-      document.getElementById('imagePreview').style.display = 'none';
     }
 
     function handleUrlInput(url) {
       if (url && url.trim()) {
         uploadedImageUrl = url.trim();
-        showPreview(url.trim());
+        document.getElementById('productImagePreview').innerHTML = `<img src="${uploadedImageUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-exclamation-triangle\\' style=\\'color:var(--red)\\'></i>'">`;
       }
     }
 
-    function loadSettings() {
-      db.collection("settings").doc("store").get().then((doc) => {
-        if (doc.exists) {
-          const d = doc.data();
-          document.getElementById('settingFreeDelivery').checked = d.freeDeliveryEnabled || false;
-          document.getElementById('settingDeliveryCharges').value = d.deliveryCharges || 200;
-          document.getElementById('settingFreeThreshold').value = d.freeDeliveryThreshold || 2000;
-          document.getElementById('settingAnnouncement').value = d.announcementText || '';
-          document.getElementById('settingWhatsApp').value = d.whatsappNumber || '';
-          document.getElementById('settingPhone').value = d.phoneNumber || '';
-          document.getElementById('settingEmail').value = d.emailAddress || '';
-        }
+    function updateIconPreview(url) {
+      const box = document.getElementById('catIconPreviewBox');
+      if (url && url.trim()) {
+        box.innerHTML = `<img src="${url.trim()}" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-exclamation-triangle\\' style=\\'color:var(--red)\\'></i>'">`;
+      } else {
+        box.innerHTML = '<i class="fas fa-image"></i>';
+      }
+    }
+
+    // ===== CATEGORIES LOGIC =====
+    function loadCategories() {
+      const container = document.getElementById('categoryListContainer');
+      db.collection("categories").orderBy("name").get().then((snap) => {
+        if (snap.empty) { container.innerHTML = '<p class="text-center" style="color:var(--text-dim);">No categories yet.</p>'; return; }
+        let html = '';
+        snap.forEach((doc) => {
+          const c = doc.data();
+          const displayIcon = c.iconUrl ? `<img src="${c.iconUrl}" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\\'fas ${c.icon || 'fa-tag'}\\'></i>'">` : `<i class="fas ${c.icon || 'fa-tag'}"></i>`;
+          const safeName = c.name.replace(/'/g, "\\'");
+          const safeUrl = (c.iconUrl || '').replace(/'/g, "\\'");
+          
+          html += `
+            <div class="category-list-item">
+              <div class="cat-info">
+                <div class="cat-icon-display">${displayIcon}</div>
+                <strong style="font-size: 0.95em;">${c.name}</strong>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-outline" style="padding:6px 12px; font-size:0.8em;" onclick="editCategory('${doc.id}', '${safeName}', '${c.icon || 'fa-tag'}', '${safeUrl}')"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger" style="padding:6px 12px; font-size:0.8em;" onclick="deleteCategory('${doc.id}')"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>`;
+        });
+        container.innerHTML = html;
       });
     }
 
-    function saveSettings() {
-      const btn = document.getElementById('saveSettingsBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-      const data = {
-        freeDeliveryEnabled: document.getElementById('settingFreeDelivery').checked,
-        deliveryCharges: parseInt(document.getElementById('settingDeliveryCharges').value) || 200,
-        freeDeliveryThreshold: parseInt(document.getElementById('settingFreeThreshold').value) || 2000,
-        announcementText: document.getElementById('settingAnnouncement').value || 'FREE DELIVERY on orders above Rs. 2000 — COD Available 🇵🇰',
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      db.collection("settings").doc("store").set(data, { merge: true })
-        .then(() => {
-          showToast('✅ Delivery settings saved!');
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-save"></i> Save Delivery Settings';
-        })
-        .catch(err => {
-          showToast('❌ ' + err.message, 'error');
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-save"></i> Save Delivery Settings';
+    function loadCategoryDropdown() {
+      const dd = document.getElementById('itemCategory');
+      db.collection("categories").orderBy("name").get().then((snap) => {
+        dd.innerHTML = '<option value="">Select Category</option>';
+        snap.forEach((doc) => {
+          dd.innerHTML += `<option value="${doc.id}" data-name="${doc.data().name}">${doc.data().name}</option>`;
         });
-    }
-
-    function saveContactSettings() {
-      const btn = document.getElementById('saveContactBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-      const wa = document.getElementById('settingWhatsApp').value.trim();
-      if (wa && !/^\d{10,15}$/.test(wa)) {
-        showToast('⚠️ WhatsApp format: 923001234567 (digits only)', 'error');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-save"></i> Save Contact Info';
-        return;
-      }
-      const data = {
-        whatsappNumber: wa,
-        phoneNumber: document.getElementById('settingPhone').value.trim(),
-        emailAddress: document.getElementById('settingEmail').value.trim(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      db.collection("settings").doc("store").set(data, { merge: true })
-        .then(() => {
-          showToast('✅ Contact info saved!');
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-save"></i> Save Contact Info';
-        })
-        .catch(err => {
-          showToast('❌ ' + err.message, 'error');
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-save"></i> Save Contact Info';
-        });
-    }
-
-    function loadSocialSettings() {
-      db.collection("settings").doc("store").get().then((doc) => {
-        if (doc.exists) {
-          const d = doc.data();
-          document.getElementById('socialFacebook').value = d.facebookUrl || '';
-          document.getElementById('socialInstagram').value = d.instagramUrl || '';
-          document.getElementById('socialTikTok').value = d.tiktokUrl || '';
-          document.getElementById('socialWhatsApp').value = d.whatsappNumber || '';
-        }
       });
     }
 
-    function saveSocialSettings() {
-      const btn = document.getElementById('saveSocialBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-      const fbUrl = document.getElementById('socialFacebook').value.trim();
-      const igUrl = document.getElementById('socialInstagram').value.trim();
-      const ttUrl = document.getElementById('socialTikTok').value.trim();
-      const waNum = document.getElementById('socialWhatsApp').value.trim();
-
-      if (fbUrl && !/^https?:\/\//i.test(fbUrl)) {
-        showToast('⚠️ Facebook URL must start with https://', 'error');
-        btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Social Links'; return;
-      }
-      if (igUrl && !/^https?:\/\//i.test(igUrl)) {
-        showToast('⚠️ Instagram URL must start with https://', 'error');
-        btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Social Links'; return;
-      }
-      if (ttUrl && !/^https?:\/\//i.test(ttUrl)) {
-        showToast('⚠️ TikTok URL must start with https://', 'error');
-        btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Social Links'; return;
-      }
-
-      const data = { facebookUrl: fbUrl, instagramUrl: igUrl, tiktokUrl: ttUrl, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
-      if (waNum && /^\d{10,15}$/.test(waNum)) data.whatsappNumber = waNum;
-
-      db.collection("settings").doc("store").set(data, { merge: true })
-        .then(() => {
-          showToast('✅ Social links saved!');
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-save"></i> Save Social Links';
-        })
-        .catch(err => {
-          showToast('❌ ' + err.message, 'error');
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-save"></i> Save Social Links';
-        });
+    function saveCategory() {
+      const name = document.getElementById('categoryName').value.trim();
+      const icon = document.getElementById('categoryIcon').value;
+      const iconUrl = document.getElementById('categoryIconUrl').value.trim();
+      const btn = document.getElementById('saveCategoryBtn');
+      
+      if (!name) { showToast('Please enter a category name!', true); return; }
+      
+      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      const data = { name, icon, iconUrl: iconUrl || null, timestamp: firebase.firestore.FieldValue.serverTimestamp() };
+      
+      const p = editingCategoryId ? db.collection("categories").doc(editingCategoryId).update(data) : db.collection("categories").add(data);
+      
+      p.then(() => {
+        showToast(editingCategoryId ? 'Category updated!' : 'Category added!');
+        cancelEditCategory(); loadCategories(); loadCategoryDropdown();
+      }).catch(err => {
+        showToast('Error: ' + err.message, true);
+        btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Category';
+      });
     }
 
-    // ===== UPDATED DEFAULT CATEGORIES WITH YOUR PNG LINKS =====
+    function editCategory(id, name, icon, iconUrl) {
+      editingCategoryId = id;
+      document.getElementById('categoryName').value = name;
+      document.getElementById('categoryIcon').value = icon || 'fa-tag';
+      document.getElementById('categoryIconUrl').value = iconUrl || '';
+      updateIconPreview(iconUrl);
+      
+      document.getElementById('saveCategoryBtn').innerHTML = '<i class="fas fa-save"></i> Update Category';
+      document.getElementById('cancelCategoryBtn').classList.remove('hidden');
+      document.getElementById('pageTitle').textContent = 'Edit Category';
+    }
+
+    function cancelEditCategory() {
+      editingCategoryId = null;
+      document.getElementById('categoryName').value = '';
+      document.getElementById('categoryIcon').value = 'fa-tag';
+      document.getElementById('categoryIconUrl').value = '';
+      updateIconPreview('');
+      document.getElementById('saveCategoryBtn').innerHTML = '<i class="fas fa-save"></i> Save Category';
+      document.getElementById('cancelCategoryBtn').classList.add('hidden');
+      document.getElementById('pageTitle').textContent = 'Manage Categories';
+    }
+
+    function deleteCategory(id) {
+      if (confirm('Delete this category?')) {
+        db.collection("categories").doc(id).delete().then(() => {
+          showToast('Category deleted'); loadCategories(); loadCategoryDropdown();
+        }).catch(err => showToast('Error: ' + err.message, true));
+      }
+    }
+
     function setupDefaultCategories() {
-      if (!confirm('⚠️ Ye purani sabhi categories delete kar dega aur nayi 17 categories aapke custom PNG links ke sath add karega. Sure hain?')) return;
-      const newCategories = [
+      if (!confirm('This will delete all current categories and add the 17 default categories with your custom PNG links. Continue?')) return;
+      const defaults = [
         { name: "Cosmetics", icon: "fa-wand-magic-sparkles", iconUrl: "https://i.postimg.cc/HxFpd1dS/cosmatics.png" },
         { name: "Makeup", icon: "fa-wand-magic-sparkles", iconUrl: "https://i.postimg.cc/mkMTrprf/Makeup.png" },
         { name: "Artificial Jewellery", icon: "fa-gem", iconUrl: "https://i.postimg.cc/nzXHyhbr/Artificial-Jewellery.png" },
@@ -1176,255 +790,206 @@
         { name: "Gift Packing Items", icon: "fa-ribbon", iconUrl: "https://i.postimg.cc/GtYbpgmg/Gift-Packing.png" },
         { name: "Wedding Decoration", icon: "fa-ring", iconUrl: "https://i.postimg.cc/sfZjKx4c/Wedding-Decoration.png" }
       ];
-      db.collection("categories").get().then((snapshot) => {
-        const deletes = [];
-        snapshot.forEach((doc) => deletes.push(db.collection("categories").doc(doc.id).delete()));
+      
+      db.collection("categories").get().then(snap => {
+        const deletes = snap.docs.map(doc => db.collection("categories").doc(doc.id).delete());
         return Promise.all(deletes);
       }).then(() => {
-        const adds = [];
-        newCategories.forEach((cat) => adds.push(db.collection("categories").add({ 
-          name: cat.name, 
-          icon: cat.icon, 
-          iconUrl: cat.iconUrl || null,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp() 
-        })));
+        const adds = defaults.map(cat => db.collection("categories").add({ ...cat, timestamp: firebase.firestore.FieldValue.serverTimestamp() }));
         return Promise.all(adds);
       }).then(() => {
-        showToast('✅ All 17 categories set with your custom links!');
+        showToast('17 Default categories loaded with your PNG links!');
         loadCategories(); loadCategoryDropdown();
-      }).catch(err => showToast('❌ ' + err.message, 'error'));
+      }).catch(err => showToast('Error: ' + err.message, true));
     }
 
-    function loadCategories() {
-      const list = document.getElementById('categoryList');
-      db.collection("categories").orderBy("name").get().then((snap) => {
-        if (snap.empty) { list.innerHTML = `<div class="empty-state"><i class="fas fa-tags"></i><p>No categories yet</p></div>`; return; }
-        let html = '';
-        snap.forEach((doc) => {
-          const c = doc.data();
-          // Agar iconUrl hai to image show karo, warna font awesome icon
-          const displayIcon = c.iconUrl 
-            ? `<img src="${c.iconUrl}" alt="icon">` 
-            : `<i class="fas ${c.icon || 'fa-tag'}"></i>`;
-          
-          const safeName = c.name.replace(/'/g, "\\'");
-          const safeIconUrl = (c.iconUrl || '').replace(/'/g, "\\'");
-
-          html += `<div class="category-item">
-            <div style="display:flex;align-items:center;">
-              <div class="category-icon">${displayIcon}</div>
-              <span class="category-name">${c.name}</span>
-            </div>
-            <div class="action-btns" style="flex-direction:row;">
-              <button class="btn-edit" onclick="editCategory('${doc.id}', '${safeName}', '${c.icon || 'fa-tag'}', '${safeIconUrl}')"><i class="fas fa-edit"></i></button>
-              <button class="btn-delete" onclick="deleteCategory('${doc.id}')"><i class="fas fa-trash"></i></button>
-            </div>
-          </div>`;
-        });
-        list.innerHTML = html;
-      });
-    }
-
-    function loadCategoryDropdown() {
-      const dd = document.getElementById('itemCategory');
-      db.collection("categories").orderBy("name").get().then((snap) => {
-        dd.innerHTML = '<option value="">Select Category</option>';
-        snap.forEach((doc) => {
-          const c = doc.data();
-          dd.innerHTML += `<option value="${doc.id}" data-name="${c.name}">${c.name}</option>`;
-        });
-      });
-    }
-
-    function saveCategory() {
-      const name = document.getElementById('categoryName').value.trim();
-      const icon = document.getElementById('categoryIcon').value;
-      const iconUrl = document.getElementById('categoryIconUrl').value.trim(); // NEW
-      const btn = document.getElementById('saveCategoryBtn');
-      if (!name) { showToast('⚠️ Enter category name!', 'error'); return; }
-      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-      
-      const data = { 
-        name, 
-        icon, 
-        iconUrl: iconUrl || null, // NEW
-        timestamp: firebase.firestore.FieldValue.serverTimestamp() 
-      };
-      const p = editingCategoryId
-        ? db.collection("categories").doc(editingCategoryId).update(data)
-        : db.collection("categories").add(data);
-      p.then(() => {
-        showToast(editingCategoryId ? '✅ Category updated!' : '✅ Category added!');
-        cancelEditCategory(); loadCategories(); loadCategoryDropdown();
-      }).catch(err => {
-        showToast('❌ ' + err.message, 'error');
-        btn.disabled = false;
-        btn.innerHTML = editingCategoryId ? '<i class="fas fa-save"></i> Update Category' : '<i class="fas fa-plus"></i> Add Category';
-      });
-    }
-
-    function editCategory(id, name, icon, iconUrl) {
-      editingCategoryId = id;
-      document.getElementById('categoryName').value = name;
-      document.getElementById('categoryIcon').value = icon || 'fa-tag';
-      document.getElementById('categoryIconUrl').value = iconUrl || ''; // NEW
-      const btn = document.getElementById('saveCategoryBtn');
-      btn.className = 'btn-primary btn-update';
-      btn.innerHTML = '<i class="fas fa-save"></i> Update Category';
-      document.getElementById('categoryFormTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Category';
-      document.getElementById('cancelCategoryBtn').style.display = 'block';
-      document.getElementById('categoryName').focus();
-    }
-
-    function cancelEditCategory() {
-      editingCategoryId = null;
-      document.getElementById('categoryName').value = "";
-      document.getElementById('categoryIcon').value = "fa-tag";
-      document.getElementById('categoryIconUrl').value = ""; // NEW
-      const btn = document.getElementById('saveCategoryBtn');
-      btn.className = 'btn-primary'; btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-plus"></i> Add Category';
-      document.getElementById('categoryFormTitle').innerHTML = '<i class="fas fa-tags"></i> Add Category';
-      document.getElementById('cancelCategoryBtn').style.display = 'none';
-    }
-
-    function deleteCategory(id) {
-      if (confirm('Delete this category?')) {
-        db.collection("categories").doc(id).delete().then(() => {
-          showToast('✅ Category deleted'); loadCategories(); loadCategoryDropdown();
-        }).catch(err => showToast('❌ ' + err.message, 'error'));
-      }
-    }
-
+    // ===== PRODUCTS LOGIC =====
     function saveProduct() {
-      const user = auth.currentUser;
-      if (!user) return;
       const name = document.getElementById("itemName").value.trim();
       const price = document.getElementById("itemPrice").value.trim();
       const discountPrice = document.getElementById("itemDiscountPrice").value.trim();
       const catSelect = document.getElementById("itemCategory");
-      const categoryId = catSelect.value;
-      const categoryName = catSelect.options[catSelect.selectedIndex]?.getAttribute('data-name') || '';
       const description = document.getElementById("itemDescription").value.trim();
       const colors = document.getElementById("itemColors").value.trim();
-      const sizes = document.getElementById("itemSizes").value.trim();
-      const urlInput = document.getElementById("itemImage").value.trim();
-      const imageUrl = urlInput || uploadedImageUrl;
-      const isFeatured = document.getElementById("itemIsFeatured").checked;
-      const isNewArrival = document.getElementById("itemIsNew").checked;
-      const outOfStock = document.getElementById("itemOutOfStock").checked;
-
-      if (!name || !price || !categoryId || !imageUrl) {
-        showToast('⚠️ Fill all required fields including image!', 'error'); return;
+      const imageUrl = document.getElementById("itemImage").value.trim();
+      
+      if (!name || !price || !catSelect.value || !imageUrl) {
+        showToast('Please fill all required fields (*)', true); return;
       }
+      
       const btn = document.getElementById('saveProductBtn');
-      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-      const data = { name, price, discountPrice: discountPrice || '', category: categoryId, categoryName, description, colors, sizes, imageUrl, isFeatured, isNewArrival, outOfStock, addedBy: user.email };
-      let p;
-      if (editingProductId) p = db.collection("items").doc(editingProductId).update(data);
-      else { data.timestamp = firebase.firestore.FieldValue.serverTimestamp(); p = db.collection("items").add(data); }
+      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      
+      const data = {
+        name, price, discountPrice: discountPrice || '',
+        category: catSelect.value, categoryName: catSelect.options[catSelect.selectedIndex]?.getAttribute('data-name') || '',
+        description, colors, imageUrl,
+        isFeatured: document.getElementById("itemIsFeatured").checked,
+        isNewArrival: document.getElementById("itemIsNew").checked,
+        outOfStock: document.getElementById("itemOutOfStock").checked,
+        addedBy: auth.currentUser.email
+      };
+      
+      const p = editingProductId ? db.collection("items").doc(editingProductId).update(data) : db.collection("items").add({ ...data, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
       
       p.then(() => {
-        showToast(editingProductId ? '✅ Product updated!' : '✅ Product added!');
+        showToast(editingProductId ? 'Product updated!' : 'Product added!');
         cancelEditProduct(); loadProductsList();
       }).catch(err => {
-        showToast('❌ ' + err.message, 'error');
-        btn.disabled = false;
-        btn.innerHTML = editingProductId ? '<i class="fas fa-save"></i> Update Product' : '<i class="fas fa-plus"></i> Add Product';
+        showToast('Error: ' + err.message, true);
+        btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Product';
       });
     }
 
     function editProduct(id, data) {
       editingProductId = id;
-      switchTab('products', document.querySelector('.tab-btn'));
+      switchTab('products', document.querySelector('.nav-item')); // Switch to products tab
       document.getElementById('itemName').value = data.name || '';
       document.getElementById('itemPrice').value = data.price || '';
       document.getElementById('itemDiscountPrice').value = data.discountPrice || '';
       document.getElementById('itemImage').value = data.imageUrl || '';
       document.getElementById('itemDescription').value = data.description || '';
       document.getElementById('itemColors').value = data.colors || '';
-      document.getElementById('itemSizes').value = data.sizes || '';
       document.getElementById('itemIsFeatured').checked = !!data.isFeatured;
       document.getElementById('itemIsNew').checked = !!data.isNewArrival;
       document.getElementById('itemOutOfStock').checked = !!data.outOfStock;
-      if (data.imageUrl) { uploadedImageUrl = data.imageUrl; showPreview(data.imageUrl); }
+      
+      if (data.imageUrl) {
+        uploadedImageUrl = data.imageUrl;
+        document.getElementById('productImagePreview').innerHTML = `<img src="${data.imageUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+      }
       setTimeout(() => { document.getElementById('itemCategory').value = data.category || ''; }, 100);
       
-      const btn = document.getElementById('saveProductBtn');
-      btn.className = 'btn-primary btn-update';
-      btn.innerHTML = '<i class="fas fa-save"></i> Update Product';
-      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Product';
-      document.getElementById('cancelProductBtn').style.display = 'block';
-      document.getElementById('itemName').focus();
+      document.getElementById('saveProductBtn').innerHTML = '<i class="fas fa-save"></i> Update Product';
+      document.getElementById('cancelProductBtn').classList.remove('hidden');
+      document.getElementById('pageTitle').textContent = 'Edit Product';
     }
 
     function cancelEditProduct() {
       editingProductId = null; uploadedImageUrl = '';
-      ['itemName','itemPrice','itemDiscountPrice','itemImage','itemDescription','itemColors','itemSizes'].forEach(id => document.getElementById(id).value = '');
+      ['itemName','itemPrice','itemDiscountPrice','itemImage','itemDescription','itemColors'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('itemCategory').value = '';
       document.getElementById('itemIsFeatured').checked = false;
       document.getElementById('itemIsNew').checked = false;
       document.getElementById('itemOutOfStock').checked = false;
-      document.getElementById('imageFileInput').value = '';
-      document.getElementById('imagePreview').style.display = 'none';
+      document.getElementById('productImagePreview').innerHTML = '<i class="fas fa-image"></i>';
       
-      const btn = document.getElementById('saveProductBtn');
-      btn.className = 'btn-primary'; btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-plus"></i> Add Product';
-      document.getElementById('productFormTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add Product';
-      document.getElementById('cancelProductBtn').style.display = 'none';
+      document.getElementById('saveProductBtn').innerHTML = '<i class="fas fa-save"></i> Save Product';
+      document.getElementById('cancelProductBtn').classList.add('hidden');
+      document.getElementById('pageTitle').textContent = 'Add New Product';
     }
 
     function loadProductsList() {
-      const list = document.getElementById('productList');
+      const container = document.getElementById('productListContainer');
       db.collection("items").orderBy("timestamp", "desc").get().then((snap) => {
-        if (snap.empty) { list.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No products yet</p></div>`; return; }
+        if (snap.empty) { container.innerHTML = '<p class="text-center" style="color:var(--text-dim);">No products yet.</p>'; return; }
         let html = '';
         snap.forEach((doc) => {
           const p = doc.data();
-          const tags = [];
-          if (p.isFeatured) tags.push('<span class="mini-tag featured">Featured</span>');
-          if (p.discountPrice && parseFloat(String(p.discountPrice).replace(/[^0-9.]/g,'')) > 0) tags.push('<span class="mini-tag sale">Sale</span>');
-          if (p.isNewArrival) tags.push('<span class="mini-tag new">New</span>');
-          if (p.outOfStock) tags.push('<span class="mini-tag out">Out</span>');
-          const priceHtml = p.discountPrice && parseFloat(String(p.discountPrice).replace(/[^0-9.]/g,'')) > 0
-            ? `<span class="old">Rs. ${p.price}</span> Rs. ${p.discountPrice}` : `Rs. ${p.price}`;
+          const priceHtml = p.discountPrice ? `<span style="text-decoration:line-through;color:var(--text-dim);font-size:0.85em;">Rs. ${p.price}</span> Rs. ${p.discountPrice}` : `Rs. ${p.price}`;
           const pData = JSON.stringify({
             name: p.name || '', price: p.price || '', discountPrice: p.discountPrice || '',
             category: p.category || '', imageUrl: p.imageUrl || '', description: p.description || '',
-            colors: p.colors || '', sizes: p.sizes || '', isFeatured: !!p.isFeatured,
-            isNewArrival: !!p.isNewArrival, outOfStock: !!p.outOfStock
+            colors: p.colors || '', isFeatured: !!p.isFeatured, isNewArrival: !!p.isNewArrival, outOfStock: !!p.outOfStock
           }).replace(/'/g, "&#39;").replace(/"/g, "&quot;");
           
-          html += `<div class="product-item">
-            <img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/60'">
-            <div class="product-details">
-              <div class="p-name">${p.name}</div>
-              <div class="p-price">${priceHtml}</div>
-              <div class="p-cat">${p.categoryName || 'No Category'}</div>
-              ${tags.length ? `<div class="product-tags">${tags.join('')}</div>` : ''}
-            </div>
-            <div class="action-btns">
-              <button class="btn-edit" onclick='editProduct("${doc.id}", ${pData.replace(/'/g, "\\'")})'><i class="fas fa-edit"></i> Edit</button>
-              <button class="btn-delete" onclick="deleteProduct('${doc.id}')"><i class="fas fa-trash"></i></button>
-            </div>
-          </div>`;
+          html += `
+            <div class="product-list-item">
+              <img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/48'">
+              <div class="product-info">
+                <h4>${p.name}</h4>
+                <p>${priceHtml} • ${p.categoryName || 'No Category'}</p>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-outline" style="padding:6px 12px; font-size:0.8em;" onclick='editProduct("${doc.id}", ${pData.replace(/'/g, "\\'")})'><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger" style="padding:6px 12px; font-size:0.8em;" onclick="deleteProduct('${doc.id}')"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>`;
         });
-        list.innerHTML = html;
+        container.innerHTML = html;
       });
     }
 
     function deleteProduct(id) {
       if (confirm('Delete this product permanently?')) {
         db.collection("items").doc(id).delete().then(() => {
-          showToast('✅ Product deleted'); loadProductsList();
-        }).catch(err => showToast('❌ ' + err.message, 'error'));
+          showToast('Product deleted'); loadProductsList();
+        }).catch(err => showToast('Error: ' + err.message, true));
       }
     }
 
-    document.getElementById('adminPass').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') loginAdmin();
-    });
+    // ===== SETTINGS LOGIC =====
+    function loadSettings() {
+      db.collection("settings").doc("store").get().then((doc) => {
+        if (doc.exists) {
+          const d = doc.data();
+          document.getElementById('settingFreeDelivery').checked = d.freeDeliveryEnabled || false;
+          document.getElementById('settingDeliveryCharges').value = d.deliveryCharges || 200;
+          document.getElementById('settingFreeThreshold').value = d.freeDeliveryThreshold || 2000;
+          document.getElementById('settingAnnouncement').value = d.announcementText || '';
+          document.getElementById('settingWhatsApp').value = d.whatsappNumber || '';
+          document.getElementById('settingPhone').value = d.phoneNumber || '';
+          document.getElementById('settingEmail').value = d.emailAddress || '';
+        }
+      });
+    }
+
+    function saveSettings() {
+      const btn = document.getElementById('saveSettingsBtn');
+      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      const data = {
+        freeDeliveryEnabled: document.getElementById('settingFreeDelivery').checked,
+        deliveryCharges: parseInt(document.getElementById('settingDeliveryCharges').value) || 200,
+        freeDeliveryThreshold: parseInt(document.getElementById('settingFreeThreshold').value) || 2000,
+        announcementText: document.getElementById('settingAnnouncement').value || 'FREE DELIVERY on orders above Rs. 2000 — COD Available 🇵🇰',
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      db.collection("settings").doc("store").set(data, { merge: true }).then(() => {
+        showToast('Delivery settings saved!');
+        btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Delivery Settings';
+      }).catch(err => { showToast('Error: ' + err.message, true); btn.disabled = false; });
+    }
+
+    function saveContactSettings() {
+      const btn = document.getElementById('saveContactBtn');
+      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      const wa = document.getElementById('settingWhatsApp').value.trim();
+      if (wa && !/^\d{10,15}$/.test(wa)) { showToast('WhatsApp format must be digits only (e.g., 923263310288)', true); btn.disabled = false; return; }
+      
+      const data = { whatsappNumber: wa, phoneNumber: document.getElementById('settingPhone').value.trim(), emailAddress: document.getElementById('settingEmail').value.trim(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
+      db.collection("settings").doc("store").set(data, { merge: true }).then(() => {
+        showToast('Contact info saved!');
+        btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Contact Info';
+      }).catch(err => { showToast('Error: ' + err.message, true); btn.disabled = false; });
+    }
+
+    function loadSocialSettings() {
+      db.collection("settings").doc("store").get().then((doc) => {
+        if (doc.exists) {
+          const d = doc.data();
+          document.getElementById('socialFacebook').value = d.facebookUrl || '';
+          document.getElementById('socialInstagram').value = d.instagramUrl || '';
+          document.getElementById('socialTikTok').value = d.tiktokUrl || '';
+        }
+      });
+    }
+
+    function saveSocialSettings() {
+      const btn = document.getElementById('saveSocialBtn');
+      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      const data = {
+        facebookUrl: document.getElementById('socialFacebook').value.trim(),
+        instagramUrl: document.getElementById('socialInstagram').value.trim(),
+        tiktokUrl: document.getElementById('socialTikTok').value.trim(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      db.collection("settings").doc("store").set(data, { merge: true }).then(() => {
+        showToast('Social links saved!');
+        btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Social Links';
+      }).catch(err => { showToast('Error: ' + err.message, true); btn.disabled = false; });
+    }
+
+    document.getElementById('adminPass').addEventListener('keypress', function(e) { if (e.key === 'Enter') loginAdmin(); });
   </script>
 </body>
 </html>
