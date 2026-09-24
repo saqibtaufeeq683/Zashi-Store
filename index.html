@@ -168,7 +168,7 @@
     .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8em, 5vw, 2.8em); text-align: center; color: var(--brand-navy); margin-bottom: 30px; }
     .section-title span { color: var(--brand-blue); }
     
-    /* ===== MODERN E-COMMERCE CATEGORY GRID ===== */
+    /* ===== FIXED E-COMMERCE CATEGORY GRID ===== */
     #categoriesGrid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -176,24 +176,32 @@
     }
     @media (min-width: 768px) {
       #categoriesGrid {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         gap: 16px;
+      }
+    }
+    @media (max-width: 480px) {
+      #categoriesGrid { 
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 10px; 
       }
     }
 
     .category-card {
       background: var(--bg-secondary);
       border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 16px 8px;
+      border-radius: 12px;
+      padding: 12px 8px;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+      justify-content: flex-start;
+      gap: 8px;
+      min-height: 105px; /* Ensures uniform height and prevents text overflow */
+      overflow: hidden; /* Prevents any accidental bleed */
     }
     .category-card:hover {
       background: var(--card-bg);
@@ -202,20 +210,32 @@
       box-shadow: var(--shadow-hover);
     }
     .category-icon-img {
-      width: 44px;
-      height: 44px;
+      width: 100%;
+      max-width: 42px;
+      height: auto;
+      max-height: 42px;
       object-fit: contain;
+      display: block;
+      margin: 0 auto;
       transition: transform 0.3s ease;
     }
     .category-card:hover .category-icon-img {
-      transform: scale(1.15);
+      transform: scale(1.1);
     }
     .category-name {
       font-weight: 600;
       color: var(--text-primary);
-      font-size: 0.8em;
+      font-size: 0.75em;
       line-height: 1.2;
       margin: 0;
+      text-align: center;
+      word-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* Limits text to maximum 2 lines */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     /* ===== PRODUCT GRID ===== */
@@ -269,9 +289,6 @@
     @media (max-width: 480px) {
       .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .hero-btn { width: 100%; justify-content: center; }
-      #categoriesGrid { grid-template-columns: repeat(3, 1fr); gap: 10px; } /* Exactly 3 per row on mobile */
-      .category-icon-img { width: 38px; height: 38px; }
-      .category-name { font-size: 0.75em; }
     }
   </style>
 </head>
