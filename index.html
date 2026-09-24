@@ -36,7 +36,7 @@
       --green-dark: #128C7E;
       --red: #ef4444;
       --orange: #f59e0b;
-      --bottom-nav-height: 60px;
+      --bottom-nav-height: 62px;
     }
     [data-theme="dark"] {
       --bg-primary: #020617;
@@ -66,12 +66,20 @@
       overflow-x:hidden; 
       line-height:1.6; 
       transition:background 0.4s,color 0.4s;
-      padding-bottom: 0;
     }
     img { max-width: 100%; height: auto; }
     button { -webkit-appearance: none; }
 
-    /* ===== NAVBAR (Mobile-First) ===== */
+    /* ===== DARK MODE PNG FIX ===== */
+    [data-theme="dark"] .category-icon-img,
+    [data-theme="dark"] .cat-icon-sm img {
+      filter: invert(1) brightness(1.3) contrast(1.1);
+    }
+    [data-theme="dark"] .logo img {
+      filter: invert(1) brightness(1.3) contrast(1.1);
+    }
+
+    /* ===== NAVBAR ===== */
     .navbar { 
       position:sticky; 
       top:0; 
@@ -86,7 +94,6 @@
       border-bottom:1px solid var(--glass-border); 
     }
     
-    /* Mobile: Compact logo */
     .logo { display:flex; align-items:center; gap:8px; text-decoration:none; flex-shrink:0; }
     .logo img { height:36px; width:auto; object-fit:contain; }
     .logo-text { display:flex; flex-direction:column; line-height:1.1; }
@@ -94,21 +101,18 @@
     [data-theme="dark"] .logo-text .brand-name { background:linear-gradient(135deg,#f8fafc 0%,#cbd5e1 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
     .logo-text .brand-tag { font-size:0.55em; color:var(--text-dim); letter-spacing:1.5px; text-transform:uppercase; font-weight:500; display:none; }
 
-    /* Desktop Search */
     .search-wrapper { flex:1; max-width:400px; position:relative; display:none; }
     .search-wrapper input { width:100%; padding:11px 42px 11px 40px; border-radius:50px; border:1px solid var(--glass-border); background:var(--input-bg); color:var(--text-primary); font-size:0.88em; font-family:'Inter',sans-serif; transition:all 0.3s; }
     .search-wrapper input:focus { outline:none; border-color:var(--brand-navy); box-shadow:0 0 0 3px rgba(15,23,42,0.1); }
     .search-wrapper .search-icon-left { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-dim); pointer-events:none; font-size:0.9em; }
     .search-wrapper .search-clear { position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--text-dim); cursor:pointer; background:none; border:none; font-size:0.9em; display:none; padding:4px; }
     .search-wrapper .search-clear.show { display:block; }
-    .search-wrapper .search-clear:hover { color:var(--red); }
 
     .nav-menu { display:none; }
 
-    .nav-icons { display:flex; gap:6px; align-items:center; }
+    .nav-icons { display:flex; gap:4px; align-items:center; }
     
-    /* Icon buttons - bigger touch targets */
-    .icon-btn, .theme-toggle, .cart-icon {
+    .icon-btn {
       background:transparent;
       border:none;
       color:var(--text-primary);
@@ -120,23 +124,22 @@
       justify-content:center;
       cursor:pointer;
       transition:all 0.2s;
-      font-size:1.15em;
+      font-size:1.12em;
       position:relative;
     }
-    .icon-btn:active, .theme-toggle:active, .cart-icon:active { 
+    .icon-btn:active { 
       background:var(--bg-tertiary); 
-      transform: scale(0.95);
+      transform: scale(0.92);
     }
-    .cart-count { 
+    .cart-count, .wish-count { 
       position:absolute; 
       top:2px; 
       right:2px; 
-      background:var(--red); 
       color:#fff; 
-      font-size:0.6em; 
+      font-size:0.58em; 
       font-weight:700; 
-      min-width:18px; 
-      height:18px; 
+      min-width:17px; 
+      height:17px; 
       border-radius:9px; 
       display:flex; 
       align-items:center; 
@@ -144,9 +147,11 @@
       padding:0 4px;
       border:2px solid var(--nav-bg);
     }
+    .cart-count { background: var(--red); }
+    .wish-count { background: var(--red); }
 
-    /* Mobile Search Icon */
     .mobile-search-btn { display:flex; }
+    .desktop-only { display:none; }
 
     /* ===== MOBILE SEARCH OVERLAY ===== */
     .mobile-search-overlay {
@@ -259,17 +264,28 @@
     #shop-view.hidden { display:none; }
 
     /* ===== DEFAULT HERO ===== */
-    .hero { min-height:50vh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:40px 16px 30px; }
+    .hero { 
+      min-height:55vh; 
+      position:relative; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      text-align:center; 
+      padding:50px 20px 40px; 
+    }
     .hero-bg { position:absolute; inset:0; background:linear-gradient(180deg,var(--hero-overlay) 0%,var(--hero-overlay-bottom) 60%,var(--bg-primary) 100%),url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1920') center/cover; z-index:-1; }
-    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(1.8em,7vw,3.5em); font-weight:700; color:var(--brand-navy); margin-bottom:12px; line-height:1.15; }
-    .hero p { color:var(--text-secondary); font-size:clamp(0.9em,2.5vw,1.1em); margin-bottom:24px; max-width:500px; margin-left:auto; margin-right:auto; }
-    .hero-btn { padding:13px 24px; border-radius:10px; font-size:0.85em; font-weight:600; cursor:pointer; border:none; min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:8px; transition:all 0.3s; text-decoration:none; }
-    .hero-btn-primary { background:var(--brand-navy); color:#fff; }
-    .hero-btn-primary:active { background:var(--brand-blue); transform:scale(0.98); }
-    .hero-btn-secondary { background:transparent; color:var(--brand-navy); border:1px solid var(--brand-navy); }
+    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2em,7vw,4em); font-weight:700; color:var(--brand-navy); margin-bottom:14px; line-height:1.1; letter-spacing:-0.5px; }
+    .hero h1 span { color: var(--brand-blue); }
+    .hero p { color:var(--text-secondary); font-size:clamp(0.95em,2.5vw,1.15em); margin-bottom:28px; max-width:500px; margin-left:auto; margin-right:auto; font-weight:400; }
+    .hero-buttons { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    .hero-btn { padding:14px 26px; border-radius:12px; font-size:0.88em; font-weight:600; cursor:pointer; border:none; min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:8px; transition:all 0.3s; text-decoration:none; font-family:'Inter',sans-serif; }
+    .hero-btn-primary { background:var(--brand-navy); color:#fff; box-shadow: 0 4px 14px rgba(15,23,42,0.25); }
+    .hero-btn-primary:active { background:var(--brand-blue); transform:scale(0.97); }
+    .hero-btn-secondary { background:rgba(255,255,255,0.9); color:var(--brand-navy); border:1.5px solid var(--brand-navy); }
+    [data-theme="dark"] .hero-btn-secondary { background:rgba(255,255,255,0.08); color:#f8fafc; border-color:rgba(248,250,252,0.4); }
     .hero-btn-secondary:active { background:var(--brand-navy); color:#fff; }
 
-    /* ===== HERO SLIDER (Mobile Optimized) ===== */
+    /* ===== HERO SLIDER ===== */
     .hero-slider {
       position: relative;
       width: 100%;
@@ -315,7 +331,7 @@
         180deg,
         rgba(0,0,0,0.3) 0%,
         rgba(0,0,0,0.55) 50%,
-        rgba(0,0,0,0.75) 100%
+        rgba(0,0,0,0.78) 100%
       );
     }
 
@@ -390,7 +406,6 @@
       padding: 3px 9px;
       border-radius: 50px;
       font-weight: 700;
-      letter-spacing: 0.3px;
     }
 
     .slide-buttons {
@@ -424,7 +439,6 @@
       border: 1px solid rgba(255,255,255,0.4);
       backdrop-filter: blur(10px);
     }
-    .btn-slider-details:active { background: rgba(255,255,255,0.35); }
 
     .slider-arrow { display: none; }
 
@@ -468,7 +482,7 @@
       z-index: 5;
     }
 
-    /* ===== TRUST BADGES (Mobile) ===== */
+    /* ===== TRUST BAR ===== */
     .trust-bar {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -505,7 +519,7 @@
     .search-results-bar .search-info strong { color:var(--brand-navy); }
     .search-results-bar .clear-search { background:var(--brand-navy); color:#fff; border:none; padding:6px 12px; border-radius:20px; font-size:0.75em; cursor:pointer; font-weight:600; display:inline-flex; align-items:center; gap:5px; min-height: 32px; }
 
-    /* ===== CATEGORIES (Mobile: 4 per row) ===== */
+    /* ===== CATEGORIES ===== */
     #categoriesGrid { 
       display:grid; 
       grid-template-columns:repeat(4,1fr); 
@@ -528,7 +542,6 @@
       gap:6px; 
       min-height:90px; 
       overflow:hidden;
-      -webkit-tap-highlight-color: transparent;
     }
     .category-card:active { 
       background:var(--card-bg); 
@@ -558,7 +571,7 @@
       overflow:hidden; 
     }
 
-    /* ===== PRODUCT CARDS (Mobile: 2 per row) ===== */
+    /* ===== PRODUCT CARDS ===== */
     .grid { 
       display:grid; 
       grid-template-columns:repeat(2,1fr); 
@@ -575,7 +588,6 @@
       cursor:pointer; 
       display:flex;
       flex-direction:column;
-      -webkit-tap-highlight-color: transparent;
     }
     .card:active { 
       transform:scale(0.98); 
@@ -605,7 +617,6 @@
       font-weight:700;
       padding:3px 7px;
       border-radius:4px;
-      letter-spacing:0.2px;
       z-index:2;
     }
 
@@ -624,7 +635,6 @@
       z-index:3;
     }
 
-    /* Wishlist heart */
     .card-wishlist {
       position:absolute;
       top:6px;
@@ -632,7 +642,7 @@
       width:30px;
       height:30px;
       border-radius:50%;
-      background:rgba(255,255,255,0.9);
+      background:rgba(255,255,255,0.92);
       border:none;
       display:flex;
       align-items:center;
@@ -646,7 +656,6 @@
     .card-wishlist:active { transform:scale(0.9); }
     .card-wishlist.active { color:var(--red); }
 
-    /* Quick actions - always visible on mobile */
     .card-quick-actions {
       display:flex;
       gap:6px;
@@ -669,7 +678,6 @@
       font-family:'Inter',sans-serif;
       transition:all 0.2s;
       min-height: 38px;
-      -webkit-tap-highlight-color: transparent;
     }
     .card-quick-actions button:active { transform:scale(0.96); }
     .card-quick-actions .qa-order {
@@ -731,7 +739,7 @@
       text-decoration:line-through;
     }
 
-    /* ===== FOOTER (Mobile) ===== */
+    /* ===== FOOTER ===== */
     footer { 
       background:var(--brand-navy); 
       padding:40px 16px 90px; 
@@ -804,8 +812,9 @@
       z-index:10;
     }
 
-    /* ===== CART (Mobile Slide-in) ===== */
-    #cartSidebar .modal-content {
+    /* ===== CART & WISHLIST SIDEBAR ===== */
+    #cartSidebar .modal-content,
+    #wishlistSidebar .modal-content {
       margin:0 0 0 auto;
       height:100vh;
       max-width:100%;
@@ -814,7 +823,10 @@
       flex-direction:column;
       animation: slideInRight 0.3s;
     }
-    @media(min-width:640px){ #cartSidebar .modal-content { max-width:420px; } }
+    @media(min-width:640px){ 
+      #cartSidebar .modal-content,
+      #wishlistSidebar .modal-content { max-width:420px; } 
+    }
     @keyframes slideInRight { from{transform:translateX(100%);} to{transform:translateX(0);} }
 
     /* ===== FLOATING WHATSAPP ===== */
@@ -844,7 +856,7 @@
       50% { box-shadow:0 6px 30px rgba(37,211,102,0.8); }
     }
 
-    /* ===== BOTTOM NAV (Mobile Only) ===== */
+    /* ===== BOTTOM NAV ===== */
     .bottom-nav {
       position:fixed;
       bottom:0;
@@ -858,7 +870,7 @@
       justify-content:space-around;
       align-items:center;
       z-index:997;
-      padding: 0 4px;
+      padding: 0 2px;
     }
     .bottom-nav-item {
       flex:1;
@@ -866,25 +878,25 @@
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:3px;
+      gap:2px;
       background:transparent;
       border:none;
       color:var(--text-dim);
-      font-size:0.65em;
+      font-size:0.62em;
       font-weight:500;
       cursor:pointer;
-      padding:8px 4px;
+      padding:6px 2px;
       position:relative;
       transition:color 0.2s;
       font-family:'Inter',sans-serif;
-      -webkit-tap-highlight-color: transparent;
       min-height: 48px;
     }
     .bottom-nav-item i {
-      font-size:1.4em;
+      font-size:1.35em;
     }
     .bottom-nav-item:active { color:var(--brand-navy); transform:scale(0.95); }
     .bottom-nav-item.active { color:var(--brand-navy); }
+    [data-theme="dark"] .bottom-nav-item.active { color: var(--green); }
     .bottom-nav-item .bn-badge {
       position:absolute;
       top:4px;
@@ -928,11 +940,41 @@
       opacity:1;
     }
     #toast i { color: var(--green); }
+    #toast.error i { color: #ef4444; }
 
-    /* ===== RESPONSIVE (Desktop overrides) ===== */
+    /* ===== WISHLIST EMPTY ===== */
+    .empty-state {
+      text-align:center;
+      padding:50px 20px;
+      color:var(--text-dim);
+    }
+    .empty-state i {
+      font-size:3.5em;
+      opacity:0.25;
+      margin-bottom:14px;
+      display:block;
+    }
+    .empty-state p {
+      font-size:0.95em;
+      margin-bottom:16px;
+    }
+    .empty-state button {
+      background:var(--brand-navy);
+      color:#fff;
+      border:none;
+      padding:12px 24px;
+      border-radius:10px;
+      font-size:0.85em;
+      font-weight:600;
+      cursor:pointer;
+      font-family:'Inter',sans-serif;
+    }
+
+    /* ===== RESPONSIVE (Desktop) ===== */
     @media(min-width:768px){
       .search-wrapper { display:block; }
       .mobile-search-btn { display:none; }
+      .desktop-only { display:flex; }
       .nav-menu { 
         display:flex; 
         gap:22px; 
@@ -1002,20 +1044,21 @@
         padding:8px;
         min-height: auto;
       }
+      /* Desktop: 3 cards per row */
+      .grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
+      #categoriesGrid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 16px; }
     }
 
-    /* Tablet */
     @media(min-width:640px) and (max-width:767px){
       .grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
       #categoriesGrid { grid-template-columns: repeat(5, 1fr); }
     }
 
-    /* Small phones */
     @media(max-width:360px){
       .card-title { font-size:0.76em; }
       .price-current { font-size:0.9em; }
-      .bottom-nav-item { font-size:0.6em; }
-      .bottom-nav-item i { font-size:1.3em; }
+      .bottom-nav-item { font-size:0.58em; }
+      .bottom-nav-item i { font-size:1.25em; }
     }
   </style>
 </head>
@@ -1038,7 +1081,7 @@
       <button class="search-clear" id="searchClear" onclick="clearSearch()"><i class="fas fa-times"></i></button>
     </div>
 
-    <ul class="nav-menu" id="navMenu">
+    <ul class="nav-menu">
       <li><a onclick="showShop()">Home</a></li>
       <li><a onclick="showShop();setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),100)">Shop</a></li>
       <li><a onclick="showShop();setTimeout(()=>document.getElementById('categories').scrollIntoView({behavior:'smooth'}),100)">Categories</a></li>
@@ -1047,18 +1090,26 @@
     </ul>
 
     <div class="nav-icons">
-      <!-- Mobile Search Button -->
+      <!-- Mobile Search -->
       <button class="icon-btn mobile-search-btn" onclick="openMobileSearch()" aria-label="Search">
         <i class="fas fa-search"></i>
       </button>
       
-      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Theme">
+      <!-- Theme Toggle -->
+      <button class="icon-btn" onclick="toggleTheme()" aria-label="Theme">
         <i class="fas fa-moon" id="themeIcon"></i>
       </button>
       
-      <button class="cart-icon" onclick="toggleCart()" aria-label="Cart">
+      <!-- Wishlist (Hidden on mobile - in bottom nav) -->
+      <button class="icon-btn desktop-only" onclick="toggleWishlistPage()" aria-label="Wishlist">
+        <i class="fas fa-heart"></i>
+        <span class="wish-count" id="wishCount" style="display:none;">0</span>
+      </button>
+      
+      <!-- Cart (Hidden on mobile - in bottom nav) -->
+      <button class="icon-btn desktop-only" onclick="toggleCart()" aria-label="Cart">
         <i class="fas fa-shopping-bag"></i>
-        <span class="cart-count" id="cartCount">0</span>
+        <span class="cart-count" id="cartCount" style="display:none;">0</span>
       </button>
     </div>
   </nav>
@@ -1072,9 +1123,9 @@
       </button>
     </div>
     <div class="mobile-search-suggestions" id="mobileSearchSuggestions">
-      <div style="text-align:center;padding:40px 20px;color:var(--text-dim);">
-        <i class="fas fa-search" style="font-size:2.5em;opacity:0.3;margin-bottom:12px;display:block;"></i>
-        <p style="font-size:0.9em;">Search products by name, category...</p>
+      <div class="empty-state">
+        <i class="fas fa-search"></i>
+        <p>Search products by name or category</p>
       </div>
     </div>
   </div>
@@ -1089,15 +1140,19 @@
       <div class="slider-dots" id="sliderDots"></div>
     </section>
 
-    <!-- ===== DEFAULT HERO ===== -->
+    <!-- ===== DEFAULT HERO (Fallback) ===== -->
     <section class="hero" id="defaultHero">
       <div class="hero-bg"></div>
       <div class="hero-content">
-        <h1>Zashi Super Store</h1>
+        <h1>Zashi <span>Super Store</span></h1>
         <p>Pakistan's Most Trusted Online Shopping Destination</p>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-          <button class="hero-btn hero-btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})"><i class="fas fa-shopping-bag"></i> Shop Now</button>
-          <button class="hero-btn hero-btn-secondary" onclick="showPage('page-about')"><i class="fas fa-info-circle"></i> About Us</button>
+        <div class="hero-buttons">
+          <button class="hero-btn hero-btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+            <i class="fas fa-shopping-bag"></i> Shop Collection
+          </button>
+          <button class="hero-btn hero-btn-secondary" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">
+            <i class="fas fa-th-large"></i> View Categories
+          </button>
         </div>
       </div>
     </section>
@@ -1130,7 +1185,7 @@
       </div>
     </section>
 
-    <!-- ===== SEARCH RESULTS HEADER ===== -->
+    <!-- ===== SEARCH RESULTS ===== -->
     <div class="search-results-header" id="searchResultsHeader">
       <div class="search-results-bar">
         <div class="search-info">
@@ -1228,26 +1283,42 @@
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- ===== BOTTOM NAV (Mobile Only) ===== -->
+  <!-- ===== BOTTOM NAV ===== -->
   <nav class="bottom-nav">
     <button class="bottom-nav-item active" onclick="showShop();window.scrollTo({top:0,behavior:'smooth'})" data-nav="home">
       <i class="fas fa-home"></i>
       <span>Home</span>
     </button>
-    <button class="bottom-nav-item" onclick="openMobileSearch()" data-nav="search">
-      <i class="fas fa-search"></i>
-      <span>Search</span>
+    <button class="bottom-nav-item" onclick="showShop();setTimeout(()=>document.getElementById('categories').scrollIntoView({behavior:'smooth'}),100)" data-nav="categories">
+      <i class="fas fa-th-large"></i>
+      <span>Categories</span>
+    </button>
+    <button class="bottom-nav-item" onclick="toggleWishlistPage()" data-nav="wishlist">
+      <i class="fas fa-heart"></i>
+      <span>Wishlist</span>
+      <span class="bn-badge" id="bnWishCount" style="display:none;">0</span>
     </button>
     <button class="bottom-nav-item" onclick="toggleCart()" data-nav="cart">
       <i class="fas fa-shopping-bag"></i>
       <span>Cart</span>
       <span class="bn-badge" id="bnCartCount" style="display:none;">0</span>
     </button>
-    <button class="bottom-nav-item" onclick="showPage('page-contact')" data-nav="account">
-      <i class="fas fa-user"></i>
+    <button class="bottom-nav-item" onclick="showPage('page-contact')" data-nav="contact">
+      <i class="fas fa-phone"></i>
       <span>Contact</span>
     </button>
   </nav>
+
+  <!-- ===== WISHLIST SIDEBAR ===== -->
+  <div class="modal" id="wishlistSidebar">
+    <div class="modal-content">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid var(--glass-border);">
+        <h2 style="font-family:'Playfair Display',serif;color:var(--brand-navy);font-size:1.3em;"><i class="fas fa-heart" style="color:var(--red);"></i> Wishlist</h2>
+        <button class="close" onclick="toggleWishlistPage()" style="position:static;">&times;</button>
+      </div>
+      <div id="wishlistItems" style="flex:1;overflow-y:auto;"></div>
+    </div>
+  </div>
 
   <!-- ===== CART SIDEBAR ===== -->
   <div class="modal" id="cartSidebar">
@@ -1312,15 +1383,13 @@
       document.querySelectorAll('.info-page').forEach(p=>p.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       window.scrollTo({top:0,behavior:'smooth'});
-      document.getElementById('navMenu')?.classList.remove('active');
-      // Update bottom nav
       document.querySelectorAll('.bottom-nav-item').forEach(b=>b.classList.remove('active'));
+      document.querySelector('[data-nav="contact"]')?.classList.add('active');
     }
     function showShop(){
       document.getElementById('shop-view').classList.remove('hidden');
       document.querySelectorAll('.info-page').forEach(p=>p.classList.remove('active'));
       window.scrollTo({top:0,behavior:'smooth'});
-      document.getElementById('navMenu')?.classList.remove('active');
       document.querySelectorAll('.bottom-nav-item').forEach(b=>b.classList.remove('active'));
       document.querySelector('[data-nav="home"]')?.classList.add('active');
     }
@@ -1337,7 +1406,6 @@
     let storeWhatsApp="923263310288";
     let currentSearchQuery='';
 
-    // Slider state
     let sliderProducts=[];
     let currentSlide=0;
     let autoPlayTimer=null;
@@ -1348,8 +1416,8 @@
     function showToast(msg,type){
       const t=document.getElementById('toast');
       const icon=t.querySelector('i');
+      t.className=type==='error'?'error':'';
       icon.className=type==='error'?'fas fa-exclamation-circle':'fas fa-check-circle';
-      icon.style.color=type==='error'?'#ef4444':'#25D366';
       document.getElementById('toastMsg').textContent=msg;
       t.classList.add('show');
       clearTimeout(t._timeout);
@@ -1370,7 +1438,7 @@
       const box=document.getElementById('mobileSearchSuggestions');
       const q=query.trim().toLowerCase();
       if(!q){
-        box.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--text-dim);"><i class="fas fa-search" style="font-size:2.5em;opacity:0.3;margin-bottom:12px;display:block;"></i><p style="font-size:0.9em;">Search products by name, category...</p></div>';
+        box.innerHTML='<div class="empty-state"><i class="fas fa-search"></i><p>Search products by name or category</p></div>';
         return;
       }
       const filtered=allProducts.filter(p=>
@@ -1380,7 +1448,7 @@
       ).slice(0,20);
       
       if(!filtered.length){
-        box.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--text-dim);"><i class="fas fa-search" style="font-size:2.5em;opacity:0.3;margin-bottom:12px;display:block;"></i><p style="font-size:0.9em;">Koi product nahi mila</p></div>';
+        box.innerHTML='<div class="empty-state"><i class="fas fa-search"></i><p>Koi product nahi mila</p></div>';
         return;
       }
       
@@ -1596,19 +1664,11 @@
           else prevSlide();
         }
       },{passive:true});
-      
-      document.addEventListener('keydown',e=>{
-        const sliderVisible=document.getElementById('heroSlider').classList.contains('active');
-        if(!sliderVisible) return;
-        if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
-        if(e.key==='ArrowLeft') prevSlide();
-        if(e.key==='ArrowRight') nextSlide();
-      });
     }
 
     function sliderOrderNow(product){quickOrder(product);}
 
-    // ===== PRODUCT RENDER =====
+    // ===== PRODUCTS RENDER =====
     function renderProducts(products){
       const box=document.getElementById('itemsContainer');
       if(!products.length){
@@ -1655,12 +1715,87 @@
       }).join('');
     }
 
-    // Wishlist
+    // ===== WISHLIST =====
     function toggleWishlist(id,el){
       const i=wishlist.indexOf(id);
-      if(i>-1){wishlist.splice(i,1);el.classList.remove('active');showToast('Removed from wishlist');}
-      else{wishlist.push(id);el.classList.add('active');showToast('Added to wishlist ❤️');}
+      if(i>-1){
+        wishlist.splice(i,1);
+        if(el) el.classList.remove('active');
+        showToast('Removed from wishlist');
+      } else {
+        wishlist.push(id);
+        if(el) el.classList.add('active');
+        showToast('Added to wishlist ❤️');
+      }
       localStorage.setItem('zashiWishlist',JSON.stringify(wishlist));
+      updateWishlistCount();
+    }
+    
+    function updateWishlistCount(){
+      const count=wishlist.length;
+      const wishCountEl=document.getElementById('wishCount');
+      const bnWishEl=document.getElementById('bnWishCount');
+      
+      if(count>0){
+        wishCountEl.textContent=count;
+        wishCountEl.style.display='flex';
+        bnWishEl.textContent=count;
+        bnWishEl.style.display='flex';
+      } else {
+        wishCountEl.style.display='none';
+        bnWishEl.style.display='none';
+      }
+    }
+    
+    function toggleWishlistPage(){
+      const m=document.getElementById('wishlistSidebar');
+      const isOpen=m.style.display==='block';
+      m.style.display=isOpen?'none':'block';
+      if(!isOpen){
+        renderWishlist();
+        document.body.style.overflow='hidden';
+      } else {
+        document.body.style.overflow='auto';
+      }
+    }
+    
+    function renderWishlist(){
+      const box=document.getElementById('wishlistItems');
+      const items=allProducts.filter(p=>wishlist.includes(p.id));
+      
+      if(!items.length){
+        box.innerHTML='<div class="empty-state"><i class="fas fa-heart"></i><p>Aapki wishlist khali hai</p><button onclick="toggleWishlistPage();document.getElementById(\'products\').scrollIntoView({behavior:\'smooth\'})">Browse Products</button></div>';
+        return;
+      }
+      
+      box.innerHTML=items.map(p=>{
+        const price=p.discountPrice&&Number(p.discountPrice)<Number(p.price)?Number(p.discountPrice):Number(p.price);
+        const pj=JSON.stringify(p).replace(/'/g,"&#39;");
+        return`<div style="display:flex;gap:12px;margin-bottom:12px;align-items:center;background:var(--bg-secondary);padding:10px;border-radius:10px;border:1px solid var(--glass-border);">
+          <img src="${p.imageUrl}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;" onclick='toggleWishlistPage();openProductModal(${pj})'>
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:600;font-size:0.88em;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div>
+            <div style="color:var(--brand-navy);font-weight:700;font-size:0.95em;margin-bottom:8px;">Rs. ${price.toLocaleString()}</div>
+            <div style="display:flex;gap:6px;">
+              <button onclick="event.stopPropagation();moveWishToCart('${p.id}')" style="flex:1;background:var(--green);color:#fff;border:none;padding:7px;border-radius:6px;font-size:0.72em;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">
+                <i class="fas fa-cart-plus"></i> Add to Cart
+              </button>
+              <button onclick="event.stopPropagation();toggleWishlist('${p.id}',null);renderWishlist();" style="flex:0 0 36px;background:var(--bg-primary);color:var(--red);border:1px solid var(--glass-border);padding:7px;border-radius:6px;font-size:0.72em;cursor:pointer;">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    
+    function moveWishToCart(id){
+      const p=allProducts.find(x=>x.id===id);
+      if(!p) return;
+      addToCart(p);
+      toggleWishlist(id,null);
+      renderWishlist();
+      showToast('Cart mein add ho gaya ✅');
     }
 
     // ===== SEARCH =====
@@ -1756,16 +1891,23 @@
     function updateCart(){
       localStorage.setItem('zashiCart',JSON.stringify(cart));
       const totalItems=cart.reduce((s,i)=>s+i.quantity,0);
-      document.getElementById('cartCount').textContent=totalItems;
       
-      // Bottom nav badge
-      const bnBadge=document.getElementById('bnCartCount');
-      if(totalItems>0){bnBadge.textContent=totalItems;bnBadge.style.display='flex';}
-      else bnBadge.style.display='none';
+      const cartCountEl=document.getElementById('cartCount');
+      const bnCartEl=document.getElementById('bnCartCount');
+      
+      if(totalItems>0){
+        cartCountEl.textContent=totalItems;
+        cartCountEl.style.display='flex';
+        bnCartEl.textContent=totalItems;
+        bnCartEl.style.display='flex';
+      } else {
+        cartCountEl.style.display='none';
+        bnCartEl.style.display='none';
+      }
       
       const box=document.getElementById('cartItems');
       if(!cart.length){
-        box.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--text-dim);"><i class="fas fa-shopping-bag" style="font-size:3em;opacity:0.3;margin-bottom:12px;display:block;"></i><p>Aapka cart khali hai</p></div>';
+        box.innerHTML='<div class="empty-state"><i class="fas fa-shopping-bag"></i><p>Aapka cart khali hai</p><button onclick="toggleCart();document.getElementById(\'products\').scrollIntoView({behavior:\'smooth\'})">Start Shopping</button></div>';
         document.getElementById('cartTotal').textContent='Rs. 0';
         return;
       }
@@ -1844,12 +1986,14 @@
     }
     
     window.onclick=e=>{
-      if(e.target.id==="orderModal"||e.target.id==="productModal"||e.target.id==="cartSidebar"){
-        closeModal();closeProductModal();document.getElementById('cartSidebar').style.display='none';document.body.style.overflow='auto';
+      if(e.target.id==="orderModal"||e.target.id==="productModal"||e.target.id==="cartSidebar"||e.target.id==="wishlistSidebar"){
+        if(e.target.id==="orderModal")closeModal();
+        if(e.target.id==="productModal")closeProductModal();
+        if(e.target.id==="cartSidebar"){document.getElementById('cartSidebar').style.display='none';document.body.style.overflow='auto';}
+        if(e.target.id==="wishlistSidebar"){document.getElementById('wishlistSidebar').style.display='none';document.body.style.overflow='auto';}
       }
     };
 
-    // Back button handling for mobile search
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'){
         if(document.getElementById('mobileSearchOverlay').classList.contains('show'))closeMobileSearch();
@@ -1860,6 +2004,7 @@
 
     // ===== INIT =====
     updateCart();
+    updateWishlistCount();
     loadStoreSettings();
     loadCategories();
     loadProducts();
