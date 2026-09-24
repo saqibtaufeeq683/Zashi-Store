@@ -409,7 +409,10 @@
       background: var(--bg-tertiary);
       border-radius: 6px;
       flex-shrink: 0;
+      overflow: hidden;
     }
+    .category-icon img { width: 22px; height: 22px; object-fit: contain; }
+
     .product-item img {
       width: 52px;
       height: 52px;
@@ -710,18 +713,18 @@
         </button>
       </div>
 
-      <!-- ===== CATEGORIES TAB ===== -->
+      <!-- ===== CATEGORIES TAB (UPDATED WITH URL OPTION) ===== -->
       <div id="categoriesTab" class="tab-content">
         <h2 id="categoryFormTitle"><i class="fas fa-tags"></i> Add Category</h2>
         <div class="info">
           <strong><i class="fas fa-lightbulb"></i> Quick Tip:</strong><br>
-          Category add karein aur icon select karein. Website par main categories section mein show hogi.
+          Category ka naam likhein. Aap neeche dropdown se icon select kar sakte hain, <strong>YA</strong> apna custom PNG Image URL paste kar sakte hain. URL zyada priority payega!
         </div>
 
         <label>Category Name *</label>
         <input type="text" id="categoryName" placeholder="e.g., Cosmetics">
 
-        <label>Icon Select Karein</label>
+        <label>Icon Select Karein (Font Awesome)</label>
         <select id="categoryIcon">
           <option value="fa-tag">🏷️ Tag</option>
           <option value="fa-gem">💎 Gem / Jewellery</option>
@@ -749,6 +752,10 @@
           <option value="fa-ribbon">🎀 Gift Packing</option>
         </select>
 
+        <label style="margin-top: 14px;">Ya Custom Icon Image URL (PNG) Dalein</label>
+        <input type="text" id="categoryIconUrl" placeholder="https://i.postimg.cc/.../icon.png">
+        <div class="field-hint">Agar URL dalein ge to ye Font Awesome icon par priority payega aur website par wahi show hoga.</div>
+
         <button class="btn-primary" onclick="saveCategory()" id="saveCategoryBtn">
           <i class="fas fa-plus"></i> Add Category
         </button>
@@ -756,7 +763,7 @@
           <i class="fas fa-times"></i> Cancel Edit
         </button>
         <button class="btn-primary btn-reset" onclick="setupDefaultCategories()">
-          <i class="fas fa-sync-alt"></i> Reset All Categories (Default Set)
+          <i class="fas fa-sync-alt"></i> Reset All Categories (With Your PNG Links)
         </button>
 
         <h3><i class="fas fa-list"></i> All Categories</h3>
@@ -1147,18 +1154,27 @@
         });
     }
 
+    // ===== UPDATED DEFAULT CATEGORIES WITH YOUR PNG LINKS =====
     function setupDefaultCategories() {
-      if (!confirm('⚠️ Ye purani sabhi categories delete kar dega aur nayi 17 categories add karega. Sure hain?')) return;
+      if (!confirm('⚠️ Ye purani sabhi categories delete kar dega aur nayi 17 categories aapke custom PNG links ke sath add karega. Sure hain?')) return;
       const newCategories = [
-        { name: "Cosmetics", icon: "fa-wand-magic-sparkles" }, { name: "Makeup", icon: "fa-wand-magic-sparkles" },
-        { name: "Artificial Jewellery", icon: "fa-gem" }, { name: "Watches", icon: "fa-watch" },
-        { name: "Purses / Bags", icon: "fa-bag-shopping" }, { name: "Undergarments", icon: "fa-shirt" },
-        { name: "Decoration Items", icon: "fa-star" }, { name: "Birthday Items", icon: "fa-cake-candles" },
-        { name: "Anniversary Items", icon: "fa-champagne-glasses" }, { name: "Wedding Ceremony Items", icon: "fa-ring" },
-        { name: "Balloons", icon: "fa-star" }, { name: "Mehndi Sets", icon: "fa-hand-sparkles" },
-        { name: "Gajra Sets", icon: "fa-fan" }, { name: "Imam Zamin", icon: "fa-envelope-open-text" },
-        { name: "Gift Boxes", icon: "fa-box-open" }, { name: "Gift Packing Items", icon: "fa-ribbon" },
-        { name: "Wedding Decoration", icon: "fa-ring" }
+        { name: "Cosmetics", icon: "fa-wand-magic-sparkles", iconUrl: "https://i.postimg.cc/HxFpd1dS/cosmatics.png" },
+        { name: "Makeup", icon: "fa-wand-magic-sparkles", iconUrl: "https://i.postimg.cc/mkMTrprf/Makeup.png" },
+        { name: "Artificial Jewellery", icon: "fa-gem", iconUrl: "https://i.postimg.cc/nzXHyhbr/Artificial-Jewellery.png" },
+        { name: "Watches", icon: "fa-watch", iconUrl: "https://i.postimg.cc/BZ1SNbBD/Watches.png" },
+        { name: "Purses / Bags", icon: "fa-bag-shopping", iconUrl: "https://i.postimg.cc/90TcfgfV/Purses-Bags.png" },
+        { name: "Undergarments", icon: "fa-shirt", iconUrl: "https://i.postimg.cc/wMJ9B4B6/Undergarments.png" },
+        { name: "Decoration Items", icon: "fa-star", iconUrl: "https://i.postimg.cc/nzNHpfpP/Decoration.png" },
+        { name: "Birthday Items", icon: "fa-cake-candles", iconUrl: "https://i.postimg.cc/vBCQbwbZ/Birthday.png" },
+        { name: "Anniversary Items", icon: "fa-champagne-glasses", iconUrl: "https://i.postimg.cc/zB4J8Y8B/anniversary.png" },
+        { name: "Wedding Ceremony Items", icon: "fa-ring", iconUrl: "https://i.postimg.cc/gc6z4jHv/Wedding-Ceremony.png" },
+        { name: "Balloons", icon: "fa-star", iconUrl: "https://i.postimg.cc/xCB0nVnz/Baloons.png" },
+        { name: "Mehndi Sets", icon: "fa-hand-sparkles", iconUrl: "https://i.postimg.cc/D0s7zpzT/mehndi.png" },
+        { name: "Gajra Sets", icon: "fa-fan", iconUrl: "https://i.postimg.cc/LXGH2F2W/Gajra-Sets.png" },
+        { name: "Imam Zamin", icon: "fa-envelope-open-text", iconUrl: "" },
+        { name: "Gift Boxes", icon: "fa-box-open", iconUrl: "https://i.postimg.cc/J0JRhYzP/Gift-Boxes.png" },
+        { name: "Gift Packing Items", icon: "fa-ribbon", iconUrl: "https://i.postimg.cc/GtYbpgmg/Gift-Packing.png" },
+        { name: "Wedding Decoration", icon: "fa-ring", iconUrl: "https://i.postimg.cc/sfZjKx4c/Wedding-Decoration.png" }
       ];
       db.collection("categories").get().then((snapshot) => {
         const deletes = [];
@@ -1166,10 +1182,15 @@
         return Promise.all(deletes);
       }).then(() => {
         const adds = [];
-        newCategories.forEach((cat) => adds.push(db.collection("categories").add({ name: cat.name, icon: cat.icon, timestamp: firebase.firestore.FieldValue.serverTimestamp() })));
+        newCategories.forEach((cat) => adds.push(db.collection("categories").add({ 
+          name: cat.name, 
+          icon: cat.icon, 
+          iconUrl: cat.iconUrl || null,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+        })));
         return Promise.all(adds);
       }).then(() => {
-        showToast('✅ All 17 categories set!');
+        showToast('✅ All 17 categories set with your custom links!');
         loadCategories(); loadCategoryDropdown();
       }).catch(err => showToast('❌ ' + err.message, 'error'));
     }
@@ -1181,13 +1202,21 @@
         let html = '';
         snap.forEach((doc) => {
           const c = doc.data();
+          // Agar iconUrl hai to image show karo, warna font awesome icon
+          const displayIcon = c.iconUrl 
+            ? `<img src="${c.iconUrl}" alt="icon">` 
+            : `<i class="fas ${c.icon || 'fa-tag'}"></i>`;
+          
+          const safeName = c.name.replace(/'/g, "\\'");
+          const safeIconUrl = (c.iconUrl || '').replace(/'/g, "\\'");
+
           html += `<div class="category-item">
             <div style="display:flex;align-items:center;">
-              <div class="category-icon"><i class="fas ${c.icon || 'fa-tag'}"></i></div>
+              <div class="category-icon">${displayIcon}</div>
               <span class="category-name">${c.name}</span>
             </div>
             <div class="action-btns" style="flex-direction:row;">
-              <button class="btn-edit" onclick="editCategory('${doc.id}', '${c.name.replace(/'/g, "\\'")}', '${c.icon || 'fa-tag'}')"><i class="fas fa-edit"></i></button>
+              <button class="btn-edit" onclick="editCategory('${doc.id}', '${safeName}', '${c.icon || 'fa-tag'}', '${safeIconUrl}')"><i class="fas fa-edit"></i></button>
               <button class="btn-delete" onclick="deleteCategory('${doc.id}')"><i class="fas fa-trash"></i></button>
             </div>
           </div>`;
@@ -1210,11 +1239,20 @@
     function saveCategory() {
       const name = document.getElementById('categoryName').value.trim();
       const icon = document.getElementById('categoryIcon').value;
+      const iconUrl = document.getElementById('categoryIconUrl').value.trim(); // NEW
       const btn = document.getElementById('saveCategoryBtn');
       if (!name) { showToast('⚠️ Enter category name!', 'error'); return; }
       btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-      const data = { name, icon, timestamp: firebase.firestore.FieldValue.serverTimestamp() };
-      const p = editingCategoryId ? db.collection("categories").doc(editingCategoryId).update(data) : db.collection("categories").add(data);
+      
+      const data = { 
+        name, 
+        icon, 
+        iconUrl: iconUrl || null, // NEW
+        timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+      };
+      const p = editingCategoryId
+        ? db.collection("categories").doc(editingCategoryId).update(data)
+        : db.collection("categories").add(data);
       p.then(() => {
         showToast(editingCategoryId ? '✅ Category updated!' : '✅ Category added!');
         cancelEditCategory(); loadCategories(); loadCategoryDropdown();
@@ -1225,10 +1263,11 @@
       });
     }
 
-    function editCategory(id, name, icon) {
+    function editCategory(id, name, icon, iconUrl) {
       editingCategoryId = id;
       document.getElementById('categoryName').value = name;
-      document.getElementById('categoryIcon').value = icon;
+      document.getElementById('categoryIcon').value = icon || 'fa-tag';
+      document.getElementById('categoryIconUrl').value = iconUrl || ''; // NEW
       const btn = document.getElementById('saveCategoryBtn');
       btn.className = 'btn-primary btn-update';
       btn.innerHTML = '<i class="fas fa-save"></i> Update Category';
@@ -1241,6 +1280,7 @@
       editingCategoryId = null;
       document.getElementById('categoryName').value = "";
       document.getElementById('categoryIcon').value = "fa-tag";
+      document.getElementById('categoryIconUrl').value = ""; // NEW
       const btn = document.getElementById('saveCategoryBtn');
       btn.className = 'btn-primary'; btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-plus"></i> Add Category';
