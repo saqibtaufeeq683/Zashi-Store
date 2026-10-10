@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root{
-      /* Light Mode */
       --bg:#fafbfc;
       --bg-elev:#ffffff;
       --sidebar:#ffffff;
@@ -79,14 +78,11 @@
       transition: background 0.3s, color 0.3s;
     }
     ::selection{background:var(--indigo);color:#fff;}
-
-    /* Scrollbar */
     ::-webkit-scrollbar{width:8px;height:8px;}
     ::-webkit-scrollbar-track{background:transparent;}
     ::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:4px;}
     ::-webkit-scrollbar-thumb:hover{background:var(--dim);}
 
-    /* ===== SIDEBAR ===== */
     .sidebar{
       width:280px;
       background:var(--sidebar);
@@ -208,7 +204,6 @@
       font-size:1.15em;
     }
 
-    /* ===== MAIN ===== */
     .main{
       flex:1;
       margin-left:280px;
@@ -232,7 +227,6 @@
       line-height:1.2;
     }
 
-    /* ===== BUTTONS ===== */
     .btn{
       padding:11px 20px;
       border-radius:var(--radius);
@@ -299,7 +293,6 @@
       transform:translateY(-2px);
     }
 
-    /* ===== CARDS ===== */
     .card{
       background:var(--card);
       border:1px solid var(--border);
@@ -331,7 +324,6 @@
       font-size:0.9em;
     }
 
-    /* ===== FORM ===== */
     .fg{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -372,7 +364,6 @@
     }
     textarea{min-height:90px;resize:vertical;}
 
-    /* ===== ICON PREVIEW ===== */
     .icon-prev{
       width:64px;height:64px;
       border:2px dashed var(--border-strong);
@@ -390,7 +381,6 @@
     .icon-prev:hover{border-color:var(--indigo);}
     .icon-prev img{width:44px;height:44px;object-fit:contain;}
 
-    /* ===== CATEGORY ITEMS ===== */
     .cat-item{
       display:flex;
       align-items:center;
@@ -420,7 +410,6 @@
     }
     .cat-icon-sm img{width:26px;height:26px;object-fit:contain;}
 
-    /* ===== PRODUCT ITEMS ===== */
     .prod-item{
       display:flex;
       align-items:center;
@@ -446,7 +435,6 @@
       border:1px solid var(--border);
     }
 
-    /* ===== TOGGLE SWITCH ===== */
     .toggle-row{
       display:flex;
       align-items:center;
@@ -492,7 +480,6 @@
       transform:translateX(22px);
     }
 
-    /* ===== HIDDEN & TAB ===== */
     .hidden{display:none!important;}
     .tab{display:none;}
     .tab.active{display:block;animation:fadeIn 0.4s cubic-bezier(0.4,0,0.2,1);}
@@ -501,7 +488,6 @@
       to{opacity:1;transform:translateY(0);}
     }
 
-    /* ===== LOGIN ===== */
     #loginScreen{
       position:fixed;
       inset:0;
@@ -596,7 +582,6 @@
     [data-theme="dark"] .login-box input{background:#1a2233;}
     [data-theme="dark"] .login-box input:focus{background:#0f1525;}
 
-    /* ===== TOAST ===== */
     #toast{
       position:fixed;
       bottom:30px;
@@ -627,7 +612,6 @@
     }
     #toast i{font-size:1.15em;}
 
-    /* ===== SYNC RESULT ===== */
     .sync-result{
       background:var(--bg);
       border:1px solid var(--border);
@@ -653,7 +637,6 @@
     .sync-stat:last-child{border-bottom:none;}
     .sync-stat strong{color:var(--text);font-weight:700;}
 
-    /* ===== SLIDER POSITION BOX ===== */
     #sliderPositionBox{
       display:none;
       background:var(--orange-light);
@@ -673,7 +656,6 @@
       gap:6px;
     }
 
-    /* ===== MANAGE TAB ===== */
     .manage-toolbar{
       display:flex;
       gap:12px;
@@ -816,7 +798,6 @@
       margin-bottom:16px;
     }
 
-    /* ===== MOBILE ===== */
     .mob-btn{
       display:none;
       background:transparent;
@@ -888,7 +869,6 @@
 </head>
 <body>
 
-  <!-- LOGIN -->
   <div id="loginScreen">
     <div class="login-box">
       <div class="shield-wrap"><i class="fas fa-shield-halved"></i></div>
@@ -901,10 +881,8 @@
     </div>
   </div>
 
-  <!-- SIDEBAR BACKDROP -->
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-head">
       <div class="crown-wrap"><i class="fas fa-crown"></i></div>
@@ -926,7 +904,6 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main">
     <div class="top-bar">
       <div style="display:flex;align-items:center;gap:14px;">
@@ -936,7 +913,6 @@
       <a href="index.html" target="_blank" class="btn btn-s"><i class="fas fa-external-link-alt"></i> View Store</a>
     </div>
 
-    <!-- PRODUCTS -->
     <div id="tab-products" class="tab active">
       <div class="card">
         <div class="card-title"><i class="fas fa-plus-circle"></i> Product Details</div>
@@ -983,7 +959,6 @@
       </div>
     </div>
 
-    <!-- CATEGORIES -->
     <div id="tab-categories" class="tab">
       <div class="card">
         <div class="card-title"><i class="fas fa-tag"></i> Add / Edit Category</div>
@@ -1010,7 +985,6 @@
       </div>
     </div>
 
-    <!-- SETTINGS -->
     <div id="tab-settings" class="tab">
       <div class="card" style="border:2px dashed rgba(245,158,11,0.4);background:linear-gradient(135deg, rgba(245,158,11,0.03) 0%, rgba(239,68,68,0.03) 100%);">
         <div class="card-title"><i class="fas fa-sync-alt" style="background:var(--gradient-warning);color:#fff;"></i> Sync Product Fields</div>
@@ -1051,7 +1025,6 @@
       </div>
     </div>
 
-    <!-- SOCIAL -->
     <div id="tab-social" class="tab">
       <div class="card">
         <div class="card-title"><i class="fas fa-share-alt"></i> Social Media Links</div>
@@ -1062,7 +1035,6 @@
       </div>
     </div>
 
-    <!-- MANAGE -->
     <div id="tab-manage" class="tab">
       <div class="card">
         <div class="card-title"><i class="fas fa-list"></i> All Products</div>
@@ -1108,7 +1080,6 @@
     let editCatId=null,editProdId=null;
     let allManageProducts=[];
 
-    // Theme toggle for admin
     function toggleTheme(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('adminTheme',n);}
     (function(){const s=localStorage.getItem('adminTheme')||'light';document.documentElement.setAttribute('data-theme',s);})();
 
@@ -1176,7 +1147,6 @@
       }
     }
 
-    // ===== CATEGORIES =====
     function loadCats(){
       const c=document.getElementById('catList');
       db.collection("categories").orderBy("name").get().then(s=>{
@@ -1241,7 +1211,7 @@
       db.collection("categories").get().then(s=>Promise.all(s.docs.map(d=>d.ref.delete()))).then(()=>Promise.all(defs.map(c=>db.collection("categories").add({...c,timestamp:firebase.firestore.FieldValue.serverTimestamp()})))).then(()=>{toast('17 categories loaded!');loadCats();loadCatDD();loadManageCategories();});
     }
 
-    // ===== PRODUCTS =====
+    // ✅ FIX: saveProduct ab Number() save karta hai
     function saveProduct(){
       const name=document.getElementById('itemName').value.trim();
       const price=document.getElementById('itemPrice').value.trim();
@@ -1257,7 +1227,9 @@
       const btn=document.getElementById('saveProdBtn');btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>...';
       
       const data={
-        name,price,discountPrice:dp||'',
+        name,
+        price:Number(price)||0,
+        discountPrice:dp?Number(dp):0,
         category:cs.value,
         categoryName:cs.options[cs.selectedIndex]?.getAttribute('data-name')||'',
         description:document.getElementById('itemDescription').value.trim(),
@@ -1358,8 +1330,8 @@
         switch(sortBy){
           case 'name-asc': return (a.name||'').localeCompare(b.name||'');
           case 'name-desc': return (b.name||'').localeCompare(a.name||'');
-          case 'price-asc': return (parseFloat(a.price)||0)-(parseFloat(b.price)||0);
-          case 'price-desc': return (parseFloat(b.price)||0)-(parseFloat(a.price)||0);
+          case 'price-asc': return (Number(a.price)||0)-(Number(b.price)||0);
+          case 'price-desc': return (Number(b.price)||0)-(Number(a.price)||0);
           case 'slider':
             if(a.showInSlider && !b.showInSlider)return -1;
             if(!a.showInSlider && b.showInSlider)return 1;
@@ -1436,7 +1408,6 @@
       }
     }
 
-    // ===== SYNC =====
     function syncProductFields(){
       if(!confirm('Ye operation saare products ko scan karega aur missing fields add karega. Continue?'))return;
       const btn=document.getElementById('syncBtn');
@@ -1521,7 +1492,6 @@
       });
     }
 
-    // ===== SETTINGS =====
     function loadSets(){db.collection("settings").doc("store").get().then(d=>{if(d.exists){const s=d.data();document.getElementById('setFreeDel').checked=s.freeDeliveryEnabled||false;document.getElementById('setDelCharge').value=s.deliveryCharges||200;document.getElementById('setFreeThresh').value=s.freeDeliveryThreshold||2000;document.getElementById('setAnnounce').value=s.announcementText||'';document.getElementById('setWA').value=s.whatsappNumber||'';document.getElementById('setPhone').value=s.phoneNumber||'';document.getElementById('setEmail').value=s.emailAddress||'';}});}
     function saveSettings(){const b=document.getElementById('saveSetBtn');b.disabled=true;db.collection("settings").doc("store").set({freeDeliveryEnabled:document.getElementById('setFreeDel').checked,deliveryCharges:parseInt(document.getElementById('setDelCharge').value)||200,freeDeliveryThreshold:parseInt(document.getElementById('setFreeThresh').value)||2000,announcementText:document.getElementById('setAnnounce').value,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}).then(()=>{toast('Saved!');b.disabled=false;}).catch(e=>toast(e.message,true));}
     function saveContact(){const b=document.getElementById('saveConBtn');b.disabled=true;db.collection("settings").doc("store").set({whatsappNumber:document.getElementById('setWA').value.trim(),phoneNumber:document.getElementById('setPhone').value.trim(),emailAddress:document.getElementById('setEmail').value.trim(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}).then(()=>{toast('Saved!');b.disabled=false;}).catch(e=>toast(e.message,true));}
