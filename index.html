@@ -1335,81 +1335,82 @@
     }
     
     // ✅ quickOrder with delivery info
-    function quickOrder(p){
-      orderContext={type:'single',product:p,qty:1};
-      const originalPrice = Number(p.price) || 0;
-      const dp = Number(p.discountPrice) || 0;
-      const finalPrice = (dp > 0 && dp < originalPrice) ? dp : originalPrice;
-      const disc = (dp > 0 && dp < originalPrice);
-      const delivery = getDeliveryCharge(finalPrice, 1);
-      const deliveryFree = delivery === 0;
-      const grandTotal = finalPrice + delivery;
-      
-      let html = '';
-      if(disc){
-        html += `<strong>${p.name}</strong><br>Qty: 1<br>
-           <span style="color:var(--text-dim);text-decoration:line-through;">Original: Rs. ${originalPrice.toLocaleString()}</span><br>
-           <span style="color:var(--green);font-weight:700;">Discounted: Rs. ${finalPrice.toLocaleString()}</span><br>`;
-      } else {
-        html += `<strong>${p.name}</strong><br>Qty: 1<br>Price: Rs. ${finalPrice.toLocaleString()}<br>`;
-      }
-      html += `<span style="color:${deliveryFree?'var(--green-dark)':'var(--brand-indigo)'};font-weight:600;"><i class="fas fa-truck"></i> Delivery: ${deliveryFree?'Free':'Rs. '+delivery.toLocaleString()}</span><br>
-               <hr style="border:none;border-top:1px solid var(--glass-border);margin:8px 0;">
-               <strong style="font-size:1.1em;">Total: Rs. ${grandTotal.toLocaleString()}</strong>`;
-      
-      document.getElementById('orderSummaryBox').innerHTML=html;
-      document.getElementById('orderModal').style.display='block';
-      document.body.style.overflow='hidden';
-    }
+function quickOrder(p){
+  orderContext={type:'single',product:p,qty:1};
+  const originalPrice = Number(p.price) || 0;
+  const dp = Number(p.discountPrice) || 0;
+  const hasDisc = dp > 0 && dp < originalPrice;
+  const finalPrice = hasDisc ? dp : originalPrice;
+  const delivery = getDeliveryCharge(finalPrice, 1);
+  const deliveryFree = delivery === 0;
+  const savings = hasDisc ? (originalPrice - finalPrice) : 0;
+  const grandTotal = finalPrice + delivery;
+  
+  let html = `<strong>${p.name}</strong><br>Qty: 1<br>`;
+  html += `Original: Rs. ${originalPrice.toLocaleString()}<br>`;
+  if(hasDisc){
+    html += `Discounted: Rs. ${finalPrice.toLocaleString()}<br>`;
+    html += `<span style="color:var(--green);font-weight:700;">Savings: Rs. ${savings.toLocaleString()}</span><br>`;
+  }
+  html += `Delivery: <span style="color:${deliveryFree?'var(--green-dark)':'var(--brand-indigo)'};font-weight:600;">${deliveryFree?'FREE':'Rs. '+delivery.toLocaleString()}</span><br>`;
+  html += `<hr style="border:none;border-top:1px solid var(--glass-border);margin:10px 0;">`;
+  html += `<strong style="font-size:1.15em;color:var(--text-primary);">Total: Rs. ${grandTotal.toLocaleString()}</strong>`;
+  
+  document.getElementById('orderSummaryBox').innerHTML=html;
+  document.getElementById('orderModal').style.display='block';
+  document.body.style.overflow='hidden';
+}
     
     // ✅ checkoutWhatsApp with delivery + total
     function checkoutWhatsApp(){
-      if(!cart.length)return showToast('Cart khali hai!',true);
-      orderContext={type:'cart'};
-      let subtotal=0, origT=0, totalDelivery=0, h='';
-      
-      cart.forEach(item=>{
-        const itemPrice=Number(item.price)||0;
-        const itemOrig=Number(item.originalPrice)||itemPrice;
-        const itemQty=Number(item.quantity)||0;
-        const lineTotal=itemPrice*itemQty;
-        const lineOrig=itemOrig*itemQty;
-        const itemDel = getDeliveryCharge(itemPrice, itemQty);
-        
-        subtotal+=lineTotal;
-        origT+=lineOrig;
-        totalDelivery+=itemDel;
-        
-        if(itemOrig > itemPrice){
-          h+=`<strong>${item.name}</strong> x ${itemQty}<br>
-              <span style="color:var(--text-dim);text-decoration:line-through;font-size:0.9em;">Rs. ${itemOrig.toLocaleString()}</span>
-              <span style="color:var(--green);font-weight:700;"> → Rs. ${itemPrice.toLocaleString()}</span>
-              = Rs. ${lineTotal.toLocaleString()}<br>
-              <span style="color:${itemDel===0?'var(--green-dark)':'var(--brand-indigo)'};font-size:0.85em;">Delivery: ${itemDel===0?'Free':'Rs. '+itemDel.toLocaleString()}</span><br><br>`;
-        } else {
-          h+=`<strong>${item.name}</strong> x ${itemQty} = Rs. ${lineTotal.toLocaleString()}<br>
-              <span style="color:${itemDel===0?'var(--green-dark)':'var(--brand-indigo)'};font-size:0.85em;">Delivery: ${itemDel===0?'Free':'Rs. '+itemDel.toLocaleString()}</span><br><br>`;
-        }
-      });
-      
-      const grandTotal = subtotal + totalDelivery;
-      
-      h+=`<hr style="border:none;border-top:1px solid var(--glass-border);margin:8px 0;">`;
-      if(origT > subtotal){
-        h+=`<span style="color:var(--text-dim);text-decoration:line-through;">Original Total: Rs. ${origT.toLocaleString()}</span><br>`;
-      }
-      h+=`<span>Subtotal: Rs. ${subtotal.toLocaleString()}</span><br>
-          <span style="color:${totalDelivery===0?'var(--green-dark)':'var(--brand-indigo)'};font-weight:600;">Delivery: ${totalDelivery===0?'Free':'Rs. '+totalDelivery.toLocaleString()}</span><br>
-          <strong style="font-size:1.1em;color:var(--text-primary);">GRAND TOTAL: Rs. ${grandTotal.toLocaleString()}</strong>`;
-      if(origT > subtotal){
-        h+=`<br><span style="color:var(--green);font-weight:600;">Aap ne bachaye: Rs. ${(origT-subtotal).toLocaleString()}</span>`;
-      }
-      
-      document.getElementById('orderSummaryBox').innerHTML=h;
-      toggleCart();
-      document.getElementById('orderModal').style.display='block';
-      document.body.style.overflow='hidden';
+  if(!cart.length)return showToast('Cart khali hai!',true);
+  orderContext={type:'cart'};
+  
+  let subtotal=0, origT=0, totalDelivery=0, totalSavings=0, h='';
+  
+  cart.forEach(item=>{
+    const itemPrice=Number(item.price)||0;
+    const itemOrig=Number(item.originalPrice)||itemPrice;
+    const itemQty=Number(item.quantity)||0;
+    const lineTotal=itemPrice*itemQty;
+    const lineOrig=itemOrig*itemQty;
+    const lineSavings=lineOrig-lineTotal;
+    const itemDel = getDeliveryCharge(itemPrice, itemQty);
+    
+    subtotal+=lineTotal;
+    origT+=lineOrig;
+    totalDelivery+=itemDel;
+    totalSavings+=lineSavings;
+    
+    h+=`<div style="padding-bottom:10px;margin-bottom:10px;border-bottom:1px dashed var(--glass-border);">`;
+    h+=`<strong>${item.name}</strong><br>`;
+    h+=`Qty: ${itemQty}<br>`;
+    h+=`Original: Rs. ${itemOrig.toLocaleString()}<br>`;
+    if(itemOrig > itemPrice){
+      h+=`Discounted: Rs. ${itemPrice.toLocaleString()}<br>`;
+      h+=`<span style="color:var(--green);font-weight:700;">Savings: Rs. ${lineSavings.toLocaleString()}</span><br>`;
     }
+    h+=`Delivery: <span style="color:${itemDel===0?'var(--green-dark)':'var(--brand-indigo)'};font-weight:600;">${itemDel===0?'FREE':'Rs. '+itemDel.toLocaleString()}</span><br>`;
+    h+=`Subtotal: Rs. ${lineTotal.toLocaleString()}`;
+    h+=`</div>`;
+  });
+  
+  const grandTotal = subtotal + totalDelivery;
+  
+  h+=`<div style="background:var(--card-bg);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);">`;
+  h+=`<div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span>Subtotal:</span><strong>Rs. ${subtotal.toLocaleString()}</strong></div>`;
+  if(totalSavings > 0){
+    h+=`<div style="display:flex;justify-content:space-between;margin-bottom:5px;color:var(--green);font-weight:700;"><span>Total Savings:</span><strong>Rs. ${totalSavings.toLocaleString()}</strong></div>`;
+  }
+  h+=`<div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span>Delivery:</span><strong style="color:${totalDelivery===0?'var(--green-dark)':'var(--brand-indigo)'};">${totalDelivery===0?'FREE':'Rs. '+totalDelivery.toLocaleString()}</strong></div>`;
+  h+=`<div style="display:flex;justify-content:space-between;border-top:1px solid var(--glass-border);padding-top:8px;font-size:1.15em;font-weight:800;color:var(--text-primary);"><span>Total:</span><strong>Rs. ${grandTotal.toLocaleString()}</strong></div>`;
+  h+=`</div>`;
+  
+  document.getElementById('orderSummaryBox').innerHTML=h;
+  toggleCart();
+  document.getElementById('orderModal').style.display='block';
+  document.body.style.overflow='hidden';
+}
     
     function closeModal(){
       document.getElementById('orderModal').style.display='none';
