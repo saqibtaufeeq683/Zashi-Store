@@ -1894,12 +1894,17 @@
     const SLIDE_INTERVAL=5000;
 
     // ============================================================
-    // ✅ FIX: FINAL PRICE HELPER — discount hamesha sahi lagega
+    // ✅ FINAL PRICE HELPER — discount hamesha sahi lagega
     // ============================================================
     function getFinalPrice(p){
       const price = Number(p.price) || 0;
       const dp = Number(p.discountPrice) || 0;
       return (dp > 0 && dp < price) ? dp : price;
+    }
+    function hasDiscount(p){
+      const price = Number(p.price) || 0;
+      const dp = Number(p.discountPrice) || 0;
+      return (dp > 0 && dp < price);
     }
 
     function showToast(msg,type){
@@ -2034,8 +2039,8 @@
       
       sliderProducts.forEach((p,index)=>{
         const price=getFinalPrice(p);
-        const hasDiscount=Number(p.discountPrice)>0 && Number(p.discountPrice)<Number(p.price);
-        const discountPercent=hasDiscount?Math.round(((Number(p.price)-Number(p.discountPrice))/Number(p.price))*100):0;
+        const disc=hasDiscount(p);
+        const discountPercent=disc?Math.round(((Number(p.price)-Number(p.discountPrice))/Number(p.price))*100):0;
         const productJSON=JSON.stringify(p).replace(/'/g,"&#39;");
         
         slidesHTML+=`
@@ -2049,7 +2054,7 @@
               ${p.description?`<p class="slide-desc">${p.description}</p>`:''}
               <div class="slide-price">
                 Rs. ${price.toLocaleString()}
-                ${hasDiscount?`<span class="old">Rs. ${Number(p.price).toLocaleString()}</span><span class="discount-tag">-${discountPercent}%</span>`:''}
+                ${disc?`<span class="old">Rs. ${Number(p.price).toLocaleString()}</span><span class="discount-tag">-${discountPercent}%</span>`:''}
               </div>
               <div class="slide-buttons">
                 <button class="btn-slider-order" onclick='event.stopPropagation();sliderOrderNow(${productJSON})'>
@@ -2167,15 +2172,15 @@
       }
       box.innerHTML=products.map(p=>{
         const price=getFinalPrice(p);
-        const hasDiscount=Number(p.discountPrice)>0 && Number(p.discountPrice)<Number(p.price);
-        const discountPercent=hasDiscount?Math.round(((Number(p.price)-Number(p.discountPrice))/Number(p.price))*100):0;
+        const disc=hasDiscount(p);
+        const discountPercent=disc?Math.round(((Number(p.price)-Number(p.discountPrice))/Number(p.price))*100):0;
         const pj=JSON.stringify(p).replace(/'/g,"&#39;");
         const isWish=wishlist.includes(p.id);
         
         return`<div class="card" onclick='openProductModal(${pj})'>
           <div class="card-image-wrapper">
             <img src="${p.imageUrl}" onerror="this.src='https://via.placeholder.com/400'" loading="lazy" alt="${p.name||''}">
-            ${hasDiscount?`<span class="card-discount-badge">-${discountPercent}%</span>`:''}
+            ${disc?`<span class="card-discount-badge">-${discountPercent}%</span>`:''}
             ${p.outOfStock?`<div class="card-oos-badge">Out of Stock</div>`:''}
             <button class="card-wishlist ${isWish?'active':''}" onclick='event.stopPropagation();toggleWishlist("${p.id}",this)' aria-label="Wishlist">
               <i class="fas fa-heart"></i>
@@ -2186,7 +2191,7 @@
             <div class="card-title">${p.name}</div>
             <div class="price-row">
               <span class="price-current">Rs. ${price.toLocaleString()}</span>
-              ${hasDiscount?`<span class="price-old">Rs. ${Number(p.price).toLocaleString()}</span>`:''}
+              ${disc?`<span class="price-old">Rs. ${Number(p.price).toLocaleString()}</span>`:''}
             </div>
           </div>
           <div class="card-quick-actions">
@@ -2350,29 +2355,46 @@
     function openProductModal(p){
       currentProduct=p;
       const price=getFinalPrice(p);
+      const disc=hasDiscount(p);
       document.getElementById('pmImage').src=p.imageUrl;
       document.getElementById('pmCategory').textContent=p.categoryName||'Product';
       document.getElementById('pmName').textContent=p.name;
-      document.getElementById('pmPriceBlock').textContent='Rs. '+price.toLocaleString();
+      if(disc){
+        document.getElementById('pmPriceBlock').innerHTML=`Rs. ${price.toLocaleString()} <span style="font-size:0.6em;color:var(--text-dim);text-decoration:line-through;font-weight:500;margin-left:8px;">Rs. ${Number(p.price).toLocaleString()}</span>`;
+      } else {
+        document.getElementById('pmPriceBlock').textContent='Rs. '+price.toLocaleString();
+      }
       document.getElementById('pmDescription').textContent=p.description||'Premium quality product.';
       document.getElementById('productModal').style.display='block';
       document.body.style.overflow='hidden';
     }
     function closeProductModal(){document.getElementById('productModal').style.display='none';document.body.style.overflow='auto';}
     
-    // ✅ FIX: addToCart uses getFinalPrice()
+    // ✅ addToCart — originalPrice bhi save karta hai
     function addToCart(p){
-      const price=getFinalPrice(p);
+      const originalPrice = Number(p.price) || 0;
+      const dp = Number(p.discountPrice) || 0;
+      const finalPrice = (dp > 0 && dp < originalPrice) ? dp : originalPrice;
+      
       const e=cart.find(i=>i.id===p.id);
-      if(e)e.quantity++;
-      else cart.push({id:p.id,name:p.name,price:price,imageUrl:p.imageUrl,quantity:1});
+      if(e){
+        e.quantity++;
+      } else {
+        cart.push({
+          id: p.id,
+          name: p.name,
+          price: finalPrice,            // Discounted price
+          originalPrice: originalPrice,  // ✅ Original price
+          imageUrl: p.imageUrl,
+          quantity: 1
+        });
+      }
       updateCart();
       showToast('Added to cart ✅');
     }
     function addCurrentToCart(){if(currentProduct)addToCart(currentProduct);closeProductModal();}
     function buyNowWhatsApp(){if(!currentProduct)return;orderContext={type:'single',product:currentProduct,qty:1};closeProductModal();quickOrder(currentProduct);}
     
-    // ✅ FIX: updateCart uses Number() for safe math
     function updateCart(){
       localStorage.setItem('zashiCart',JSON.stringify(cart));
       const totalItems=cart.reduce((s,i)=>s+(Number(i.quantity)||0),0);
@@ -2399,13 +2421,20 @@
       let t=0;
       box.innerHTML=cart.map((item,i)=>{
         const itemPrice=Number(item.price)||0;
+        const itemOriginal=Number(item.originalPrice)||itemPrice;
         const itemQty=Number(item.quantity)||0;
-        t+=itemPrice*itemQty;
+        const lineTotal=itemPrice*itemQty;
+        t+=lineTotal;
+        
+        const priceDisplay = itemOriginal > itemPrice
+          ? `<span style="color:var(--text-dim);text-decoration:line-through;font-size:0.85em;margin-right:6px;">Rs. ${itemOriginal.toLocaleString()}</span>Rs. ${itemPrice.toLocaleString()} × ${itemQty}`
+          : `Rs. ${itemPrice.toLocaleString()} × ${itemQty}`;
+        
         return`<div style="display:flex;gap:12px;margin-bottom:12px;align-items:center;background:var(--bg-secondary);padding:12px;border-radius:var(--radius);border:1px solid var(--glass-border);">
           <img src="${item.imageUrl}" style="width:64px;height:64px;object-fit:cover;border-radius:var(--radius-sm);">
           <div style="flex:1;min-width:0;">
             <div style="font-weight:600;font-size:0.88em;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
-            <div style="color:var(--text-secondary);font-size:0.82em;margin-top:3px;">Rs. ${itemPrice.toLocaleString()} × ${itemQty}</div>
+            <div style="color:var(--text-secondary);font-size:0.82em;margin-top:3px;">${priceDisplay}</div>
           </div>
           <button onclick="cart.splice(${i},1);updateCart();" style="background:var(--red-light);border:none;color:var(--red);cursor:pointer;font-size:0.95em;padding:8px;border-radius:var(--radius-sm);width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
             <i class="fas fa-trash"></i>
@@ -2422,28 +2451,60 @@
       else document.body.style.overflow='auto';
     }
     
-    // ✅ FIX: quickOrder uses getFinalPrice()
+    // ✅ quickOrder — order summary box mein dono prices
     function quickOrder(p){
       orderContext={type:'single',product:p,qty:1};
-      const price=getFinalPrice(p);
-      document.getElementById('orderSummaryBox').innerHTML=`<strong>${p.name}</strong><br>Qty: 1<br>Total: Rs. ${price.toLocaleString()}`;
+      const originalPrice = Number(p.price) || 0;
+      const dp = Number(p.discountPrice) || 0;
+      const finalPrice = (dp > 0 && dp < originalPrice) ? dp : originalPrice;
+      const disc = (dp > 0 && dp < originalPrice);
+      
+      if(disc){
+        document.getElementById('orderSummaryBox').innerHTML=
+          `<strong>${p.name}</strong><br>Qty: 1<br>
+           <span style="color:var(--text-dim);text-decoration:line-through;">Original: Rs. ${originalPrice.toLocaleString()}</span><br>
+           <span style="color:var(--green);font-weight:700;">Discounted: Rs. ${finalPrice.toLocaleString()}</span><br>
+           <strong>Total: Rs. ${finalPrice.toLocaleString()}</strong>`;
+      } else {
+        document.getElementById('orderSummaryBox').innerHTML=`<strong>${p.name}</strong><br>Qty: 1<br>Total: Rs. ${finalPrice.toLocaleString()}`;
+      }
+      
       document.getElementById('orderModal').style.display='block';
       document.body.style.overflow='hidden';
     }
     
-    // ✅ FIX: checkoutWhatsApp uses Number()
+    // ✅ checkoutWhatsApp — cart summary mein dono prices
     function checkoutWhatsApp(){
       if(!cart.length)return showToast('Cart khali hai!',true);
       orderContext={type:'cart'};
-      let t=0,h='';
+      let t=0, origT=0, h='';
       cart.forEach(item=>{
         const itemPrice=Number(item.price)||0;
+        const itemOrig=Number(item.originalPrice)||itemPrice;
         const itemQty=Number(item.quantity)||0;
-        const s=itemPrice*itemQty;
-        t+=s;
-        h+=`<strong>${item.name}</strong> x ${itemQty} = Rs. ${s.toLocaleString()}<br>`;
+        const lineTotal=itemPrice*itemQty;
+        const lineOrig=itemOrig*itemQty;
+        t+=lineTotal;
+        origT+=lineOrig;
+        
+        if(itemOrig > itemPrice){
+          h+=`<strong>${item.name}</strong> x ${itemQty}<br>
+              <span style="color:var(--text-dim);text-decoration:line-through;font-size:0.9em;">Rs. ${itemOrig.toLocaleString()}</span>
+              <span style="color:var(--green);font-weight:700;"> → Rs. ${itemPrice.toLocaleString()}</span>
+              = Rs. ${lineTotal.toLocaleString()}<br><br>`;
+        } else {
+          h+=`<strong>${item.name}</strong> x ${itemQty} = Rs. ${lineTotal.toLocaleString()}<br>`;
+        }
       });
-      document.getElementById('orderSummaryBox').innerHTML=h+`<strong>Total: Rs. ${t.toLocaleString()}</strong>`;
+      h+=`<hr style="border:none;border-top:1px solid var(--glass-border);margin:8px 0;">`;
+      if(origT > t){
+        h+=`<span style="color:var(--text-dim);text-decoration:line-through;">Original Total: Rs. ${origT.toLocaleString()}</span><br>
+            <strong>Final Total: Rs. ${t.toLocaleString()}</strong><br>
+            <span style="color:var(--green);font-weight:600;">Aap ne bachaye: Rs. ${(origT-t).toLocaleString()}</span>`;
+      } else {
+        h+=`<strong>Total: Rs. ${t.toLocaleString()}</strong>`;
+      }
+      document.getElementById('orderSummaryBox').innerHTML=h;
       toggleCart();
       document.getElementById('orderModal').style.display='block';
       document.body.style.overflow='hidden';
@@ -2455,7 +2516,9 @@
       document.body.style.overflow='auto';
     }
     
-    // ✅ FIX: sendToWhatsApp uses getFinalPrice() — YEH MAIN FIX HAI
+    // ============================================================
+    // ✅ sendToWhatsApp — ORIGINAL + DISCOUNTED dono prices
+    // ============================================================
     function sendToWhatsApp(){
       const n=document.getElementById("custName").value.trim();
       const p=document.getElementById("custPhone").value.trim();
@@ -2464,22 +2527,63 @@
       if(!n||!p||!a||!c)return showToast('Saare fields bharein!',true);
       
       let msg='🛍️ *NEW ORDER — ZASHI SUPER STORE*\n━━━━━━━━━━━━━━━━\n';
+      
       if(orderContext.type==='single'){
         const pr=orderContext.product;
-        const price=getFinalPrice(pr);  // ✅ DISCOUNT HAMESHA APPLY HOGA
-        msg+=`📦 ${pr.name}\n💰 Rs. ${price.toLocaleString()}\n🔢 Qty: ${orderContext.qty}\n`;
+        const qty = Number(orderContext.qty) || 1;
+        const originalPrice = Number(pr.price) || 0;
+        const dp = Number(pr.discountPrice) || 0;
+        const hasDisc = dp > 0 && dp < originalPrice;
+        const finalPrice = hasDisc ? dp : originalPrice;
+        
+        msg += `📦 *${pr.name}*\n`;
+        msg += `🔢 Qty: ${qty}\n`;
+        if(hasDisc){
+          msg += `💰 Original Price: Rs. ${originalPrice.toLocaleString()}\n`;
+          msg += `🎁 Discounted Price: Rs. ${finalPrice.toLocaleString()}\n`;
+          msg += `💵 *Total: Rs. ${(finalPrice * qty).toLocaleString()}*\n`;
+          msg += `✨ Aap ne bachaye: Rs. ${((originalPrice - finalPrice) * qty).toLocaleString()}\n`;
+        } else {
+          msg += `💰 Price: Rs. ${originalPrice.toLocaleString()}\n`;
+          msg += `💵 *Total: Rs. ${(originalPrice * qty).toLocaleString()}*\n`;
+        }
       } else {
-        let t=0;
+        let grandTotal = 0;
+        let grandOriginal = 0;
+        
         cart.forEach(item=>{
-          const itemPrice=Number(item.price)||0;
-          const itemQty=Number(item.quantity)||0;
-          const s=itemPrice*itemQty;
-          t+=s;
-          msg+=`📦 ${item.name} (x${itemQty}) = Rs. ${s.toLocaleString()}\n`;
+          const itemQty = Number(item.quantity) || 0;
+          const itemPrice = Number(item.price) || 0;
+          const itemOriginal = Number(item.originalPrice) || itemPrice;
+          const lineTotal = itemPrice * itemQty;
+          const lineOriginal = itemOriginal * itemQty;
+          
+          grandTotal += lineTotal;
+          grandOriginal += lineOriginal;
+          
+          if(itemOriginal > itemPrice){
+            msg += `📦 *${item.name}*\n`;
+            msg += `   Qty: ${itemQty}\n`;
+            msg += `   Original: Rs. ${itemOriginal.toLocaleString()} → *Rs. ${itemPrice.toLocaleString()}*\n`;
+            msg += `   Subtotal: Rs. ${lineTotal.toLocaleString()}\n\n`;
+          } else {
+            msg += `📦 ${item.name} (x${itemQty}) = Rs. ${lineTotal.toLocaleString()}\n`;
+          }
         });
-        msg+=`💰 *Total: Rs. ${t.toLocaleString()}*\n`;
+        
+        msg += `━━━━━━━━━━━━━━━━\n`;
+        if(grandOriginal > grandTotal){
+          msg += `💰 Original Total: Rs. ${grandOriginal.toLocaleString()}\n`;
+          msg += `🎁 Discounted Total: Rs. ${grandTotal.toLocaleString()}\n`;
+          msg += `💵 *GRAND TOTAL: Rs. ${grandTotal.toLocaleString()}*\n`;
+          msg += `✨ Aap ne bachaye: Rs. ${(grandOriginal - grandTotal).toLocaleString()}\n`;
+        } else {
+          msg += `💵 *GRAND TOTAL: Rs. ${grandTotal.toLocaleString()}*\n`;
+        }
       }
-      msg+=`\n👤 ${n}\n📱 ${p}\n📍 ${a}, ${c}\n💳 COD 🇵🇰`;
+      
+      msg += `\n━━━━━━━━━━━━━━━━\n`;
+      msg += `👤 ${n}\n📱 ${p}\n📍 ${a}, ${c}\n💳 COD 🇵🇰`;
       
       window.open(`https://wa.me/${storeWhatsApp}?text=${encodeURIComponent(msg)}`,'_blank');
       closeModal();
