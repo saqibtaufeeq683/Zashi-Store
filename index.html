@@ -1420,89 +1420,84 @@
     // ============================================================
     // ✅ sendToWhatsApp — ORIGINAL + DISCOUNT + DELIVERY + TOTAL
     // ============================================================
-    function sendToWhatsApp(){
-      const n=document.getElementById("custName").value.trim();
-      const p=document.getElementById("custPhone").value.trim();
-      const a=document.getElementById("custAddress").value.trim();
-      const c=document.getElementById("custCity").value.trim();
-      if(!n||!p||!a||!c)return showToast('Saare fields bharein!',true);
-      
-      let msg='🛍️ *NEW ORDER — ZASHI SUPER STORE*\n━━━━━━━━━━━━━━━━\n';
-      
-      if(orderContext.type==='single'){
-        const pr=orderContext.product;
-        const qty = Number(orderContext.qty) || 1;
-        const originalPrice = Number(pr.price) || 0;
-        const dp = Number(pr.discountPrice) || 0;
-        const hasDisc = dp > 0 && dp < originalPrice;
-        const finalPrice = hasDisc ? dp : originalPrice;
-        const delivery = getDeliveryCharge(finalPrice, qty);
-        const grandTotal = (finalPrice * qty) + delivery;
-        
-        msg += `📦 *${pr.name}*\n`;
-        msg += `🔢 Qty: ${qty}\n`;
-        if(hasDisc){
-          msg += `💰 Original Price: Rs. ${originalPrice.toLocaleString()}\n`;
-          msg += `🎁 Discounted Price: Rs. ${finalPrice.toLocaleString()}\n`;
-          msg += `✨ Aap ne bachaye: Rs. ${((originalPrice - finalPrice) * qty).toLocaleString()}\n`;
-        } else {
-          msg += `💰 Price: Rs. ${originalPrice.toLocaleString()}\n`;
-        }
-        msg += `🚚 Delivery Charges: ${delivery === 0 ? '*FREE*' : 'Rs. '+delivery.toLocaleString()}\n`;
-        msg += `━━━━━━━━━━━━━━━━\n`;
-        msg += `💵 *GRAND TOTAL: Rs. ${grandTotal.toLocaleString()}*\n`;
-      } else {
-        let subtotal = 0;
-        let grandOriginal = 0;
-        let totalDelivery = 0;
-        
-        cart.forEach(item=>{
-          const itemQty = Number(item.quantity) || 0;
-          const itemPrice = Number(item.price) || 0;
-          const itemOriginal = Number(item.originalPrice) || itemPrice;
-          const lineTotal = itemPrice * itemQty;
-          const lineOriginal = itemOriginal * itemQty;
-          const itemDel = getDeliveryCharge(itemPrice, itemQty);
-          
-          subtotal += lineTotal;
-          grandOriginal += lineOriginal;
-          totalDelivery += itemDel;
-          
-          msg += `📦 *${item.name}*\n`;
-          msg += `   Qty: ${itemQty}\n`;
-          if(itemOriginal > itemPrice){
-            msg += `   Original: Rs. ${itemOriginal.toLocaleString()} → *Rs. ${itemPrice.toLocaleString()}*\n`;
-            msg += `   Subtotal: Rs. ${lineTotal.toLocaleString()}\n`;
-          } else {
-            msg += `   Price: Rs. ${itemPrice.toLocaleString()}\n`;
-            msg += `   Subtotal: Rs. ${lineTotal.toLocaleString()}\n`;
-          }
-          msg += `   Delivery: ${itemDel === 0 ? '*FREE*' : 'Rs. '+itemDel.toLocaleString()}\n\n`;
-        });
-        
-        const grandTotal = subtotal + totalDelivery;
-        
-        msg += `━━━━━━━━━━━━━━━━\n`;
-        if(grandOriginal > subtotal){
-          msg += `💰 Original Subtotal: Rs. ${grandOriginal.toLocaleString()}\n`;
-          msg += `🎁 Discounted Subtotal: Rs. ${subtotal.toLocaleString()}\n`;
-          msg += `✨ Aap ne bachaye: Rs. ${(grandOriginal - subtotal).toLocaleString()}\n`;
-        } else {
-          msg += `💰 Subtotal: Rs. ${subtotal.toLocaleString()}\n`;
-        }
-        msg += `🚚 Total Delivery: ${totalDelivery === 0 ? '*FREE*' : 'Rs. '+totalDelivery.toLocaleString()}\n`;
-        msg += `━━━━━━━━━━━━━━━━\n`;
-        msg += `💵 *GRAND TOTAL: Rs. ${grandTotal.toLocaleString()}*\n`;
-      }
-      
-      msg += `\n━━━━━━━━━━━━━━━━\n`;
-      msg += `👤 ${n}\n📱 ${p}\n📍 ${a}, ${c}\n💳 COD 🇵🇰`;
-      
-      window.open(`https://wa.me/${storeWhatsApp}?text=${encodeURIComponent(msg)}`,'_blank');
-      closeModal();
-      if(orderContext.type==='cart'){cart=[];updateCart();}
-      showToast('Order placed! ✅');
+function sendToWhatsApp(){
+  const n=document.getElementById("custName").value.trim();
+  const p=document.getElementById("custPhone").value.trim();
+  const a=document.getElementById("custAddress").value.trim();
+  const c=document.getElementById("custCity").value.trim();
+  if(!n||!p||!a||!c)return showToast('Saare fields bharein!',true);
+  
+  let msg='🛍️ *NEW ORDER — ZASHI SUPER STORE*\n━━━━━━━━━━━━━━━━\n';
+  
+  if(orderContext.type==='single'){
+    const pr=orderContext.product;
+    const qty = Number(orderContext.qty) || 1;
+    const originalPrice = Number(pr.price) || 0;
+    const dp = Number(pr.discountPrice) || 0;
+    const hasDisc = dp > 0 && dp < originalPrice;
+    const finalPrice = hasDisc ? dp : originalPrice;
+    const delivery = getDeliveryCharge(finalPrice, qty);
+    const totalPrice = (finalPrice * qty) + delivery;
+    
+    msg += `📦 *${pr.name}*\n`;
+    msg += `Qty: ${qty}\n`;
+    msg += `Original: Rs. ${originalPrice.toLocaleString()}\n`;
+    if(hasDisc){
+      msg += `Discounted: Rs. ${finalPrice.toLocaleString()}\n`;
+      msg += `Savings: Rs. ${((originalPrice - finalPrice) * qty).toLocaleString()}\n`;
     }
+    msg += `Delivery: ${delivery === 0 ? 'FREE' : 'Rs. '+delivery.toLocaleString()}\n`;
+    msg += `Total: Rs. ${totalPrice.toLocaleString()}\n`;
+  } else {
+    let subtotal = 0;
+    let grandOriginal = 0;
+    let totalDelivery = 0;
+    
+    cart.forEach(item=>{
+      const itemQty = Number(item.quantity) || 0;
+      const itemPrice = Number(item.price) || 0;
+      const itemOriginal = Number(item.originalPrice) || itemPrice;
+      const lineTotal = itemPrice * itemQty;
+      const lineOriginal = itemOriginal * itemQty;
+      const lineSavings = lineOriginal - lineTotal;
+      const itemDel = getDeliveryCharge(itemPrice, itemQty);
+      
+      subtotal += lineTotal;
+      grandOriginal += lineOriginal;
+      totalDelivery += itemDel;
+      
+      msg += `📦 *${item.name}*\n`;
+      msg += `Qty: ${itemQty}\n`;
+      msg += `Original: Rs. ${itemOriginal.toLocaleString()}\n`;
+      if(itemOriginal > itemPrice){
+        msg += `Discounted: Rs. ${itemPrice.toLocaleString()}\n`;
+        msg += `Savings: Rs. ${lineSavings.toLocaleString()}\n`;
+      }
+      msg += `Delivery: ${itemDel === 0 ? 'FREE' : 'Rs. '+itemDel.toLocaleString()}\n`;
+      msg += `Subtotal: Rs. ${lineTotal.toLocaleString()}\n\n`;
+    });
+    
+    const grandTotal = subtotal + totalDelivery;
+    const totalSavings = grandOriginal - subtotal;
+    
+    msg += `━━━━━━━━━━━━━━━━\n`;
+    msg += `Subtotal: Rs. ${subtotal.toLocaleString()}\n`;
+    if(totalSavings > 0){
+      msg += `Total Savings: Rs. ${totalSavings.toLocaleString()}\n`;
+    }
+    msg += `Total Delivery: ${totalDelivery === 0 ? 'FREE' : 'Rs. '+totalDelivery.toLocaleString()}\n`;
+    msg += `━━━━━━━━━━━━━━━━\n`;
+    msg += `*GRAND TOTAL: Rs. ${grandTotal.toLocaleString()}*\n`;
+  }
+  
+  msg += `\n━━━━━━━━━━━━━━━━\n`;
+  msg += `👤 ${n}\n📱 ${p}\n📍 ${a}, ${c}\n💳 COD 🇵🇰`;
+  
+  window.open(`https://wa.me/${storeWhatsApp}?text=${encodeURIComponent(msg)}`,'_blank');
+  closeModal();
+  if(orderContext.type==='cart'){cart=[];updateCart();}
+  showToast('Order placed! ✅');
+}
     
     window.onclick=e=>{
       if(e.target.id==="orderModal"||e.target.id==="productModal"||e.target.id==="cartSidebar"||e.target.id==="wishlistSidebar"){
